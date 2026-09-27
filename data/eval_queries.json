@@ -1,0 +1,107 @@
+{
+  "_meta": {
+    "description": "12 evaluation queries for the CloudBox Multi-Source RAG system, each with ground truth for Hit@K / MRR.",
+    "chunk_id_convention": "docs:<file_slug>:<section_slug> | forum:<thread_id> | blog:<file_slug>:<section_slug> (prefix maps from source_type: documentation -> docs, forum -> forum, blog -> blog)",
+    "slug_rule": "lowercase; spaces -> hyphens; non-alphanumeric stripped (front-matter 'slug' for file part, '##' heading for section part)",
+    "hit_k_note": "A query is a hit at K if ANY id in expected_doc_ids appears in the final top-K evidence of a pipeline variant.",
+    "conflict_case_note": "One of: storage | upload-size | 2fa | linux | null. The 4 conflict queries double as regression tests for the conflict rules."
+  },
+  "queries": [
+    {
+      "id": "q01",
+      "query": "How much free storage do I get with CloudBox?",
+      "expected_source": "documentation",
+      "expected_answer_facts": "The free plan includes 10 GB of storage (raised from 5 GB in v2.0, September 2023).",
+      "expected_doc_ids": ["docs:storage-limits:free-plan-storage"],
+      "conflict_case": "storage"
+    },
+    {
+      "id": "q02",
+      "query": "What is the largest file I can upload to CloudBox?",
+      "expected_source": "documentation",
+      "expected_answer_facts": "20 GB through desktop/mobile clients and API; 2 GB through the web app.",
+      "expected_doc_ids": ["docs:storage-limits:maximum-upload-size", "docs:file-sharing:uploading-through-the-web-app"],
+      "conflict_case": "upload-size"
+    },
+    {
+      "id": "q03",
+      "query": "Is two-factor authentication required for organization accounts?",
+      "expected_source": "documentation",
+      "expected_answer_facts": "Required for all organization accounts since v2.1 (May 2024); optional for personal accounts.",
+      "expected_doc_ids": ["docs:security:two-factor-authentication-policy"],
+      "conflict_case": "2fa"
+    },
+    {
+      "id": "q04",
+      "query": "Does CloudBox have a Linux client?",
+      "expected_source": "documentation",
+      "expected_answer_facts": "Yes — official Linux desktop client since v2.0 (September 2023); Ubuntu 20.04+ and Fedora 36+.",
+      "expected_doc_ids": ["docs:sync:linux-desktop-client"],
+      "conflict_case": "linux"
+    },
+    {
+      "id": "q05",
+      "query": "How do I share a file with someone outside my organization?",
+      "expected_source": "documentation",
+      "expected_answer_facts": "Create a share link with View/Edit/Comment permission; external users do not need an account; optional expiry and password.",
+      "expected_doc_ids": ["docs:file-sharing:sharing-files-and-folders", "docs:file-sharing:external-users"],
+      "conflict_case": null
+    },
+    {
+      "id": "q06",
+      "query": "My sync client has been stuck on 'Syncing…' for hours. What should I do?",
+      "expected_source": "forum",
+      "expected_answer_facts": "Pause/resume sync, check proxy/firewall settings, clear the local cache, restart the client, then open a ticket with logs.",
+      "expected_doc_ids": ["forum:thread-005"],
+      "conflict_case": null
+    },
+    {
+      "id": "q07",
+      "query": "Can I recover a file I deleted 45 days ago?",
+      "expected_source": "forum",
+      "expected_answer_facts": "Free plan keeps deleted items 30 days (too late); paid plans 90 days (recoverable if not emptied).",
+      "expected_doc_ids": ["forum:thread-006", "docs:recycle-bin:retention-periods-by-plan"],
+      "conflict_case": null
+    },
+    {
+      "id": "q08",
+      "query": "How do I set up selective sync to save disk space?",
+      "expected_source": "blog",
+      "expected_answer_facts": "Desktop client Preferences > Sync tab > Selective Sync; uncheck folders to keep them cloud-only; excluded folders still count toward quota.",
+      "expected_doc_ids": ["blog:selective-sync-tutorial:step-by-step-setup"],
+      "conflict_case": null
+    },
+    {
+      "id": "q09",
+      "query": "What happens to my shared links when I downgrade my plan?",
+      "expected_source": "documentation",
+      "expected_answer_facts": "Over-quota files become read-only for 90 days (links still view/download, uploads blocked); after 90 days files move to the recycle bin and links expire.",
+      "expected_doc_ids": ["docs:billing:downgrading-your-plan"],
+      "conflict_case": null
+    },
+    {
+      "id": "q10",
+      "query": "What are best practices for organizing team folders at scale?",
+      "expected_source": "blog",
+      "expected_answer_facts": "One team folder per department, max 2-3 levels, grant access via member groups, consistent naming conventions with YYYY-MM-DD dates.",
+      "expected_doc_ids": ["blog:team-folder-structure:a-structure-that-scales"],
+      "conflict_case": null
+    },
+    {
+      "id": "q11",
+      "query": "Users report uploads failing for files over 2 GB — why?",
+      "expected_source": "documentation",
+      "expected_answer_facts": "Web-app uploads are capped at 2 GB per file; the desktop client supports up to 20 GB. Expected behavior, not a bug.",
+      "expected_doc_ids": ["docs:file-sharing:uploading-through-the-web-app"],
+      "conflict_case": null
+    },
+    {
+      "id": "q12",
+      "query": "Does CloudBox encrypt files at rest?",
+      "expected_source": "documentation",
+      "expected_answer_facts": "Yes — AES-256 at rest, TLS 1.3 in transit; keys held by CloudBox (not zero-knowledge).",
+      "expected_doc_ids": ["docs:security:encryption-at-rest-and-in-transit"],
+      "conflict_case": null
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+# Multi-Source RAG for Technical Support (CloudBox)
+# Versions verified in conda env `cloudbox-rag` (Python 3.11.16, Windows) after Step 2.2.
+# Transitive deps pinned for reproducibility (installed with the packages above):
+#   transformers==4.57.6, numpy==2.4.6
+chromadb==0.6.3
+sentence-transformers==3.4.1
+torch==2.14.0
+python-dotenv==1.2.3
+openai>=1.0,<2        # OpenRouter (Step 4) exposes an OpenAI-compatible API; one thin client, no provider abstraction
+streamlit>=1.30,<2    # Demo UI only (Step 5.4); not needed for the pipeline itself

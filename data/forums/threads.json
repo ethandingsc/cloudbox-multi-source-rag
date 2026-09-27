@@ -1,0 +1,564 @@
+{
+  "threads": [
+    {
+      "id": "thread-001",
+      "title": "How much free storage does CloudBox actually give?",
+      "date": "2023-02-14",
+      "topics": ["storage", "free-plan", "quota"],
+      "tags": ["plans", "storage"],
+      "status": "solved",
+      "question": {
+        "author": "syncfan42",
+        "body": "I keep seeing different numbers everywhere. How much free storage do you actually get with CloudBox? My account page shows one thing but a friend says his shows more."
+      },
+      "answers": [
+        {
+          "author": "cloud_guru",
+          "date": "2023-02-14",
+          "body": "The free plan gives you 15 GB. Everyone who signed up during the spring promo got boosted to 15 GB permanently, and they kept it as the standard since then. If your account page shows less, contact support and they will fix it.",
+          "accepted": true,
+          "upvotes": 12
+        },
+        {
+          "author": "mod_jen",
+          "date": "2023-02-15",
+          "body": "Careful — the 15 GB figure was a limited promo for accounts created in 2021, not the general free plan. Check the official docs for the current number.",
+          "accepted": false,
+          "upvotes": 3
+        }
+      ]
+    },
+    {
+      "id": "thread-002",
+      "title": "Maximum file size for uploads?",
+      "date": "2023-04-05",
+      "topics": ["upload", "limits", "file-size"],
+      "tags": ["uploads", "limits"],
+      "status": "solved",
+      "question": {
+        "author": "vid_editor",
+        "body": "Whats the biggest single file I can upload to CloudBox? Trying to move over my raw video projects and some of them are 8-10 GB."
+      },
+      "answers": [
+        {
+          "author": "poweruser88",
+          "date": "2023-04-05",
+          "body": "The limit is 5 GB per file. Anything bigger fails with the 'File too large' error. For video projects, split them into multi-part archives or keep them on an external drive.",
+          "accepted": true,
+          "upvotes": 9
+        },
+        {
+          "author": "mod_jen",
+          "date": "2023-04-06",
+          "body": "That is the current documented limit, yes. Splitting into parts under 5 GB works fine.",
+          "accepted": false,
+          "upvotes": 2
+        }
+      ]
+    },
+    {
+      "id": "thread-003",
+      "title": "I turned off 2FA for our team account",
+      "date": "2024-11-18",
+      "topics": ["2fa", "security", "teams"],
+      "tags": ["security", "2fa"],
+      "status": "solved",
+      "question": {
+        "author": "smallbiz_owner",
+        "body": "Our org account was nagging everyone about two-factor authentication and it was annoying my staff, so I went into settings and turned it off. Just sharing that it IS possible despite what the docs say."
+      },
+      "answers": [
+        {
+          "author": "tinkerer77",
+          "date": "2024-11-19",
+          "body": "Yeah it's optional — Settings > Security > Two-factor authentication > Disable. We did the same thing last month for our team and nobody has been locked out. The docs overstate it.",
+          "accepted": true,
+          "upvotes": 9
+        },
+        {
+          "author": "mod_jen",
+          "date": "2024-11-20",
+          "body": "Careful — that toggle only exists for personal accounts. Organization accounts have required 2FA since the 2.1 update, and the toggle is locked in the admin console. If you disabled it, you may have a personal account, not a team account.",
+          "accepted": false,
+          "upvotes": 2
+        }
+      ]
+    },
+    {
+      "id": "thread-004",
+      "title": "Does CloudBox work on Linux?",
+      "date": "2022-08-30",
+      "topics": ["linux", "desktop", "install"],
+      "tags": ["linux", "clients"],
+      "status": "solved",
+      "question": {
+        "author": "penguin_user",
+        "body": "I switched my laptop to Ubuntu and now I can't find a CloudBox client anywhere. Is there a Linux version or do I just use the web app?"
+      },
+      "answers": [
+        {
+          "author": "helpful_hank",
+          "date": "2022-08-30",
+          "body": "No Linux client, sorry. The web app works fine in a browser and that's the official line — use it for now. There's a feature request thread with a lot of votes, so maybe someday.",
+          "accepted": true,
+          "upvotes": 14
+        },
+        {
+          "author": "tux_enthusiast",
+          "date": "2022-09-01",
+          "body": "I run the Android app inside an emulator. It's clunky but it syncs. Not official support though.",
+          "accepted": false,
+          "upvotes": 5
+        }
+      ]
+    },
+    {
+      "id": "thread-005",
+      "title": "Sync stuck on 'Syncing…' for hours — what do I do?",
+      "date": "2024-06-22",
+      "topics": ["sync", "troubleshooting", "stuck"],
+      "tags": ["sync", "troubleshooting"],
+      "status": "solved",
+      "question": {
+        "author": "stuck_in_sync",
+        "body": "My Windows client has shown 'Syncing…' for about six hours now. No files are moving, the icon just spins. Already rebooted the machine. Help?"
+      },
+      "answers": [
+        {
+          "author": "sync_wizard",
+          "date": "2024-06-23",
+          "body": "Classic. Try in order: right-click the tray icon and Pause, then Resume sync. Then check Settings > Network — if you're on a corporate network, proxy settings can stall it. Next: Settings > Advanced > Clear local cache, then restart the client. If it's still stuck, grab the logs from the client's logs folder and open a support ticket with them attached. Usually it's the proxy or an antivirus locking files in the sync folder.",
+          "accepted": true,
+          "upvotes": 18
+        },
+        {
+          "author": "mod_jen",
+          "date": "2024-06-23",
+          "body": "Adding: TLS-inspecting corporate firewalls are a known cause. Our support team can send you the enterprise network guide if you mention it in the ticket.",
+          "accepted": false,
+          "upvotes": 6
+        }
+      ]
+    },
+    {
+      "id": "thread-006",
+      "title": "Deleted a file 45 days ago — can I still recover it?",
+      "date": "2024-09-10",
+      "topics": ["recycle-bin", "recovery", "deletion"],
+      "tags": ["recycle-bin", "recovery"],
+      "status": "solved",
+      "question": {
+        "author": "oops_moment",
+        "body": "I deleted a folder with client contracts about 45 days ago and just realized I need it back. The recycle bin shows nothing from that week. Is it gone forever?"
+      },
+      "answers": [
+        {
+          "author": "recover_pro",
+          "date": "2024-09-11",
+          "body": "Depends on your plan. Free accounts keep deleted items for 30 days; paid accounts for 90 days. If you're on the free plan, 45 days is past the window and it's been purged. If you're on a paid plan, double-check the recycle bin filters — it should still be there unless someone emptied the bin.",
+          "accepted": true,
+          "upvotes": 11
+        },
+        {
+          "author": "mod_jen",
+          "date": "2024-09-11",
+          "body": "Correct. And once purged or emptied, recovery is not possible even through support, so check the bin before it expires.",
+          "accepted": false,
+          "upvotes": 4
+        }
+      ]
+    },
+    {
+      "id": "thread-007",
+      "title": "Uploads keep failing above 2 GB — bug or limit?",
+      "date": "2024-01-17",
+      "topics": ["upload", "web", "browser", "limits"],
+      "tags": ["uploads", "web-app"],
+      "status": "solved",
+      "question": {
+        "author": "big_file_ben",
+        "body": "Trying to upload a 2.4 GB video through the web app. It gets to about 2 GB and then dies every single time. Tried Chrome and Firefox. Is this a bug?"
+      },
+      "answers": [
+        {
+          "author": "upload_wiz",
+          "date": "2024-01-18",
+          "body": "Not a bug — browser uploads are capped at 2 GB per file. Install the desktop client instead; it handles files up to 20 GB and resumes interrupted uploads. That's the supported way to move big files.",
+          "accepted": true,
+          "upvotes": 16
+        },
+        {
+          "author": "mod_jen",
+          "date": "2024-01-18",
+          "body": "Confirmed. The 2 GB web cap and the 20 GB desktop limit are both in the docs under upload size. The API also goes up to 20 GB.",
+          "accepted": false,
+          "upvotes": 5
+        }
+      ]
+    },
+    {
+      "id": "thread-008",
+      "title": "Does version history eat my storage quota?",
+      "date": "2024-03-28",
+      "topics": ["storage", "versioning", "quota"],
+      "tags": ["storage", "versioning"],
+      "status": "solved",
+      "question": {
+        "author": "quota_watcher",
+        "body": "My account page says I'm using 6 of my 10 GB, but I only have about 4 GB of files. Is version history secretly filling up the rest of my quota?"
+      },
+      "answers": [
+        {
+          "author": "numbers_guy",
+          "date": "2024-03-28",
+          "body": "No — file versions don't count against your quota at all. The gap is more likely shared folders that count toward your quota, or files in the recycle bin (also free, actually). Check Shared with me and team folders.",
+          "accepted": true,
+          "upvotes": 10
+        },
+        {
+          "author": "quota_watcher",
+          "date": "2024-03-28",
+          "body": "Ah, found it — three shared folders from my old job were counting against me. Thanks!",
+          "accepted": false,
+          "upvotes": 2
+        }
+      ]
+    },
+    {
+      "id": "thread-009",
+      "title": "Sync cache is eating 50 GB of my disk",
+      "date": "2023-11-09",
+      "topics": ["sync", "cache", "disk-space"],
+      "tags": ["sync", "disk-space"],
+      "status": "solved",
+      "question": {
+        "author": "ssd_shortage",
+        "body": "CloudBox is using 50 GB on my 256 GB SSD and I can't figure out why. My actual synced files are only 12 GB. Where is the rest going?"
+      },
+      "answers": [
+        {
+          "author": "cache_buster",
+          "date": "2023-11-10",
+          "body": "It's the local sync cache — CloudBox keeps recently changed blocks around to speed up delta syncs. Go to Settings > Advanced > Clear local cache. It's local-only and doesn't touch your cloud files or quota.",
+          "accepted": true,
+          "upvotes": 13
+        },
+        {
+          "author": "mod_jen",
+          "date": "2023-11-10",
+          "body": "If the cache keeps ballooning, you can also enable selective sync for your big folders — introduced in 2.0 — to keep them cloud-only on that device.",
+          "accepted": false,
+          "upvotes": 7
+        }
+      ]
+    },
+    {
+      "id": "thread-010",
+      "title": "Can't preview my 3 GB video file",
+      "date": "2024-02-26",
+      "topics": ["preview", "video", "limits"],
+      "tags": ["preview", "video"],
+      "status": "solved",
+      "question": {
+        "author": "film_maker",
+        "body": "I uploaded a 3 GB video and the web app refuses to preview it — just shows a download button. Other, smaller videos play fine. Is something wrong with the file?"
+      },
+      "answers": [
+        {
+          "author": "preview_pro",
+          "date": "2024-02-26",
+          "body": "Nothing wrong with the file — previews and streaming are capped at 500 MB. Anything bigger shows a download button. Download it or watch it locally via the desktop client.",
+          "accepted": true,
+          "upvotes": 8
+        },
+        {
+          "author": "film_maker",
+          "date": "2024-02-27",
+          "body": "Got it, thanks. Was confused because the upload itself worked fine.",
+          "accepted": false,
+          "upvotes": 1
+        }
+      ]
+    },
+    {
+      "id": "thread-011",
+      "title": "API upload limits?",
+      "date": "2023-12-05",
+      "topics": ["api", "upload", "rate-limits"],
+      "tags": ["api", "developers"],
+      "status": "solved",
+      "question": {
+        "author": "automation_amy",
+        "body": "Building a nightly backup script that pushes files through the API. What are the upload size and rate limits? I don't want to hit a wall at 2 AM."
+      },
+      "answers": [
+        {
+          "author": "api_ace",
+          "date": "2023-12-06",
+          "body": "API uploads go up to 20 GB per file with resumable chunked uploads — the 2 GB cap is web-app only. Rate limit is 1000 requests per hour per token, and on 429 you should back off exponentially.",
+          "accepted": true,
+          "upvotes": 12
+        },
+        {
+          "author": "mod_jen",
+          "date": "2023-12-06",
+          "body": "Also remember uploads count toward the daily transfer limit on the free plan (200 GB/day). Paid plans have no daily cap.",
+          "accepted": false,
+          "upvotes": 4
+        }
+      ]
+    },
+    {
+      "id": "thread-012",
+      "title": "Lost my phone with Google Authenticator — locked out?",
+      "date": "2024-08-14",
+      "topics": ["2fa", "recovery", "account-lockout"],
+      "tags": ["security", "2fa"],
+      "status": "solved",
+      "question": {
+        "author": "phone_gone",
+        "body": "My phone died (water damage) and my authenticator app went with it. I have 2FA enabled on my personal account. Am I locked out forever?"
+      },
+      "answers": [
+        {
+          "author": "lockout_larry",
+          "date": "2024-08-15",
+          "body": "This is what recovery codes are for — the 10 codes you got when you enrolled. Use one to sign in, then set up a new authenticator. If you lost the codes too, support can verify your identity; it takes up to 48 hours. Store the codes somewhere safe this time.",
+          "accepted": true,
+          "upvotes": 15
+        },
+        {
+          "author": "mod_jen",
+          "date": "2024-08-15",
+          "body": "And if you're on an org account, an admin can reset your 2FA from the admin console — no waiting needed.",
+          "accepted": false,
+          "upvotes": 6
+        }
+      ]
+    },
+    {
+      "id": "thread-013",
+      "title": "Is a strong password enough without 2FA?",
+      "date": "2024-05-30",
+      "topics": ["2fa", "security", "passwords"],
+      "tags": ["security", "2fa"],
+      "status": "solved",
+      "question": {
+        "author": "minimalist_mike",
+        "body": "I use a 20-character password from my manager and never reuse it. Do I really need to bother with 2FA on top of that?"
+      },
+      "answers": [
+        {
+          "author": "sec_sam",
+          "date": "2024-05-30",
+          "body": "For a personal account it's optional, but a password alone won't save you from phishing or session hijacking. Enable 2FA anyway — it takes five minutes.",
+          "accepted": true,
+          "upvotes": 10
+        },
+        {
+          "author": "policy_pete",
+          "date": "2024-05-31",
+          "body": "Important detail: if you're on an organization account you don't get a choice — 2FA became mandatory for all org members with the 2.1 update this month.",
+          "accepted": false,
+          "upvotes": 8
+        }
+      ]
+    },
+    {
+      "id": "thread-014",
+      "title": "Does the Chromebook app count as Linux support?",
+      "date": "2023-07-19",
+      "topics": ["linux", "chromebook", "mobile"],
+      "tags": ["linux", "chromebook"],
+      "status": "solved",
+      "question": {
+        "author": "chromebook_charlie",
+        "body": "CloudBox runs on my Chromebook — doesn't that mean Linux is supported? I keep reading forum posts saying there's no Linux client."
+      },
+      "answers": [
+        {
+          "author": "os_oracle",
+          "date": "2023-07-19",
+          "body": "No — what you're using is the web app or the Android app, both of which run on ChromeOS. There's no native Linux desktop client right now, and the Linux container on Chromebooks isn't supported either. Different thing.",
+          "accepted": true,
+          "upvotes": 7
+        },
+        {
+          "author": "chromebook_charlie",
+          "date": "2023-07-20",
+          "body": "Makes sense, thanks. Web app covers my needs anyway.",
+          "accepted": false,
+          "upvotes": 1
+        }
+      ]
+    },
+    {
+      "id": "thread-015",
+      "title": "Can I run CloudBox on my NAS?",
+      "date": "2023-10-25",
+      "topics": ["linux", "nas", "server"],
+      "tags": ["nas", "servers"],
+      "status": "solved",
+      "question": {
+        "author": "homelab_helen",
+        "body": "I have a Synology NAS running Linux. Is there any way to sync my CloudBox files directly to the NAS so I don't need a PC in the middle?"
+      },
+      "answers": [
+        {
+          "author": "nas_knower",
+          "date": "2023-10-26",
+          "body": "No official NAS app. The closest option is the CloudBox CLI, which runs on Linux servers — it does manual upload/download up to 20 GB but no background sync. If you want automated sync, you'd script the CLI yourself.",
+          "accepted": true,
+          "upvotes": 9
+        },
+        {
+          "author": "homelab_helen",
+          "date": "2023-10-26",
+          "body": "Thanks — a cron job with the CLI is exactly what I needed.",
+          "accepted": false,
+          "upvotes": 2
+        }
+      ]
+    },
+    {
+      "id": "thread-016",
+      "title": "Shared links stopped working after I downgraded",
+      "date": "2024-10-08",
+      "topics": ["billing", "downgrade", "sharing"],
+      "tags": ["billing", "sharing"],
+      "status": "solved",
+      "question": {
+        "author": "budget_brenda",
+        "body": "I downgraded from Plus to Free last week because money's tight. Now my clients are saying the folders I shared with them won't accept uploads anymore. Did downgrading kill my links?"
+      },
+      "answers": [
+        {
+          "author": "billing_bob",
+          "date": "2024-10-09",
+          "body": "Partly. When you downgrade, content above your new quota becomes read-only for 90 days: people can still view and download through your links, but uploads are blocked. After 90 days the over-quota files move to the recycle bin and the links expire. Nothing is deleted instantly — you have the full 90 days to upgrade again or free up space.",
+          "accepted": true,
+          "upvotes": 11
+        },
+        {
+          "author": "mod_jen",
+          "date": "2024-10-09",
+          "body": "Exact behavior is in the docs under 'Downgrading Your Plan'. The grace period is generous on purpose.",
+          "accepted": false,
+          "upvotes": 3
+        }
+      ]
+    },
+    {
+      "id": "thread-017",
+      "title": "What permission levels do external users get?",
+      "date": "2024-04-19",
+      "topics": ["sharing", "permissions", "external-users"],
+      "tags": ["sharing", "permissions"],
+      "status": "solved",
+      "question": {
+        "author": "freelance_fred",
+        "body": "I share folders with freelance clients who don't have CloudBox accounts. What exactly can they do with the link — just view, or also edit?"
+      },
+      "answers": [
+        {
+          "author": "share_sharon",
+          "date": "2024-04-20",
+          "body": "There are three levels: View (read/download only), Edit (add and modify files), and Comment (read + comments). External people don't need an account to view or download; to edit or comment they enter a name or optionally sign in. You pick the level per link when you create it.",
+          "accepted": true,
+          "upvotes": 9
+        },
+        {
+          "author": "mod_jen",
+          "date": "2024-04-20",
+          "body": "Note their uploads count against YOUR quota, so keep an eye on shared folders that freelancers can edit.",
+          "accepted": false,
+          "upvotes": 5
+        }
+      ]
+    },
+    {
+      "id": "thread-018",
+      "title": "Is my data actually encrypted at rest?",
+      "date": "2023-06-15",
+      "topics": ["encryption", "security", "at-rest"],
+      "tags": ["security", "encryption"],
+      "status": "solved",
+      "question": {
+        "author": "privacy_pat",
+        "body": "CloudBox's marketing says 'encrypted'. What does that actually mean for files sitting on their servers? Is it zero-knowledge or can CloudBox read my stuff?"
+      },
+      "answers": [
+        {
+          "author": "crypto_carl",
+          "date": "2023-06-16",
+          "body": "Files are encrypted at rest with AES-256 and in transit with TLS 1.3. But it's NOT zero-knowledge — CloudBox holds the keys, which is why server-side previews and virus scans work. For truly private stuff, encrypt it yourself before uploading.",
+          "accepted": true,
+          "upvotes": 14
+        },
+        {
+          "author": "mod_jen",
+          "date": "2023-06-16",
+          "body": "Accurate summary. The docs have a page on this under Security.",
+          "accepted": false,
+          "upvotes": 3
+        }
+      ]
+    },
+    {
+      "id": "thread-019",
+      "title": "I emptied the recycle bin by accident — any way back?",
+      "date": "2024-07-23",
+      "topics": ["recycle-bin", "deletion", "recovery"],
+      "tags": ["recycle-bin"],
+      "status": "solved",
+      "question": {
+        "author": "click_happy",
+        "body": "Was cleaning up and hit 'Empty recycle bin' without looking. There was a whole client project in there. Please tell me support can dig it out of backups."
+      },
+      "answers": [
+        {
+          "author": "sad_truth",
+          "date": "2024-07-24",
+          "body": "Sorry — emptying the bin is permanent by design. There's no backup that support can restore from, and no way to recover emptied items. The retention windows (30 days free / 90 paid) are the only safety net, and emptying skips them.",
+          "accepted": true,
+          "upvotes": 17
+        },
+        {
+          "author": "mod_jen",
+          "date": "2024-07-24",
+          "body": "Org admins can actually disable the 'Empty recycle bin' button for members in the admin console — worth enabling if this is a recurring problem.",
+          "accepted": false,
+          "upvotes": 8
+        }
+      ]
+    },
+    {
+      "id": "thread-020",
+      "title": "Is there a daily transfer limit on the free plan?",
+      "date": "2024-12-11",
+      "topics": ["storage", "transfer", "free-plan"],
+      "tags": ["plans", "limits"],
+      "status": "solved",
+      "question": {
+        "author": "heavy_downloader",
+        "body": "I share big files with my gaming group every week and I'm on the free plan. Is there a daily download/upload cap I should know about before I host the next drop?"
+      },
+      "answers": [
+        {
+          "author": "traffic_tom",
+          "date": "2024-12-12",
+          "body": "Yes — the free plan allows 200 GB per day of combined upload and download traffic, and anonymous downloads of your share links count against your limit. Paid plans have no daily cap. For a big gaming drop, either spread it across days or grab a paid month.",
+          "accepted": true,
+          "upvotes": 8
+        },
+        {
+          "author": "mod_jen",
+          "date": "2024-12-12",
+          "body": "Details are in the docs under Storage Limits > Transfer and Bandwidth Limits.",
+          "accepted": false,
+          "upvotes": 2
+        }
+      ]
+    }
+  ]
+}
