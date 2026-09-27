@@ -1,5 +1,7 @@
 # CloudBox Multi-Source RAG for Technical Support
 
+![CloudBox Multi-Source RAG architecture](assets/cloudbox-rag-architecture.png)
+
 Grounded technical support answers for CloudBox, built from three knowledge
 sources — **product documentation**, **customer forums** and **technical
 blogs**. The system retrieves evidence across all sources, ranks it through
@@ -8,16 +10,9 @@ generates a cited answer strictly from the final evidence.
 
 ## Architecture
 
-```mermaid
-flowchart TD
-    Q[User Question] --> R[Source-Specific Retrieval<br/>top-5 per source]
-    R --> W[Source Weighting<br/>similarity × source weight]
-    W --> C[CrossEncoder Reranking<br/>ms-marco-MiniLM-L-6-v2]
-    C --> D[Deterministic Conflict Handling<br/>version / date / authority rules]
-    D --> E[Final Evidence]
-    E --> G[Grounded LLM Generation<br/>DeepSeek V4 Pro]
-    G --> A[Answer + Citations]
-```
+> User Question → Source-Specific Retrieval → Source Weighting →
+> CrossEncoder Reranking → Deterministic Conflict Handling → Final Evidence →
+> Grounded LLM Generation → Answer + Citations
 
 - **Source-Specific Retrieval** — each source is queried separately and the
   hits are merged into one candidate pool (top-5 per source).
@@ -183,6 +178,7 @@ pipeline — it provides:
 |---|---|
 | `app.py` | Streamlit demo UI |
 | `run_demo.bat` | one-click Windows launcher for the demo |
+| `assets/` | README architecture image |
 | `main.py` | CLI: answer, `--debug` trace, per-stage views |
 | `src/` | the RAG pipeline: config, loaders, chunking, retrieval, weighting, reranking, conflict handling, answer generation |
 | `scripts/` | `ingest.py` (build the index), `evaluate.py` (12-query evaluation) |
