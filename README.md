@@ -2,187 +2,246 @@
 
 ![CloudBox Multi-Source RAG architecture](assets/cloudbox-rag-architecture.png)
 
-Grounded technical support answers for CloudBox, built from three knowledge
-sources — **product documentation**, **customer forums** and **technical
-blogs**. The system retrieves evidence across all sources, ranks it through
-source-aware retrieval, reranking and deterministic conflict handling, and
-generates a cited answer strictly from the final evidence.
+CloudBox is a fictional cloud storage product similar to Dropbox. This project builds a multi-source support RAG agent that answers user questions using three knowledge sources: **official product documentation**, **customer forums**, and **technical blogs**.
 
-## Architecture
+The sources have different levels of authority and may contain outdated or conflicting information. The system is designed to retrieve relevant evidence, rank it carefully, resolve conflicts, and generate answers with traceable citations.
 
-> User Question → Source-Specific Retrieval → Source Weighting →
-> CrossEncoder Reranking → Deterministic Conflict Handling → Final Evidence →
-> Grounded LLM Generation → Answer + Citations
+---
 
-- **Source-Specific Retrieval** — each source is queried separately and the
-  hits are merged into one candidate pool (top-5 per source).
-- **Source Weighting** — each hit's similarity score is scaled by its source
-  type's weight before the pool is cut to 12 candidates.
-- **CrossEncoder Reranking** — a second relevance pass re-sorts the pool and
-  keeps the final evidence (up to 6 chunks).
-- **Deterministic Conflict Handling** — outdated or contradictory community
-  evidence is suppressed by explicit rules (no LLM judging); current
-  documentation is never overridden.
-- **Grounded LLM Generation** — the model answers only from the kept evidence
-  and cites it with `[n]` markers; a local citation-mapping step resolves
-  every marker back to the real chunk, so the model cannot invent sources.
+## Knowledge Sources & Chunking
 
-## Multi-Source Strategy
+The knowledge base contains **40 source items → 90 searchable chunks**.
 
-### Source-Specific Chunking
+Different sources use different chunking strategies based on their structure.
 
-40 source items → 90 chunks, using the chunking that matches each format:
-documentation by `##` section (over-long sections split by paragraph), forums
-by whole Q&A thread, blogs by `##` section with paragraph-level splitting.
+| Source | Content | Chunking Strategy |
+|---|---|---|
+| **Documentation** | Official product information | Split by `##` section; long sections split by paragraph |
+| **Forums** | Customer questions and discussions | Keep each Q&A thread together |
+| **Blogs** | Tutorials and technical posts | Smaller section-based chunks |
 
-### Multi-Source Retrieval
+Documentation sections usually represent one complete product topic, while forum questions and answers are kept together to preserve their context.
 
-Retrieval runs per source and the results are merged into a shared candidate
-pool, rather than mixing all sources into one index.
+---
 
-### Source-Aware Weighting
+## How the RAG Pipeline Works
+
+> **User Question → Source-Specific Retrieval → Source Weighting → CrossEncoder Reranking → Deterministic Conflict Handling → Final Evidence → Grounded LLM Generation → Answer + Citations**
+
+### 1. Multi-Source Retrieval
+
+Instead of searching all sources together, the system retrieves from **documentation, forums, and blogs separately**.
+
+By default, it retrieves the **top-5 results from each source** before merging them into a shared candidate pool.
+
+### 2. Source-Aware Weighting
+
+Different sources have different levels of authority:
 
 | Source | Weight |
-|---|---|
-| documentation | 1.0 |
-| blog | 0.9 |
-| forum | 0.7 |
+|---|---:|
+| Documentation | **1.0** |
+| Blog | **0.9** |
+| Forum | **0.7** |
 
-`weighted_score = similarity × source_weight` — sources have different
-authority, so the retrieval score takes the source type into account.
+```text
+weighted_score = similarity × source_weight
+```
 
-### CrossEncoder Reranking
+Embedding similarity measures how relevant a chunk is to the question, while source weighting also considers how much that type of source should be trusted.
 
-The candidate pool gets a second-stage relevance ranking with
-`cross-encoder/ms-marco-MiniLM-L-6-v2`, re-scoring every (question, chunk)
-pair instead of relying on embedding similarity alone.
+### 3. CrossEncoder Reranking
 
-### Deterministic Conflict Handling
+The candidate pool is reranked using:
 
-Conflicts are resolved by explicit rules — version, date and source
-authority — never by the LLM: blogs from before the current CloudBox version
-and pre-release forum threads are suppressed, documentation is never
-suppressed, and kept community chunks that overlap with current docs are
-flagged as community-authority candidates.
+`cross-encoder/ms-marco-MiniLM-L-6-v2`
 
-### Grounded Generation
+The initial embedding search provides fast candidate retrieval. The CrossEncoder then scores each **(question, chunk)** pair directly for more precise relevance ranking.
 
-The LLM sees only the final evidence plus the question, and answers with
-`[n]` citations. The citation mapping is computed locally against the kept
-evidence, so a citation can never point at a suppressed or invented chunk.
+### 4. Deterministic Conflict Handling
 
-## Evaluation
+> **The most relevant result is not always the most trustworthy result.**
 
-All numbers below come from `scripts/evaluate.py` on a **fixed set of 12
-hand-written technical-support queries** with strict ground-truth clause
-matching — a small internal evaluation set for regression checks, not a
-large-scale benchmark. The final system runs DeepSeek V4 Pro (thinking
-disabled); OpenRouter free models were used as an early development baseline
-and remain supported as an optional fallback provider.
+Conflicts are resolved using explicit **source authority, version, and date rules** before generation.
 
-### Final System
+- outdated blogs can be suppressed
+- old forum information can be suppressed
+- current documentation is preserved
+- conflicting community evidence can be flagged
+- the LLM does **not** decide which source wins
 
-| Metric | Result |
-|---|---|
-| Hit@5 | 12/12 (100%) |
-| MRR@5 | 0.917 |
-| Correct / Partially Correct / Incorrect | 9 / 3 / 0 |
-| Strict Answer Accuracy | 75% |
-| Citation Validity | 32/32 valid (100%) |
+Only the final kept evidence is sent to the LLM.
 
-*Strict Answer Accuracy on the 12-query evaluation set: 75% — every
-substantive ground-truth clause must appear in the answer to count as
-Correct.*
+This separates **semantic relevance** from **source trust and conflict resolution**.
+
+### 5. Grounded Generation
+
+DeepSeek generates the final answer using only the kept evidence.
+
+Answers contain `[n]` citations, which are mapped locally back to the actual retrieved chunks.
+
+---
+
+## Does the Retrieval Strategy Actually Help?
+
+The system is evaluated on a fixed set of **12 hand-written technical-support questions**.
+
+Each query contains expected chunk IDs grounded in the original CloudBox knowledge sources.
+
+- **Hit@5** — Did the correct evidence appear in the top 5?
+- **MRR@5** — How close to the top was the first correct result?
 
 ### Retrieval Stage Improvement
 
-| Pipeline stage | Hit@5 | MRR@5 |
-|---|---|---|
-| Raw retrieval | 11/12 | 0.556 |
-| + Source weighting | 11/12 | 0.792 |
-| + CrossEncoder reranking | 12/12 | 0.764 |
-| + Conflict handling (final) | 12/12 | 0.917 |
+| Pipeline Stage | Hit@5 | MRR@5 |
+|---|---:|---:|
+| Raw Retrieval | 11/12 | 0.556 |
+| + Source Weighting | 11/12 | 0.792 |
+| + CrossEncoder Reranking | 12/12 | 0.764 |
+| + Conflict Handling (Final) | **12/12 (100%)** | **0.917** |
 
-Source weighting, CrossEncoder reranking and conflict handling are the
-mechanisms that improve retrieval ranking stage by stage.
+The stage-by-stage comparison shows how source weighting, reranking, and conflict handling change the final evidence ranking.
+
+### Final Answer Quality
+
+| Metric | Result |
+|---|---:|
+| Hit@5 | **12/12 (100%)** |
+| MRR@5 | **0.917** |
+| Fully Correct | **9/12** |
+| Partially Correct | **3/12** |
+| Incorrect | **0/12** |
+| Strict Answer Accuracy | **75%** |
+| Citation Validity | **32/32 (100%)** |
+
+Final answer correctness was manually reviewed against predefined answer facts verified from the original source data.
+
+The main remaining gap is **generation completeness**: in the partially correct cases, the relevant evidence was retrieved, but the generated answer omitted some required details.
+
+> This is a small internal evaluation set for regression testing, not a large-scale benchmark.
+
+---
+
+## Top-K Tradeoff
+
+Different retrieval depths were tested to check whether performance improved simply by retrieving more candidates.
+
+| K | Final Hit@K | Final MRR@K | Final Precision@K |
+|---:|---:|---:|---:|
+| 1 | 4/12 | 0.333 | 0.333 |
+| 3 | **12/12** | **0.917** | **0.389** |
+| **5 (default)** | **12/12** | **0.917** | 0.233 |
+| 10 | **12/12** | **0.917** | 0.125 |
+
+**K=1** is too restrictive and misses useful evidence.
+
+**K=3 and K=5** both achieve full retrieval coverage on this evaluation set.
+
+Increasing to **K=10** does not improve the final Hit rate or MRR, while introducing more irrelevant results.
+
+The default **K=5** is a conservative engineering choice that provides a small recall safety margin without making the candidate set unnecessarily large.
+
+---
+
+## Demo
+
+The Streamlit interface exposes the final answer, citations, source cards, and an optional full RAG trace.
+
+### 1. Simple Fact Retrieval
+
+> **How long are deleted files kept?**
+
+A basic factual retrieval case: find the correct retention policy and answer with traceable evidence.
+
+### 2. Multi-Part Retrieval
+
+> **Can I share files with someone who doesn't have a CloudBox account, and what controls do I have over the shared link?**
+
+The system needs to retrieve multiple pieces of information, including external-user access, permissions, expiration, and password protection.
+
+### 3. Conflicting Sources
+
+> **How much free storage do I get with CloudBox?**
+
+The knowledge base intentionally contains conflicting information:
+
+| Source | Information | Status |
+|---|---:|---|
+| Old Blog | **5 GB** | Suppressed |
+| Old Forum | **15 GB** | Suppressed |
+| Current Documentation | **10 GB** | Kept |
+
+In an actual retrieval run, the CrossEncoder ranked the incorrect **15 GB forum result above the correct documentation result**.
+
+This demonstrates why semantic relevance alone is not enough.
+
+The conflict-handling layer detects outdated evidence before generation, and the final answer uses the current **10 GB** documentation.
+
+---
+
+## Limitations & Future Work
+
+- **Larger evaluation** — move beyond 90 chunks and 12 evaluation queries to larger, more realistic datasets.
+- **Hybrid retrieval** — combine dense embeddings with BM25 for exact technical terms, error codes, and product names.
+- **Scalable conflict detection** — replace some manually defined rules with richer metadata and structured conflict detection as the knowledge base grows.
+
+---
+
+## Why This Matters Beyond CloudBox
+
+The same source-authority problem becomes more important in high-stakes domains such as healthcare.
+
+Older information may conflict with newer guidelines, and an LLM should not be solely responsible for deciding which source to trust.
+
+A production system in such a domain could add:
+
+- stronger source and version control
+- better evidence verification
+- human review for high-risk questions
+- stronger traceability and auditing
+
+> **Retrieve the right information, resolve important conflicts before generation, and keep every answer traceable to its evidence.**
+
+---
 
 ## Quick Start
 
 ### Environment
 
 ```bash
-conda activate cloudbox-rag   # Python 3.11, dependencies in requirements.txt
+conda activate cloudbox-rag
 ```
+
+Python 3.11; dependencies are listed in `requirements.txt`.
 
 ### API Key
 
-Create `.env` in the project root:
+Create `.env` from `.env.example`:
 
-```
+```text
 DEEPSEEK_API_KEY=your_key_here
 ```
 
-`.env` is gitignored; see `.env.example` for the template. An
-`OPENROUTER_API_KEY` is accepted as an optional fallback provider.
+`.env` is gitignored.
 
-### Build the Index (first run)
+### Build the Index
 
 ```bash
 python scripts/ingest.py
 ```
 
-Idempotent — loads, chunks and embeds the 90 knowledge chunks into the local
-ChromaDB collection (`chroma_db/`, gitignored).
+This loads, chunks, and embeds the **90 knowledge chunks** into the local ChromaDB collection.
 
 ### Run the Demo
 
 ```bash
-run_demo.bat                            # Windows: double-click launcher
-python -m streamlit run app.py          # or run directly
+python -m streamlit run app.py
 ```
 
-### CLI
+Or on Windows:
 
 ```bash
-python main.py "How much free storage do I get with CloudBox?"
-python main.py --debug "Is two-factor authentication required?"
-python main.py --sources blog "What are best practices for team folders?"
+run_demo.bat
 ```
 
-`--debug` prints the full RAG trace (evidence, conflict decisions, citations).
-
-### Evaluation
-
-```bash
-PYTHONPATH=. python scripts/evaluate.py
-```
-
-Runs the 12-query evaluation with real LLM calls; results land in
-`outputs/eval_results/results.json`.
-
-## Demo
-
-The Streamlit demo (`app.py`) is a presentation interface over the finished
-pipeline — it provides:
-
-- source filter (All Sources / Documentation / Forums / Blogs)
-- question input with one-click Ask
-- the grounded answer with `[n]` citations preserved
-- source cards for every cited chunk (type, title, snippet)
-- an optional collapsed RAG trace showing per-chunk scores, conflict
-  decisions and the final evidence
-
-## Project Structure
-
-| Path | What it is |
-|---|---|
-| `app.py` | Streamlit demo UI |
-| `run_demo.bat` | one-click Windows launcher for the demo |
-| `assets/` | README architecture image |
-| `main.py` | CLI: answer, `--debug` trace, per-stage views |
-| `src/` | the RAG pipeline: config, loaders, chunking, retrieval, weighting, reranking, conflict handling, answer generation |
-| `scripts/` | `ingest.py` (build the index), `evaluate.py` (12-query evaluation) |
-| `data/` | knowledge sources (docs / forums / blogs) and the evaluation queries |
-| `tests/` | 100 unit / regression / UI tests |
-| `outputs/` | evaluation results (gitignored) |
-| `chroma_db/` | local vector store (gitignored, rebuilt by `ingest.py`) |
+The Streamlit demo supports source filtering, grounded answers with citations, source cards, and an optional full RAG trace.
