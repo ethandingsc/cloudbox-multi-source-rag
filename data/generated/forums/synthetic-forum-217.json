@@ -1,0 +1,31 @@
+{
+  "id": "synthetic-thread-217",
+  "title": "Which guidance applies to Free Plan Storage?",
+  "date": "2025-02-03",
+  "topics": [
+    "storage",
+    "quota",
+    "plans",
+    "upload"
+  ],
+  "tags": [
+    "storage",
+    "quota"
+  ],
+  "status": "solved",
+  "synthetic": true,
+  "derived_from": "docs:storage-limits:free-plan-storage",
+  "question": {
+    "author": "member_217",
+    "body": "There seem to be different descriptions of free plan storage. What is the maintained CloudBox guidance?"
+  },
+  "answers": [
+    {
+      "author": "cloudbox_support",
+      "date": "2025-02-03",
+      "body": "The current Storage Limits documentation says: The CloudBox free plan includes 10 GB of storage, shared across all files you own. This limit applies to the total size of your synced files plus anything you upload through the web app or mobile clients. File versions and recycle bin contents do not count toward your quota. When you approach the limit, CloudBox warns you by email and with an in-app banner; once the quota is reached, syncing pauses until you free space or upgrade. That official page is the source to follow if a community reply describes an older version. Check the complete section there for surrounding conditions before applying it to your case.",
+      "accepted": true,
+      "upvotes": 3
+    }
+  ]
+}

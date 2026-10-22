@@ -1,0 +1,31 @@
+{
+  "id": "synthetic-thread-300",
+  "title": "A customer question about Organization Security Requirements",
+  "date": "2025-04-27",
+  "topics": [
+    "teams",
+    "org",
+    "folders",
+    "roles"
+  ],
+  "tags": [
+    "teams",
+    "org"
+  ],
+  "status": "solved",
+  "synthetic": true,
+  "derived_from": "docs:teams:organization-security-requirements",
+  "question": {
+    "author": "member_300",
+    "body": "I need a short answer about organization security requirements. What should I expect according to the official documentation?"
+  },
+  "answers": [
+    {
+      "author": "cloudbox_support",
+      "date": "2025-04-27",
+      "body": "The current Team Accounts documentation says: Admins can audit devices and sessions from the admin console and remotely sign out a lost laptop. All organization accounts must enroll in two-factor authentication; this requirement took effect with CloudBox 2.1 and applies to every member, including guests. Organizations on Business and Enterprise plans can additionally enable SSO (SAML or OIDC), which centralizes sign-in but does not replace the 2FA requirement. That official page is the source to follow if a community reply describes an older version. Check the complete section there for surrounding conditions before applying it to your case.",
+      "accepted": true,
+      "upvotes": 3
+    }
+  ]
+}

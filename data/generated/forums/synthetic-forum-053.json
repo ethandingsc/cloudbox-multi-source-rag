@@ -1,0 +1,31 @@
+{
+  "id": "synthetic-thread-053",
+  "title": "What to expect from Bandwidth and Network Settings",
+  "date": "2024-08-23",
+  "topics": [
+    "desktop",
+    "install",
+    "bandwidth",
+    "proxy"
+  ],
+  "tags": [
+    "desktop",
+    "install"
+  ],
+  "status": "solved",
+  "synthetic": true,
+  "derived_from": "docs:desktop-client:bandwidth-and-network-settings",
+  "question": {
+    "author": "member_053",
+    "body": "I am checking my CloudBox setup. Which documented details matter for bandwidth and network settings?"
+  },
+  "answers": [
+    {
+      "author": "cloudbox_support",
+      "date": "2024-08-23",
+      "body": "The current Desktop Client documentation says: The client lets you throttle upload and download bandwidth per network in Settings > Network, so a metered hotspot is never drained by background syncs. On paid plans, \"Smart Sync\" learns your working hours and schedules large transfers for off-peak times. LAN sync accelerates transfers between devices on the same local network without going through the cloud. That official page is the source to follow if a community reply describes an older version. Check the complete section there for surrounding conditions before applying it to your case.",
+      "accepted": true,
+      "upvotes": 3
+    }
+  ]
+}

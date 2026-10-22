@@ -1,0 +1,31 @@
+{
+  "id": "synthetic-thread-214",
+  "title": "What to expect from Free Plan Storage",
+  "date": "2025-01-31",
+  "topics": [
+    "storage",
+    "quota",
+    "plans",
+    "upload"
+  ],
+  "tags": [
+    "storage",
+    "quota"
+  ],
+  "status": "solved",
+  "synthetic": true,
+  "derived_from": "docs:storage-limits:free-plan-storage",
+  "question": {
+    "author": "member_214",
+    "body": "I am checking my CloudBox setup. Which documented details matter for free plan storage?"
+  },
+  "answers": [
+    {
+      "author": "cloudbox_support",
+      "date": "2025-01-31",
+      "body": "The current Storage Limits documentation says: When you approach the limit, CloudBox warns you by email and with an in-app banner; once the quota is reached, syncing pauses until you free space or upgrade. The free plan was raised from 5 GB to 10 GB with CloudBox 2.0 (September 2023). The current limit is 10 GB. The CloudBox free plan includes 10 GB of storage, shared across all files you own. That official page is the source to follow if a community reply describes an older version. Check the complete section there for surrounding conditions before applying it to your case.",
+      "accepted": true,
+      "upvotes": 3
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "id": "synthetic-thread-107",
+  "title": "Is the guidance on Installing CloudBox Clients still current?",
+  "date": "2024-10-16",
+  "topics": [
+    "getting-started",
+    "install",
+    "account"
+  ],
+  "tags": [
+    "getting-started",
+    "install"
+  ],
+  "status": "solved",
+  "synthetic": true,
+  "derived_from": "docs:getting-started:installing-cloudbox-clients",
+  "question": {
+    "author": "member_107",
+    "body": "I found an older discussion about installing cloudbox clients. Can someone confirm the current CloudBox behavior?"
+  },
+  "answers": [
+    {
+      "author": "cloudbox_support",
+      "date": "2024-10-16",
+      "body": "The current Getting Started documentation says: Install the desktop client for background sync, or simply use the web app in any modern browser — no installation required. All clients sign in with the same account, and files appear everywhere automatically. CloudBox runs on the web, on Windows 10+, macOS 11+, Linux (since version 2.0), iOS 15+, and Android 10+. That official page is the source to follow if a community reply describes an older version. Check the complete section there for surrounding conditions before applying it to your case.",
+      "accepted": true,
+      "upvotes": 3
+    }
+  ]
+}

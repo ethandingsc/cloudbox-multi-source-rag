@@ -1,0 +1,31 @@
+{
+  "id": "synthetic-thread-282",
+  "title": "Is the guidance on Team Accounts and Roles still current?",
+  "date": "2025-04-09",
+  "topics": [
+    "teams",
+    "org",
+    "folders",
+    "roles"
+  ],
+  "tags": [
+    "teams",
+    "org"
+  ],
+  "status": "solved",
+  "synthetic": true,
+  "derived_from": "docs:teams:team-accounts-and-roles",
+  "question": {
+    "author": "member_282",
+    "body": "I found an older discussion about team accounts and roles. Can someone confirm the current CloudBox behavior?"
+  },
+  "answers": [
+    {
+      "author": "cloudbox_support",
+      "date": "2025-04-09",
+      "body": "The current Team Accounts documentation says: Admins manage membership, billing, and security settings. Members have full access to team folders according to their permissions. Guests are external people with limited access to specific folders only. Every role is tied to a named user account; shared accounts are not supported. That official page is the source to follow if a community reply describes an older version. Check the complete section there for surrounding conditions before applying it to your case.",
+      "accepted": true,
+      "upvotes": 3
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "id": "synthetic-thread-224",
+  "title": "Which guidance applies to Paid Plan Tiers?",
+  "date": "2025-02-10",
+  "topics": [
+    "storage",
+    "quota",
+    "plans",
+    "upload"
+  ],
+  "tags": [
+    "storage",
+    "quota"
+  ],
+  "status": "solved",
+  "synthetic": true,
+  "derived_from": "docs:storage-limits:paid-plan-tiers",
+  "question": {
+    "author": "member_224",
+    "body": "There seem to be different descriptions of paid plan tiers. What is the maintained CloudBox guidance?"
+  },
+  "answers": [
+    {
+      "author": "cloudbox_support",
+      "date": "2025-02-10",
+      "body": "The current Storage Limits documentation says: Enterprise plans receive custom storage sizes and a dedicated support engineer. All paid plans include 180 days of file version history and a 90-day recycle bin, compared with 30 days on the free plan. The Plus plan includes 2 TB of storage for individuals at $9.99 per month. The Business plan includes 10 TB shared across the organization, team folders, granular roles, and SSO integration, at $14.99 per user per month. That official page is the source to follow if a community reply describes an older version. Check the complete section there for surrounding conditions before applying it to your case.",
+      "accepted": true,
+      "upvotes": 3
+    }
+  ]
+}

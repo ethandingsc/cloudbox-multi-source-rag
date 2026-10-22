@@ -39,7 +39,19 @@ def weight_candidates(hits: list[dict], pool_size: int | None = None) -> list[di
         w["weighted_score"] = w["similarity"] * w["weight"]
         weighted.append(w)
     weighted.sort(key=lambda h: h["weighted_score"], reverse=True)
-    return weighted[:pool_size]
+    # Synthetic support items deliberately restate their canonical source.
+    # Keep the best-scoring representative of each fact so near-duplicates
+    # cannot fill the entire CrossEncoder candidate pool.
+    unique = []
+    seen = set()
+    for hit in weighted:
+        key = hit["metadata"].get("derived_from") or hit["chunk_id"]
+        if key not in seen:
+            unique.append(hit)
+            seen.add(key)
+        if len(unique) == pool_size:
+            break
+    return unique
 
 
 class Retriever:
@@ -65,11 +77,20 @@ class Retriever:
         for src in sources:
             res = self.store.collection.query(
                 query_embeddings=query_embedding,
-                n_results=top_k,
+                n_results=top_k * 4,
                 where={"source_type": src},
                 include=["documents", "metadatas", "distances"],
             )
-            hits.extend(self._as_hits(res, src))
+            unique = []
+            seen = set()
+            for hit in self._as_hits(res, src):
+                key = hit["metadata"].get("derived_from") or hit["chunk_id"]
+                if key not in seen:
+                    unique.append(hit)
+                    seen.add(key)
+                if len(unique) == top_k:
+                    break
+            hits.extend(unique)
 
         hits.sort(key=lambda h: h["similarity"], reverse=True)
         return hits
@@ -116,7 +137,7 @@ class Retriever:
         if single_source:
             return {"evidence": [dict(h, conflict_status="kept") for h in evidence],
                     "conflicts": []}
-        return conflict.handle_contradictions(evidence)
+        return conflict.handle_contradictions(evidence, question=query)
 
     @staticmethod
     def _normalize_sources(sources) -> tuple:

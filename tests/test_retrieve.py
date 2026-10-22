@@ -8,13 +8,21 @@ Run from the project root in the cloudbox-rag env:
 
 import unittest
 
-from src import config, embed_store, retrieve
+from src import chunkers, config, embed_store, loaders, retrieve
 
 
 class TestRetriever(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        store = embed_store.EmbedStore()
+        store = embed_store.EmbedStore(
+            chroma_dir=config.OUTPUTS_DIR / "baseline_chroma")
+        if store.count() == 0:
+            store.upsert_chunks(
+                chunkers.chunk_documentation(loaders.load_documentation(False))
+                + chunkers.chunk_forums(loaders.load_forums(False))
+                + chunkers.chunk_blogs(loaders.load_blogs(False)))
+        if store.count() != 90:
+            raise AssertionError("baseline index must contain 90 chunks")
         cls.retriever = retrieve.Retriever(store)
 
     def test_all_sources_return_top_k_with_scores_and_metadata(self):

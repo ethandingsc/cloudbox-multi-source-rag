@@ -49,6 +49,9 @@ def _base_metadata(item: dict, section: str | None = None) -> dict:
     }
     if section is not None:
         meta["section"] = section
+    if item.get("synthetic"):
+        meta["synthetic"] = True
+        meta["derived_from"] = item["derived_from"]
     return meta
 
 

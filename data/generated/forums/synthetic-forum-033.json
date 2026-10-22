@@ -1,0 +1,31 @@
+{
+  "id": "synthetic-thread-033",
+  "title": "Conditions to check for Downgrading Your Plan",
+  "date": "2024-08-03",
+  "topics": [
+    "billing",
+    "plans",
+    "downgrade",
+    "invoices"
+  ],
+  "tags": [
+    "billing",
+    "plans"
+  ],
+  "status": "solved",
+  "synthetic": true,
+  "derived_from": "docs:billing:downgrading-your-plan",
+  "question": {
+    "author": "member_033",
+    "body": "Could support clarify downgrading your plan in the current CloudBox version? I want to avoid relying on an outdated post."
+  },
+  "answers": [
+    {
+      "author": "cloudbox_support",
+      "date": "2024-08-03",
+      "body": "The current Billing and Plans documentation says: To keep everything, either free up space or upgrade again within the 90-day window. When you downgrade to a plan with less storage, CloudBox never deletes your data immediately. Files above the new quota become read-only/download-only for 90 days, and new uploads are blocked. Shared links to over-quota content remain live during those 90 days but only allow viewing and downloading — no uploads through links. That official page is the source to follow if a community reply describes an older version. Check the complete section there for surrounding conditions before applying it to your case.",
+      "accepted": true,
+      "upvotes": 3
+    }
+  ]
+}

@@ -8,7 +8,7 @@ Run from the project root in the cloudbox-rag env:
 
 import unittest
 
-from src import config, embed_store, retrieve
+from src import chunkers, config, embed_store, loaders, retrieve
 
 
 Q01 = "How much free storage do I get with CloudBox?"
@@ -19,7 +19,15 @@ OLD_BLOG_STORAGE_ID = "blog:free-storage-explained:what-the-free-plan-includes"
 class TestSourceWeighting(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        store = embed_store.EmbedStore()
+        store = embed_store.EmbedStore(
+            chroma_dir=config.OUTPUTS_DIR / "baseline_chroma")
+        if store.count() == 0:
+            store.upsert_chunks(
+                chunkers.chunk_documentation(loaders.load_documentation(False))
+                + chunkers.chunk_forums(loaders.load_forums(False))
+                + chunkers.chunk_blogs(loaders.load_blogs(False)))
+        if store.count() != 90:
+            raise AssertionError("baseline index must contain 90 chunks")
         cls.retriever = retrieve.Retriever(store)
 
     def test_weight_and_weighted_score_applied_per_source(self):
@@ -99,6 +107,22 @@ class TestSourceWeighting(unittest.TestCase):
     def test_unknown_source_still_raises(self):
         with self.assertRaises(ValueError):
             self.retriever.retrieve_weighted("anything", sources=["wiki"])
+
+    def test_synthetic_variants_collapse_to_one_canonical_source(self):
+        def hit(chunk_id, similarity, derived_from=None):
+            return {
+                "chunk_id": chunk_id,
+                "source_type": "documentation",
+                "similarity": similarity,
+                "metadata": {"derived_from": derived_from} if derived_from else {},
+            }
+
+        hits = [hit("synthetic-a", 0.9, "docs:canonical:topic"),
+                hit("synthetic-b", 0.8, "docs:canonical:topic"),
+                hit("docs:other:topic", 0.7)]
+        weighted = retrieve.weight_candidates(hits)
+        self.assertEqual([item["chunk_id"] for item in weighted],
+                         ["synthetic-a", "docs:other:topic"])
 
 
 if __name__ == "__main__":

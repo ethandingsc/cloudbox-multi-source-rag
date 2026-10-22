@@ -1,0 +1,33 @@
+{
+  "id": "synthetic-thread-064",
+  "title": "Getting started with Sharing Files and Folders",
+  "date": "2024-09-03",
+  "topics": [
+    "sharing",
+    "links",
+    "permissions",
+    "external-users",
+    "preview",
+    "upload"
+  ],
+  "tags": [
+    "sharing",
+    "links"
+  ],
+  "status": "solved",
+  "synthetic": true,
+  "derived_from": "docs:file-sharing:sharing-files-and-folders",
+  "question": {
+    "author": "member_064",
+    "body": "I am setting up CloudBox and want to understand sharing files and folders. What does the current documentation say?"
+  },
+  "answers": [
+    {
+      "author": "cloudbox_support",
+      "date": "2024-09-03",
+      "body": "The current Sharing Files and Folders documentation says: To share a file or folder, right-click it in any CloudBox client and choose Share, or use the Share button in the web app. Pick a permission level — View (read-only), Edit (add and modify files), or Comment (read and leave comments) — then copy the generated link. By default the link works for anyone who has it; switch to \"Specific people\" to restrict access to named individuals or groups. That official page is the source to follow if a community reply describes an older version. Check the complete section there for surrounding conditions before applying it to your case.",
+      "accepted": true,
+      "upvotes": 3
+    }
+  ]
+}

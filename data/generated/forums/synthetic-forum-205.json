@@ -1,0 +1,30 @@
+{
+  "id": "synthetic-thread-205",
+  "title": "Is the guidance on Limitations and Best Practices still current?",
+  "date": "2025-01-22",
+  "topics": [
+    "selective-sync",
+    "storage",
+    "disk-space"
+  ],
+  "tags": [
+    "selective-sync",
+    "storage"
+  ],
+  "status": "solved",
+  "synthetic": true,
+  "derived_from": "docs:selective-sync:limitations-and-best-practices",
+  "question": {
+    "author": "member_205",
+    "body": "I found an older discussion about limitations and best practices. Can someone confirm the current CloudBox behavior?"
+  },
+  "answers": [
+    {
+      "author": "cloudbox_support",
+      "date": "2025-01-22",
+      "body": "The current Selective Sync documentation says: Use it for large archive folders and completed projects rather than folders you actively edit on that device. Remember that excluded folders are protected only by the cloud: if someone deletes them from the web app, the cloud copy is gone. CloudBox recommends keeping at least one device with the folder synced locally if it contains irreplaceable data. Selective sync is available on Windows, macOS, and Linux desktop clients but not on mobile. That official page is the source to follow if a community reply describes an older version. Check the complete section there for surrounding conditions before applying it to your case.",
+      "accepted": true,
+      "upvotes": 3
+    }
+  ]
+}

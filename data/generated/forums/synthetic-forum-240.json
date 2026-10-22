@@ -1,0 +1,31 @@
+{
+  "id": "synthetic-thread-240",
+  "title": "Is the guidance on Version History Quota Rules still current?",
+  "date": "2025-02-26",
+  "topics": [
+    "storage",
+    "quota",
+    "plans",
+    "upload"
+  ],
+  "tags": [
+    "storage",
+    "quota"
+  ],
+  "status": "solved",
+  "synthetic": true,
+  "derived_from": "docs:storage-limits:version-history-quota-rules",
+  "question": {
+    "author": "member_240",
+    "body": "I found an older discussion about version history quota rules. Can someone confirm the current CloudBox behavior?"
+  },
+  "answers": [
+    {
+      "author": "cloudbox_support",
+      "date": "2025-02-26",
+      "body": "The current Storage Limits documentation says: Versions do not count against your storage quota, but the oldest versions are pruned automatically after the retention window. You can restore any previous version from the file's Version history panel in the web app. Version history stores previous states of your files for 30 days on the free plan and 180 days on paid plans. That official page is the source to follow if a community reply describes an older version. Check the complete section there for surrounding conditions before applying it to your case.",
+      "accepted": true,
+      "upvotes": 3
+    }
+  ]
+}

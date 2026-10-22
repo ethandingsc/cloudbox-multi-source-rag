@@ -1,0 +1,30 @@
+{
+  "id": "synthetic-thread-160",
+  "title": "A customer question about Permanent Deletion",
+  "date": "2024-12-08",
+  "topics": [
+    "recycle-bin",
+    "recovery",
+    "deletion"
+  ],
+  "tags": [
+    "recycle-bin",
+    "recovery"
+  ],
+  "status": "solved",
+  "synthetic": true,
+  "derived_from": "docs:recycle-bin:permanent-deletion",
+  "question": {
+    "author": "member_160",
+    "body": "I need a short answer about permanent deletion. What should I expect according to the official documentation?"
+  },
+  "answers": [
+    {
+      "author": "cloudbox_support",
+      "date": "2024-12-08",
+      "body": "The current Recycle Bin and Deletion documentation says: Organization administrators can disable the \"Empty recycle bin\" button for members via the admin console if accidental mass deletions are a concern. Emptying the recycle bin, or deleting an item from inside the bin, is irreversible. There is no recovery path for permanently deleted files, including through support. That official page is the source to follow if a community reply describes an older version. Check the complete section there for surrounding conditions before applying it to your case.",
+      "accepted": true,
+      "upvotes": 3
+    }
+  ]
+}

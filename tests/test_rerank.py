@@ -9,7 +9,7 @@ Run from the project root in the cloudbox-rag env:
 
 import unittest
 
-from src import config, embed_store, rerank, retrieve
+from src import chunkers, config, embed_store, loaders, rerank, retrieve
 
 
 Q01 = "How much free storage do I get with CloudBox?"
@@ -19,7 +19,15 @@ DOCS_STORAGE_ID = "docs:storage-limits:free-plan-storage"
 class TestReranker(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        store = embed_store.EmbedStore()
+        store = embed_store.EmbedStore(
+            chroma_dir=config.OUTPUTS_DIR / "baseline_chroma")
+        if store.count() == 0:
+            store.upsert_chunks(
+                chunkers.chunk_documentation(loaders.load_documentation(False))
+                + chunkers.chunk_forums(loaders.load_forums(False))
+                + chunkers.chunk_blogs(loaders.load_blogs(False)))
+        if store.count() != 90:
+            raise AssertionError("baseline index must contain 90 chunks")
         cls.retriever = retrieve.Retriever(store)
         cls.reranker = rerank.Reranker()  # model loaded once per test run
 

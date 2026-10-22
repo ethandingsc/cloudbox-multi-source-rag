@@ -1,0 +1,13 @@
+{
+  "description": "Locally generated, source-grounded scenario variants; not real customer documents or 500 independent product facts.",
+  "generator": "scripts/generate_synthetic_corpus.py",
+  "source_of_truth": "original CloudBox documentation chunks",
+  "original_items": 40,
+  "generated_items": {
+    "documentation": 100,
+    "forum": 300,
+    "blog": 100
+  },
+  "total_items": 540,
+  "total_chunks": 590
+}

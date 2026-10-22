@@ -1,0 +1,33 @@
+{
+  "id": "synthetic-thread-092",
+  "title": "Getting started with Uploading Through the Web App",
+  "date": "2024-10-01",
+  "topics": [
+    "sharing",
+    "links",
+    "permissions",
+    "external-users",
+    "preview",
+    "upload"
+  ],
+  "tags": [
+    "sharing",
+    "links"
+  ],
+  "status": "solved",
+  "synthetic": true,
+  "derived_from": "docs:file-sharing:uploading-through-the-web-app",
+  "question": {
+    "author": "member_092",
+    "body": "I am setting up CloudBox and want to understand uploading through the web app. What does the current documentation say?"
+  },
+  "answers": [
+    {
+      "author": "cloudbox_support",
+      "date": "2024-10-01",
+      "body": "The current Sharing Files and Folders documentation says: Uploads made through a browser are capped at 2 GB per file. For larger files, use the desktop or mobile client, which support uploads up to 20 GB. A web upload that exceeds 2 GB fails partway through with no data saved; you can retry it from the desktop client without corrupting anything. The API also supports uploads up to 20 GB. That official page is the source to follow if a community reply describes an older version. Check the complete section there for surrounding conditions before applying it to your case.",
+      "accepted": true,
+      "upvotes": 3
+    }
+  ]
+}

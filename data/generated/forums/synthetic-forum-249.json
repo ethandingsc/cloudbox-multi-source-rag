@@ -1,0 +1,31 @@
+{
+  "id": "synthetic-thread-249",
+  "title": "What to expect from How Syncing Works",
+  "date": "2025-03-07",
+  "topics": [
+    "sync",
+    "linux",
+    "desktop",
+    "conflicts"
+  ],
+  "tags": [
+    "sync",
+    "linux"
+  ],
+  "status": "solved",
+  "synthetic": true,
+  "derived_from": "docs:sync:how-syncing-works",
+  "question": {
+    "author": "member_249",
+    "body": "I am checking my CloudBox setup. Which documented details matter for how syncing works?"
+  },
+  "answers": [
+    {
+      "author": "cloudbox_support",
+      "date": "2025-03-07",
+      "body": "The current Sync Engine documentation says: Pausing sync (right-click the tray icon > Pause) stops all transfers until you resume. CloudBox uses block-level delta sync: when a file changes, only the changed blocks are transferred, so a small edit to a large file syncs in seconds. Changes made on any device propagate to all other linked devices and to the cloud. The client icon shows the current state: green for up to date, spinning blue for syncing, and red for an error. That official page is the source to follow if a community reply describes an older version. Check the complete section there for surrounding conditions before applying it to your case.",
+      "accepted": true,
+      "upvotes": 3
+    }
+  ]
+}

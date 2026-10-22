@@ -1,0 +1,31 @@
+{
+  "id": "synthetic-thread-289",
+  "title": "Is the guidance on Shared Team Folders still current?",
+  "date": "2025-04-16",
+  "topics": [
+    "teams",
+    "org",
+    "folders",
+    "roles"
+  ],
+  "tags": [
+    "teams",
+    "org"
+  ],
+  "status": "solved",
+  "synthetic": true,
+  "derived_from": "docs:teams:shared-team-folders",
+  "question": {
+    "author": "member_289",
+    "body": "I found an older discussion about shared team folders. Can someone confirm the current CloudBox behavior?"
+  },
+  "answers": [
+    {
+      "author": "cloudbox_support",
+      "date": "2025-04-16",
+      "body": "The current Team Accounts documentation says: Access is granted per folder to members or groups. When someone leaves the organization, their personal files are transferred to an admin-designated account and their team folder access is revoked immediately. Team folders cannot be converted back to personal folders. Team folders live in a separate namespace from personal files and are owned by the organization, not by individuals. That official page is the source to follow if a community reply describes an older version. Check the complete section there for surrounding conditions before applying it to your case.",
+      "accepted": true,
+      "upvotes": 3
+    }
+  ]
+}

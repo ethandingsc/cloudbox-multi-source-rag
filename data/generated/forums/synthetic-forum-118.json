@@ -1,0 +1,30 @@
+{
+  "id": "synthetic-thread-118",
+  "title": "A customer question about Your First Sync",
+  "date": "2024-10-27",
+  "topics": [
+    "getting-started",
+    "install",
+    "account"
+  ],
+  "tags": [
+    "getting-started",
+    "install"
+  ],
+  "status": "solved",
+  "synthetic": true,
+  "derived_from": "docs:getting-started:your-first-sync",
+  "question": {
+    "author": "member_118",
+    "body": "I need a short answer about your first sync. What should I expect according to the official documentation?"
+  },
+  "answers": [
+    {
+      "author": "cloudbox_support",
+      "date": "2024-10-27",
+      "body": "The current Getting Started documentation says: Anything you put inside it syncs to the cloud and to your other devices; anything you put in the cloud appears in the folder. The tray icon shows sync state: green when up to date, spinning blue while syncing, red on errors. Right-click the icon to pause, open preferences, or check sync activity. After signing in to a desktop client, CloudBox creates a local CloudBox folder. That official page is the source to follow if a community reply describes an older version. Check the complete section there for surrounding conditions before applying it to your case.",
+      "accepted": true,
+      "upvotes": 3
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "id": "synthetic-thread-192",
+  "title": "Clarifying What Is Selective Sync for a team",
+  "date": "2025-01-09",
+  "topics": [
+    "selective-sync",
+    "storage",
+    "disk-space"
+  ],
+  "tags": [
+    "selective-sync",
+    "storage"
+  ],
+  "status": "solved",
+  "synthetic": true,
+  "derived_from": "docs:selective-sync:what-is-selective-sync",
+  "question": {
+    "author": "member_192",
+    "body": "Before I explain what is selective sync to my team, what should I verify in the official guide?"
+  },
+  "answers": [
+    {
+      "author": "cloudbox_support",
+      "date": "2025-01-09",
+      "body": "The current Selective Sync documentation says: Selective sync settings are per device: excluding a folder on your laptop does not affect your desktop. Selective sync, introduced in CloudBox 2.0, lets each device choose which folders are stored locally. Folders you exclude stay in the cloud and remain accessible through the web app and mobile clients, but they do not use disk space on that device. That official page is the source to follow if a community reply describes an older version. Check the complete section there for surrounding conditions before applying it to your case.",
+      "accepted": true,
+      "upvotes": 3
+    }
+  ]
+}

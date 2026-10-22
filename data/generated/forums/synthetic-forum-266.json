@@ -1,0 +1,31 @@
+{
+  "id": "synthetic-thread-266",
+  "title": "Which guidance applies to Sync Conflicts?",
+  "date": "2025-03-24",
+  "topics": [
+    "sync",
+    "linux",
+    "desktop",
+    "conflicts"
+  ],
+  "tags": [
+    "sync",
+    "linux"
+  ],
+  "status": "solved",
+  "synthetic": true,
+  "derived_from": "docs:sync:sync-conflicts",
+  "question": {
+    "author": "member_266",
+    "body": "There seem to be different descriptions of sync conflicts. What is the maintained CloudBox guidance?"
+  },
+  "answers": [
+    {
+      "author": "cloudbox_support",
+      "date": "2025-03-24",
+      "body": "The current Sync Engine documentation says: To resolve a conflict, compare the two files, decide which to keep, and delete the other. Conflicted copies behave like normal files and sync everywhere. If the same file is edited in two places before either syncs, CloudBox keeps both versions: one keeps the original name and the other becomes \"name (conflicted copy, YYYY-MM-DD, user)\". Nothing is overwritten or lost. That official page is the source to follow if a community reply describes an older version. Check the complete section there for surrounding conditions before applying it to your case.",
+      "accepted": true,
+      "upvotes": 3
+    }
+  ]
+}

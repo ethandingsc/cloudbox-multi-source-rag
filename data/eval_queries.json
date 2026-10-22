@@ -1,107 +1,3536 @@
 {
   "_meta": {
-    "description": "12 evaluation queries for the CloudBox Multi-Source RAG system, each with ground truth for Hit@K / MRR.",
-    "chunk_id_convention": "docs:<file_slug>:<section_slug> | forum:<thread_id> | blog:<file_slug>:<section_slug> (prefix maps from source_type: documentation -> docs, forum -> forum, blog -> blog)",
-    "slug_rule": "lowercase; spaces -> hyphens; non-alphanumeric stripped (front-matter 'slug' for file part, '##' heading for section part)",
-    "hit_k_note": "A query is a hit at K if ANY id in expected_doc_ids appears in the final top-K evidence of a pipeline variant.",
-    "conflict_case_note": "One of: storage | upload-size | 2fa | linux | null. The 4 conflict queries double as regression tests for the conflict rules."
+    "description": "120 source-grounded evaluation queries for the 540-item / 590-chunk CloudBox knowledge base.",
+    "generated_by": "scripts/build_eval_dataset.py",
+    "answer_ground_truth": "Every expected answer is copied from or manually synthesized from the listed evidence IDs.",
+    "evidence_equivalence": "A retrieved synthetic chunk is relevant when its derived_from value equals an expected evidence ID.",
+    "alignment_audit": "The 24 known cases plus one additional invalid direct case retain their originals under alignment_audit and define raw/final evidence groups.",
+    "counts": {
+      "direct": 89,
+      "conflict": 17,
+      "multi_source": 14
+    }
   },
   "queries": [
     {
-      "id": "q01",
-      "query": "How much free storage do I get with CloudBox?",
-      "expected_source": "documentation",
-      "expected_answer_facts": "The free plan includes 10 GB of storage (raised from 5 GB in v2.0, September 2023).",
-      "expected_doc_ids": ["docs:storage-limits:free-plan-storage"],
-      "conflict_case": "storage"
+      "category": "direct",
+      "query": "What is the current CloudBox guidance for API Overview?",
+      "expected_sources": [
+        "documentation"
+      ],
+      "expected_answer": "The CloudBox REST API provides programmatic access to files, folders, share links, and account metadata.",
+      "expected_evidence_ids": [
+        "docs:api:api-overview"
+      ],
+      "conflict_case": null,
+      "id": "q001",
+      "raw_evidence_groups": [
+        [
+          "docs:api:api-overview"
+        ]
+      ],
+      "final_evidence_groups": [
+        [
+          "docs:api:api-overview"
+        ]
+      ]
     },
     {
-      "id": "q02",
-      "query": "What is the largest file I can upload to CloudBox?",
-      "expected_source": "documentation",
-      "expected_answer_facts": "20 GB through desktop/mobile clients and API; 2 GB through the web app.",
-      "expected_doc_ids": ["docs:storage-limits:maximum-upload-size", "docs:file-sharing:uploading-through-the-web-app"],
-      "conflict_case": "upload-size"
+      "category": "direct",
+      "query": "What is the current CloudBox guidance for Rate Limits?",
+      "expected_sources": [
+        "documentation"
+      ],
+      "expected_answer": "API requests are limited to **1000 requests per hour per token**.",
+      "expected_evidence_ids": [
+        "docs:api:rate-limits"
+      ],
+      "conflict_case": null,
+      "id": "q002",
+      "raw_evidence_groups": [
+        [
+          "docs:api:rate-limits"
+        ]
+      ],
+      "final_evidence_groups": [
+        [
+          "docs:api:rate-limits"
+        ]
+      ]
     },
     {
-      "id": "q03",
-      "query": "Is two-factor authentication required for organization accounts?",
-      "expected_source": "documentation",
-      "expected_answer_facts": "Required for all organization accounts since v2.1 (May 2024); optional for personal accounts.",
-      "expected_doc_ids": ["docs:security:two-factor-authentication-policy"],
-      "conflict_case": "2fa"
+      "category": "direct",
+      "query": "What is the current CloudBox guidance for Uploading Files via the API?",
+      "expected_sources": [
+        "documentation"
+      ],
+      "expected_answer": "The API supports resumable chunked uploads of files up to **20 GB**, the same ceiling as the desktop clients — the 2 GB web-app cap does not apply to the API.",
+      "expected_evidence_ids": [
+        "docs:api:uploading-files-via-the-api"
+      ],
+      "conflict_case": null,
+      "id": "q003",
+      "raw_evidence_groups": [
+        [
+          "docs:api:uploading-files-via-the-api"
+        ]
+      ],
+      "final_evidence_groups": [
+        [
+          "docs:api:uploading-files-via-the-api"
+        ]
+      ]
     },
     {
-      "id": "q04",
-      "query": "Does CloudBox have a Linux client?",
-      "expected_source": "documentation",
-      "expected_answer_facts": "Yes — official Linux desktop client since v2.0 (September 2023); Ubuntu 20.04+ and Fedora 36+.",
-      "expected_doc_ids": ["docs:sync:linux-desktop-client"],
-      "conflict_case": "linux"
+      "category": "direct",
+      "query": "What is the current CloudBox guidance for Plans and Pricing?",
+      "expected_sources": [
+        "documentation"
+      ],
+      "expected_answer": "CloudBox offers four plans.",
+      "expected_evidence_ids": [
+        "docs:billing:plans-and-pricing"
+      ],
+      "conflict_case": null,
+      "id": "q004",
+      "raw_evidence_groups": [
+        [
+          "docs:billing:plans-and-pricing"
+        ]
+      ],
+      "final_evidence_groups": [
+        [
+          "docs:billing:plans-and-pricing"
+        ]
+      ]
     },
     {
-      "id": "q05",
-      "query": "How do I share a file with someone outside my organization?",
-      "expected_source": "documentation",
-      "expected_answer_facts": "Create a share link with View/Edit/Comment permission; external users do not need an account; optional expiry and password.",
-      "expected_doc_ids": ["docs:file-sharing:sharing-files-and-folders", "docs:file-sharing:external-users"],
-      "conflict_case": null
+      "category": "direct",
+      "query": "What is the current CloudBox guidance for Downgrading Your Plan?",
+      "expected_sources": [
+        "documentation"
+      ],
+      "expected_answer": "When you downgrade to a plan with less storage, CloudBox never deletes your data immediately.",
+      "expected_evidence_ids": [
+        "docs:billing:downgrading-your-plan"
+      ],
+      "conflict_case": null,
+      "id": "q005",
+      "raw_evidence_groups": [
+        [
+          "docs:billing:downgrading-your-plan"
+        ]
+      ],
+      "final_evidence_groups": [
+        [
+          "docs:billing:downgrading-your-plan"
+        ]
+      ]
     },
     {
-      "id": "q06",
-      "query": "My sync client has been stuck on 'Syncing…' for hours. What should I do?",
-      "expected_source": "forum",
-      "expected_answer_facts": "Pause/resume sync, check proxy/firewall settings, clear the local cache, restart the client, then open a ticket with logs.",
-      "expected_doc_ids": ["forum:thread-005"],
-      "conflict_case": null
+      "category": "direct",
+      "query": "What is the current CloudBox guidance for Invoices and Receipts?",
+      "expected_sources": [
+        "documentation"
+      ],
+      "expected_answer": "Invoices are issued monthly from the billing portal at the start of each cycle.",
+      "expected_evidence_ids": [
+        "docs:billing:invoices-and-receipts"
+      ],
+      "conflict_case": null,
+      "id": "q006",
+      "raw_evidence_groups": [
+        [
+          "docs:billing:invoices-and-receipts"
+        ]
+      ],
+      "final_evidence_groups": [
+        [
+          "docs:billing:invoices-and-receipts"
+        ]
+      ]
     },
     {
-      "id": "q07",
-      "query": "Can I recover a file I deleted 45 days ago?",
-      "expected_source": "forum",
-      "expected_answer_facts": "Free plan keeps deleted items 30 days (too late); paid plans 90 days (recoverable if not emptied).",
-      "expected_doc_ids": ["forum:thread-006", "docs:recycle-bin:retention-periods-by-plan"],
-      "conflict_case": null
+      "category": "direct",
+      "query": "What is the current CloudBox guidance for Installing the Desktop Client?",
+      "expected_sources": [
+        "documentation"
+      ],
+      "expected_answer": "Download the desktop client from the CloudBox download page.",
+      "expected_evidence_ids": [
+        "docs:desktop-client:installing-the-desktop-client"
+      ],
+      "conflict_case": null,
+      "id": "q007",
+      "raw_evidence_groups": [
+        [
+          "docs:desktop-client:installing-the-desktop-client"
+        ]
+      ],
+      "final_evidence_groups": [
+        [
+          "docs:desktop-client:installing-the-desktop-client"
+        ]
+      ]
     },
     {
-      "id": "q08",
-      "query": "How do I set up selective sync to save disk space?",
-      "expected_source": "blog",
-      "expected_answer_facts": "Desktop client Preferences > Sync tab > Selective Sync; uncheck folders to keep them cloud-only; excluded folders still count toward quota.",
-      "expected_doc_ids": ["blog:selective-sync-tutorial:step-by-step-setup"],
-      "conflict_case": null
+      "category": "direct",
+      "query": "What is the current CloudBox guidance for Bandwidth and Network Settings?",
+      "expected_sources": [
+        "documentation"
+      ],
+      "expected_answer": "The client lets you throttle upload and download bandwidth per network in Settings > Network, so a metered hotspot is never drained by background syncs.",
+      "expected_evidence_ids": [
+        "docs:desktop-client:bandwidth-and-network-settings"
+      ],
+      "conflict_case": null,
+      "id": "q008",
+      "raw_evidence_groups": [
+        [
+          "docs:desktop-client:bandwidth-and-network-settings"
+        ]
+      ],
+      "final_evidence_groups": [
+        [
+          "docs:desktop-client:bandwidth-and-network-settings"
+        ]
+      ]
     },
     {
-      "id": "q09",
-      "query": "What happens to my shared links when I downgrade my plan?",
-      "expected_source": "documentation",
-      "expected_answer_facts": "Over-quota files become read-only for 90 days (links still view/download, uploads blocked); after 90 days files move to the recycle bin and links expire.",
-      "expected_doc_ids": ["docs:billing:downgrading-your-plan"],
-      "conflict_case": null
+      "category": "direct",
+      "query": "What is the current CloudBox guidance for Proxy and Firewall Support?",
+      "expected_sources": [
+        "documentation"
+      ],
+      "expected_answer": "The desktop client honors HTTP and SOCKS5 proxies configured in Settings > Network, and it respects the system proxy by default.",
+      "expected_evidence_ids": [
+        "docs:desktop-client:proxy-and-firewall-support"
+      ],
+      "conflict_case": null,
+      "id": "q009",
+      "raw_evidence_groups": [
+        [
+          "docs:desktop-client:proxy-and-firewall-support"
+        ]
+      ],
+      "final_evidence_groups": [
+        [
+          "docs:desktop-client:proxy-and-firewall-support"
+        ]
+      ]
     },
     {
-      "id": "q10",
-      "query": "What are best practices for organizing team folders at scale?",
-      "expected_source": "blog",
-      "expected_answer_facts": "One team folder per department, max 2-3 levels, grant access via member groups, consistent naming conventions with YYYY-MM-DD dates.",
-      "expected_doc_ids": ["blog:team-folder-structure:a-structure-that-scales"],
-      "conflict_case": null
+      "category": "direct",
+      "query": "What is the current CloudBox guidance for Sharing Files and Folders?",
+      "expected_sources": [
+        "documentation"
+      ],
+      "expected_answer": "To share a file or folder, right-click it in any CloudBox client and choose Share, or use the Share button in the web app.",
+      "expected_evidence_ids": [
+        "docs:file-sharing:sharing-files-and-folders"
+      ],
+      "conflict_case": null,
+      "id": "q010",
+      "raw_evidence_groups": [
+        [
+          "docs:file-sharing:sharing-files-and-folders"
+        ]
+      ],
+      "final_evidence_groups": [
+        [
+          "docs:file-sharing:sharing-files-and-folders"
+        ]
+      ]
     },
     {
-      "id": "q11",
-      "query": "Users report uploads failing for files over 2 GB — why?",
-      "expected_source": "documentation",
-      "expected_answer_facts": "Web-app uploads are capped at 2 GB per file; the desktop client supports up to 20 GB. Expected behavior, not a bug.",
-      "expected_doc_ids": ["docs:file-sharing:uploading-through-the-web-app"],
-      "conflict_case": null
+      "category": "direct",
+      "query": "What is the current CloudBox guidance for Link Permissions and Expiry?",
+      "expected_sources": [
+        "documentation"
+      ],
+      "expected_answer": "Share links can carry an optional **expiration date** and an optional **password**.",
+      "expected_evidence_ids": [
+        "docs:file-sharing:link-permissions-and-expiry"
+      ],
+      "conflict_case": null,
+      "id": "q011",
+      "raw_evidence_groups": [
+        [
+          "docs:file-sharing:link-permissions-and-expiry"
+        ]
+      ],
+      "final_evidence_groups": [
+        [
+          "docs:file-sharing:link-permissions-and-expiry"
+        ]
+      ]
     },
     {
-      "id": "q12",
-      "query": "Does CloudBox encrypt files at rest?",
-      "expected_source": "documentation",
-      "expected_answer_facts": "Yes — AES-256 at rest, TLS 1.3 in transit; keys held by CloudBox (not zero-knowledge).",
-      "expected_doc_ids": ["docs:security:encryption-at-rest-and-in-transit"],
-      "conflict_case": null
+      "category": "direct",
+      "query": "What is the current CloudBox guidance for External Users?",
+      "expected_sources": [
+        "documentation"
+      ],
+      "expected_answer": "People outside your organization do not need a CloudBox account to access a share link.",
+      "expected_evidence_ids": [
+        "docs:file-sharing:external-users"
+      ],
+      "conflict_case": null,
+      "id": "q012",
+      "raw_evidence_groups": [
+        [
+          "docs:file-sharing:external-users"
+        ]
+      ],
+      "final_evidence_groups": [
+        [
+          "docs:file-sharing:external-users"
+        ]
+      ]
+    },
+    {
+      "category": "direct",
+      "query": "What is the current CloudBox guidance for Preview and Streaming Limits?",
+      "expected_sources": [
+        "documentation"
+      ],
+      "expected_answer": "The web app can preview and stream files up to **500 MB**, including documents, PDFs, images, and video/audio.",
+      "expected_evidence_ids": [
+        "docs:file-sharing:preview-and-streaming-limits"
+      ],
+      "conflict_case": null,
+      "id": "q013",
+      "raw_evidence_groups": [
+        [
+          "docs:file-sharing:preview-and-streaming-limits"
+        ]
+      ],
+      "final_evidence_groups": [
+        [
+          "docs:file-sharing:preview-and-streaming-limits"
+        ]
+      ]
+    },
+    {
+      "category": "direct",
+      "query": "What is the current CloudBox guidance for Uploading Through the Web App?",
+      "expected_sources": [
+        "documentation"
+      ],
+      "expected_answer": "Uploads made through a browser are capped at **2 GB per file**.",
+      "expected_evidence_ids": [
+        "docs:file-sharing:uploading-through-the-web-app"
+      ],
+      "conflict_case": null,
+      "id": "q014",
+      "raw_evidence_groups": [
+        [
+          "docs:file-sharing:uploading-through-the-web-app"
+        ]
+      ],
+      "final_evidence_groups": [
+        [
+          "docs:file-sharing:uploading-through-the-web-app"
+        ]
+      ]
+    },
+    {
+      "category": "direct",
+      "query": "What is the current CloudBox guidance for Creating an Account?",
+      "expected_sources": [
+        "documentation"
+      ],
+      "expected_answer": "Create a CloudBox account with your email address and a password of at least 12 characters, then verify your email address to activate it.",
+      "expected_evidence_ids": [
+        "docs:getting-started:creating-an-account"
+      ],
+      "conflict_case": null,
+      "id": "q015",
+      "raw_evidence_groups": [
+        [
+          "docs:getting-started:creating-an-account"
+        ]
+      ],
+      "final_evidence_groups": [
+        [
+          "docs:getting-started:creating-an-account"
+        ]
+      ]
+    },
+    {
+      "category": "direct",
+      "query": "What is the current CloudBox guidance for Installing CloudBox Clients?",
+      "expected_sources": [
+        "documentation"
+      ],
+      "expected_answer": "CloudBox runs on the web, on Windows 10+, macOS 11+, Linux (since version 2.0), iOS 15+, and Android 10+.",
+      "expected_evidence_ids": [
+        "docs:getting-started:installing-cloudbox-clients"
+      ],
+      "conflict_case": null,
+      "id": "q016",
+      "raw_evidence_groups": [
+        [
+          "docs:getting-started:installing-cloudbox-clients"
+        ]
+      ],
+      "final_evidence_groups": [
+        [
+          "docs:getting-started:installing-cloudbox-clients"
+        ]
+      ]
+    },
+    {
+      "category": "direct",
+      "query": "What is the current CloudBox guidance for Your First Sync?",
+      "expected_sources": [
+        "documentation"
+      ],
+      "expected_answer": "After signing in to a desktop client, CloudBox creates a local CloudBox folder.",
+      "expected_evidence_ids": [
+        "docs:getting-started:your-first-sync"
+      ],
+      "conflict_case": null,
+      "id": "q017",
+      "raw_evidence_groups": [
+        [
+          "docs:getting-started:your-first-sync"
+        ]
+      ],
+      "final_evidence_groups": [
+        [
+          "docs:getting-started:your-first-sync"
+        ]
+      ]
+    },
+    {
+      "category": "direct",
+      "query": "What is the current CloudBox guidance for Mobile App Overview?",
+      "expected_sources": [
+        "documentation"
+      ],
+      "expected_answer": "The CloudBox mobile app is available for iOS 15+ and Android 10+.",
+      "expected_evidence_ids": [
+        "docs:mobile:mobile-app-overview"
+      ],
+      "conflict_case": null,
+      "id": "q018",
+      "raw_evidence_groups": [
+        [
+          "docs:mobile:mobile-app-overview"
+        ]
+      ],
+      "final_evidence_groups": [
+        [
+          "docs:mobile:mobile-app-overview"
+        ]
+      ]
+    },
+    {
+      "category": "direct",
+      "query": "What is the current CloudBox guidance for Offline Access and Camera Upload?",
+      "expected_sources": [
+        "documentation"
+      ],
+      "expected_answer": "Mark any file or folder as \"Available offline\" to pin a copy on the device; pinned items stay in sync over Wi-Fi by default.",
+      "expected_evidence_ids": [
+        "docs:mobile:offline-access-and-camera-upload"
+      ],
+      "conflict_case": null,
+      "id": "q019",
+      "raw_evidence_groups": [
+        [
+          "docs:mobile:offline-access-and-camera-upload"
+        ]
+      ],
+      "final_evidence_groups": [
+        [
+          "docs:mobile:offline-access-and-camera-upload"
+        ]
+      ]
+    },
+    {
+      "category": "direct",
+      "query": "What is the current CloudBox guidance for Mobile Limitations?",
+      "expected_sources": [
+        "documentation"
+      ],
+      "expected_answer": "The mobile app does not support selective sync, bandwidth throttling, or LAN sync.",
+      "expected_evidence_ids": [
+        "docs:mobile:mobile-limitations"
+      ],
+      "conflict_case": null,
+      "id": "q020",
+      "raw_evidence_groups": [
+        [
+          "docs:mobile:mobile-limitations"
+        ]
+      ],
+      "final_evidence_groups": [
+        [
+          "docs:mobile:mobile-limitations"
+        ]
+      ]
+    },
+    {
+      "category": "direct",
+      "query": "What is the current CloudBox guidance for How the Recycle Bin Works?",
+      "expected_sources": [
+        "documentation"
+      ],
+      "expected_answer": "When you delete a file or folder in any CloudBox client, it moves to the recycle bin instead of being destroyed.",
+      "expected_evidence_ids": [
+        "docs:recycle-bin:how-the-recycle-bin-works"
+      ],
+      "conflict_case": null,
+      "id": "q021",
+      "raw_evidence_groups": [
+        [
+          "docs:recycle-bin:how-the-recycle-bin-works"
+        ]
+      ],
+      "final_evidence_groups": [
+        [
+          "docs:recycle-bin:how-the-recycle-bin-works"
+        ]
+      ]
+    },
+    {
+      "category": "direct",
+      "query": "What is the current CloudBox guidance for Retention Periods by Plan?",
+      "expected_sources": [
+        "documentation"
+      ],
+      "expected_answer": "Deleted items stay in the recycle bin for **30 days on the free plan** and **90 days on paid plans**, after which they are permanently purged.",
+      "expected_evidence_ids": [
+        "docs:recycle-bin:retention-periods-by-plan"
+      ],
+      "conflict_case": null,
+      "id": "q022",
+      "raw_evidence_groups": [
+        [
+          "docs:recycle-bin:retention-periods-by-plan"
+        ]
+      ],
+      "final_evidence_groups": [
+        [
+          "docs:recycle-bin:retention-periods-by-plan"
+        ]
+      ]
+    },
+    {
+      "category": "direct",
+      "query": "What is the current CloudBox guidance for Permanent Deletion?",
+      "expected_sources": [
+        "documentation"
+      ],
+      "expected_answer": "Emptying the recycle bin, or deleting an item from inside the bin, is **irreversible**.",
+      "expected_evidence_ids": [
+        "docs:recycle-bin:permanent-deletion"
+      ],
+      "conflict_case": null,
+      "id": "q023",
+      "raw_evidence_groups": [
+        [
+          "docs:recycle-bin:permanent-deletion"
+        ]
+      ],
+      "final_evidence_groups": [
+        [
+          "docs:recycle-bin:permanent-deletion"
+        ]
+      ]
+    },
+    {
+      "category": "direct",
+      "query": "What is the current CloudBox guidance for Encryption at Rest and in Transit?",
+      "expected_sources": [
+        "documentation"
+      ],
+      "expected_answer": "CloudBox encrypts all files **at rest with AES-256** and all traffic **in transit with TLS 1.3**.",
+      "expected_evidence_ids": [
+        "docs:security:encryption-at-rest-and-in-transit"
+      ],
+      "conflict_case": null,
+      "id": "q024",
+      "raw_evidence_groups": [
+        [
+          "docs:security:encryption-at-rest-and-in-transit"
+        ]
+      ],
+      "final_evidence_groups": [
+        [
+          "docs:security:encryption-at-rest-and-in-transit"
+        ]
+      ]
+    },
+    {
+      "category": "direct",
+      "query": "What is the current CloudBox guidance for Two-Factor Authentication Policy?",
+      "expected_sources": [
+        "documentation"
+      ],
+      "expected_answer": "Two-factor authentication (2FA) is **required for all organization accounts** — this policy applies to every member of a team or business account and took effect with CloudBox 2.1 (May 2024).",
+      "expected_evidence_ids": [
+        "docs:security:two-factor-authentication-policy"
+      ],
+      "conflict_case": null,
+      "id": "q025",
+      "raw_evidence_groups": [
+        [
+          "docs:security:two-factor-authentication-policy"
+        ]
+      ],
+      "final_evidence_groups": [
+        [
+          "docs:security:two-factor-authentication-policy"
+        ]
+      ]
+    },
+    {
+      "category": "direct",
+      "query": "What is the current CloudBox guidance for Password and Account Rules?",
+      "expected_sources": [
+        "documentation"
+      ],
+      "expected_answer": "Account passwords must be at least 12 characters and cannot appear in known breach lists.",
+      "expected_evidence_ids": [
+        "docs:security:password-and-account-rules"
+      ],
+      "conflict_case": null,
+      "id": "q026",
+      "raw_evidence_groups": [
+        [
+          "docs:security:password-and-account-rules"
+        ]
+      ],
+      "final_evidence_groups": [
+        [
+          "docs:security:password-and-account-rules"
+        ]
+      ]
+    },
+    {
+      "category": "direct",
+      "query": "What is the current CloudBox guidance for Recovery Codes and Account Lockout?",
+      "expected_sources": [
+        "documentation"
+      ],
+      "expected_answer": "When you enroll in 2FA you receive 10 one-time recovery codes; store them somewhere safe, because they are the only way back in if you lose your authenticator.",
+      "expected_evidence_ids": [
+        "docs:security:recovery-codes-and-account-lockout"
+      ],
+      "conflict_case": null,
+      "id": "q027",
+      "raw_evidence_groups": [
+        [
+          "docs:security:recovery-codes-and-account-lockout"
+        ]
+      ],
+      "final_evidence_groups": [
+        [
+          "docs:security:recovery-codes-and-account-lockout"
+        ]
+      ]
+    },
+    {
+      "category": "direct",
+      "query": "What is the current CloudBox guidance for What Is Selective Sync?",
+      "expected_sources": [
+        "documentation"
+      ],
+      "expected_answer": "Selective sync, introduced in CloudBox 2.0, lets each device choose which folders are stored locally.",
+      "expected_evidence_ids": [
+        "docs:selective-sync:what-is-selective-sync"
+      ],
+      "conflict_case": null,
+      "id": "q028",
+      "raw_evidence_groups": [
+        [
+          "docs:selective-sync:what-is-selective-sync"
+        ]
+      ],
+      "final_evidence_groups": [
+        [
+          "docs:selective-sync:what-is-selective-sync"
+        ]
+      ]
+    },
+    {
+      "category": "direct",
+      "query": "What is the current CloudBox guidance for Setting Up Selective Sync?",
+      "expected_sources": [
+        "documentation"
+      ],
+      "expected_answer": "Open the desktop client's Preferences, go to the Sync tab, and choose Selective Sync.",
+      "expected_evidence_ids": [
+        "docs:selective-sync:setting-up-selective-sync"
+      ],
+      "conflict_case": null,
+      "id": "q029",
+      "raw_evidence_groups": [
+        [
+          "docs:selective-sync:setting-up-selective-sync"
+        ]
+      ],
+      "final_evidence_groups": [
+        [
+          "docs:selective-sync:setting-up-selective-sync"
+        ]
+      ]
+    },
+    {
+      "category": "direct",
+      "query": "What is the current CloudBox guidance for Limitations and Best Practices?",
+      "expected_sources": [
+        "documentation"
+      ],
+      "expected_answer": "Selective sync is available on Windows, macOS, and Linux desktop clients but not on mobile.",
+      "expected_evidence_ids": [
+        "docs:selective-sync:limitations-and-best-practices"
+      ],
+      "conflict_case": null,
+      "id": "q030",
+      "raw_evidence_groups": [
+        [
+          "docs:selective-sync:limitations-and-best-practices"
+        ]
+      ],
+      "final_evidence_groups": [
+        [
+          "docs:selective-sync:limitations-and-best-practices"
+        ]
+      ]
+    },
+    {
+      "category": "direct",
+      "query": "What is the current CloudBox guidance for Free Plan Storage?",
+      "expected_sources": [
+        "documentation"
+      ],
+      "expected_answer": "The CloudBox free plan includes **10 GB** of storage, shared across all files you own.",
+      "expected_evidence_ids": [
+        "docs:storage-limits:free-plan-storage"
+      ],
+      "conflict_case": null,
+      "id": "q031",
+      "raw_evidence_groups": [
+        [
+          "docs:storage-limits:free-plan-storage"
+        ]
+      ],
+      "final_evidence_groups": [
+        [
+          "docs:storage-limits:free-plan-storage"
+        ]
+      ]
+    },
+    {
+      "category": "direct",
+      "query": "What is the current CloudBox guidance for Paid Plan Tiers?",
+      "expected_sources": [
+        "documentation"
+      ],
+      "expected_answer": "The Plus plan includes **2 TB** of storage for individuals at $9.99 per month.",
+      "expected_evidence_ids": [
+        "docs:storage-limits:paid-plan-tiers"
+      ],
+      "conflict_case": null,
+      "id": "q032",
+      "raw_evidence_groups": [
+        [
+          "docs:storage-limits:paid-plan-tiers"
+        ]
+      ],
+      "final_evidence_groups": [
+        [
+          "docs:storage-limits:paid-plan-tiers"
+        ]
+      ]
+    },
+    {
+      "category": "direct",
+      "query": "What is the current CloudBox guidance for Maximum Upload Size?",
+      "expected_sources": [
+        "documentation"
+      ],
+      "expected_answer": "You can upload files up to **20 GB** in size through the desktop and mobile clients, and through the API.",
+      "expected_evidence_ids": [
+        "docs:storage-limits:maximum-upload-size"
+      ],
+      "conflict_case": null,
+      "id": "q033",
+      "raw_evidence_groups": [
+        [
+          "docs:storage-limits:maximum-upload-size"
+        ]
+      ],
+      "final_evidence_groups": [
+        [
+          "docs:storage-limits:maximum-upload-size"
+        ]
+      ]
+    },
+    {
+      "category": "direct",
+      "query": "What is the current CloudBox guidance for Transfer and Bandwidth Limits?",
+      "expected_sources": [
+        "documentation"
+      ],
+      "expected_answer": "Free plans include **200 GB per day** of combined upload and download traffic.",
+      "expected_evidence_ids": [
+        "docs:storage-limits:transfer-and-bandwidth-limits"
+      ],
+      "conflict_case": null,
+      "id": "q034",
+      "raw_evidence_groups": [
+        [
+          "docs:storage-limits:transfer-and-bandwidth-limits"
+        ]
+      ],
+      "final_evidence_groups": [
+        [
+          "docs:storage-limits:transfer-and-bandwidth-limits"
+        ]
+      ]
+    },
+    {
+      "category": "direct",
+      "query": "What is the current CloudBox guidance for Version History Quota Rules?",
+      "expected_sources": [
+        "documentation"
+      ],
+      "expected_answer": "Version history stores previous states of your files for 30 days on the free plan and 180 days on paid plans.",
+      "expected_evidence_ids": [
+        "docs:storage-limits:version-history-quota-rules"
+      ],
+      "conflict_case": null,
+      "id": "q035",
+      "raw_evidence_groups": [
+        [
+          "docs:storage-limits:version-history-quota-rules"
+        ]
+      ],
+      "final_evidence_groups": [
+        [
+          "docs:storage-limits:version-history-quota-rules"
+        ]
+      ]
+    },
+    {
+      "category": "direct",
+      "query": "What is the current CloudBox guidance for How Syncing Works?",
+      "expected_sources": [
+        "documentation"
+      ],
+      "expected_answer": "CloudBox uses block-level delta sync: when a file changes, only the changed blocks are transferred, so a small edit to a large file syncs in seconds.",
+      "expected_evidence_ids": [
+        "docs:sync:how-syncing-works"
+      ],
+      "conflict_case": null,
+      "id": "q036",
+      "raw_evidence_groups": [
+        [
+          "docs:sync:how-syncing-works"
+        ]
+      ],
+      "final_evidence_groups": [
+        [
+          "docs:sync:how-syncing-works"
+        ]
+      ]
+    },
+    {
+      "category": "direct",
+      "query": "What is the current CloudBox guidance for Linux Desktop Client?",
+      "expected_sources": [
+        "documentation"
+      ],
+      "expected_answer": "CloudBox has shipped an official **Linux desktop client since version 2.0** (September 2023).",
+      "expected_evidence_ids": [
+        "docs:sync:linux-desktop-client"
+      ],
+      "conflict_case": null,
+      "id": "q037",
+      "raw_evidence_groups": [
+        [
+          "docs:sync:linux-desktop-client"
+        ]
+      ],
+      "final_evidence_groups": [
+        [
+          "docs:sync:linux-desktop-client"
+        ]
+      ]
+    },
+    {
+      "category": "direct",
+      "query": "What is the current CloudBox guidance for Sync Conflicts?",
+      "expected_sources": [
+        "documentation"
+      ],
+      "expected_answer": "If the same file is edited in two places before either syncs, CloudBox keeps both versions: one keeps the original name and the other becomes \"name (conflicted copy, YYYY-MM-DD, user)\".",
+      "expected_evidence_ids": [
+        "docs:sync:sync-conflicts"
+      ],
+      "conflict_case": null,
+      "id": "q038",
+      "raw_evidence_groups": [
+        [
+          "docs:sync:sync-conflicts"
+        ]
+      ],
+      "final_evidence_groups": [
+        [
+          "docs:sync:sync-conflicts"
+        ]
+      ]
+    },
+    {
+      "category": "direct",
+      "query": "What is the current CloudBox guidance for Troubleshooting Sync Issues?",
+      "expected_sources": [
+        "documentation"
+      ],
+      "expected_answer": "If the client is stuck on \"Syncing…\" for more than a few minutes: pause and resume sync; check your proxy or firewall settings (CloudBox uses port 443); clear the local cache under Settings > Advanced; then restart the client.",
+      "expected_evidence_ids": [
+        "docs:sync:troubleshooting-sync-issues"
+      ],
+      "conflict_case": null,
+      "id": "q039",
+      "raw_evidence_groups": [
+        [
+          "docs:sync:troubleshooting-sync-issues"
+        ]
+      ],
+      "final_evidence_groups": [
+        [
+          "docs:sync:troubleshooting-sync-issues"
+        ]
+      ]
+    },
+    {
+      "category": "direct",
+      "query": "What is the current CloudBox guidance for Local Cache and Disk Usage?",
+      "expected_sources": [
+        "documentation"
+      ],
+      "expected_answer": "The client keeps a local cache of recently changed blocks to make syncs faster; this cache can grow large on busy folders.",
+      "expected_evidence_ids": [
+        "docs:sync:local-cache-and-disk-usage"
+      ],
+      "conflict_case": null,
+      "id": "q040",
+      "raw_evidence_groups": [
+        [
+          "docs:sync:local-cache-and-disk-usage"
+        ]
+      ],
+      "final_evidence_groups": [
+        [
+          "docs:sync:local-cache-and-disk-usage"
+        ]
+      ]
+    },
+    {
+      "category": "direct",
+      "query": "What is the current CloudBox guidance for Team Accounts and Roles?",
+      "expected_sources": [
+        "documentation"
+      ],
+      "expected_answer": "Business and Enterprise plans include team accounts with three roles. **Admins** manage membership, billing, and security settings. **Members** have full access to team folders according to their permissions. **Guests** are external people with limited access to specific folders only.",
+      "expected_evidence_ids": [
+        "docs:teams:team-accounts-and-roles"
+      ],
+      "conflict_case": null,
+      "id": "q041",
+      "raw_evidence_groups": [
+        [
+          "docs:teams:team-accounts-and-roles"
+        ]
+      ],
+      "final_evidence_groups": [
+        [
+          "docs:teams:team-accounts-and-roles"
+        ]
+      ]
+    },
+    {
+      "category": "direct",
+      "query": "What is the current CloudBox guidance for Shared Team Folders?",
+      "expected_sources": [
+        "documentation"
+      ],
+      "expected_answer": "Team folders live in a separate namespace from personal files and are owned by the organization, not by individuals.",
+      "expected_evidence_ids": [
+        "docs:teams:shared-team-folders"
+      ],
+      "conflict_case": null,
+      "id": "q042",
+      "raw_evidence_groups": [
+        [
+          "docs:teams:shared-team-folders"
+        ]
+      ],
+      "final_evidence_groups": [
+        [
+          "docs:teams:shared-team-folders"
+        ]
+      ]
+    },
+    {
+      "category": "direct",
+      "query": "What is the current CloudBox guidance for Organization Security Requirements?",
+      "expected_sources": [
+        "documentation"
+      ],
+      "expected_answer": "All organization accounts must enroll in two-factor authentication; this requirement took effect with CloudBox 2.1 and applies to every member, including guests.",
+      "expected_evidence_ids": [
+        "docs:teams:organization-security-requirements"
+      ],
+      "conflict_case": null,
+      "id": "q043",
+      "raw_evidence_groups": [
+        [
+          "docs:teams:organization-security-requirements"
+        ]
+      ],
+      "final_evidence_groups": [
+        [
+          "docs:teams:organization-security-requirements"
+        ]
+      ]
+    },
+    {
+      "category": "direct",
+      "query": "Under current CloudBox policy, how much standard free storage does an account receive?",
+      "expected_sources": [
+        "documentation"
+      ],
+      "expected_answer": "The current standard CloudBox Free plan includes 10 GB of storage.",
+      "expected_evidence_ids": [
+        "docs:storage-limits:free-plan-storage"
+      ],
+      "conflict_case": null,
+      "id": "q044",
+      "raw_evidence_groups": [
+        [
+          "docs:storage-limits:free-plan-storage"
+        ]
+      ],
+      "final_evidence_groups": [
+        [
+          "docs:storage-limits:free-plan-storage"
+        ]
+      ],
+      "alignment_audit": {
+        "original": {
+          "category": "direct",
+          "query": "I keep seeing different numbers everywhere. How much free storage do you actually get with CloudBox? My account page shows one thing but a friend says his shows more.",
+          "expected_sources": [
+            "forum"
+          ],
+          "expected_answer": "The free plan gives you 15 GB. Everyone who signed up during the spring promo got boosted to 15 GB permanently, and they kept it as the standard since then. If your account page shows less, contact support and they will fix it.",
+          "expected_evidence_ids": [
+            "forum:thread-001"
+          ]
+        },
+        "reason": "The old forum's 15 GB claim was a limited promotion, not current policy.",
+        "changed_category": false,
+        "changed_query": true,
+        "changed_evidence": true
+      }
+    },
+    {
+      "category": "direct",
+      "query": "Under current CloudBox limits, what is the largest single file I can upload through each channel?",
+      "expected_sources": [
+        "documentation"
+      ],
+      "expected_answer": "Desktop, mobile, and API uploads support up to 20 GB per file; browser uploads are capped at 2 GB.",
+      "expected_evidence_ids": [
+        "docs:storage-limits:maximum-upload-size"
+      ],
+      "conflict_case": null,
+      "id": "q045",
+      "raw_evidence_groups": [
+        [
+          "docs:storage-limits:maximum-upload-size"
+        ]
+      ],
+      "final_evidence_groups": [
+        [
+          "docs:storage-limits:maximum-upload-size"
+        ]
+      ],
+      "alignment_audit": {
+        "original": {
+          "category": "direct",
+          "query": "Whats the biggest single file I can upload to CloudBox? Trying to move over my raw video projects and some of them are 8-10 GB.",
+          "expected_sources": [
+            "forum"
+          ],
+          "expected_answer": "The limit is 5 GB per file. Anything bigger fails with the 'File too large' error. For video projects, split them into multi-part archives or keep them on an external drive.",
+          "expected_evidence_ids": [
+            "forum:thread-002"
+          ]
+        },
+        "reason": "The forum's universal 5 GB ceiling is superseded by current channel-specific limits.",
+        "changed_category": false,
+        "changed_query": true,
+        "changed_evidence": true
+      }
+    },
+    {
+      "category": "conflict",
+      "query": "A forum user says an organization admin can disable 2FA. Is that possible under current CloudBox 2.1 policy?",
+      "expected_sources": [
+        "documentation"
+      ],
+      "expected_answer": "No. CloudBox 2.1 requires two-factor authentication for organization members, and administrators cannot disable it.",
+      "expected_evidence_ids": [
+        "docs:security:two-factor-authentication-policy"
+      ],
+      "conflict_case": null,
+      "id": "q046",
+      "raw_evidence_groups": [
+        [
+          "docs:security:two-factor-authentication-policy"
+        ]
+      ],
+      "final_evidence_groups": [
+        [
+          "docs:security:two-factor-authentication-policy"
+        ]
+      ],
+      "alignment_audit": {
+        "original": {
+          "category": "direct",
+          "query": "Our org account was nagging everyone about two-factor authentication and it was annoying my staff, so I went into settings and turned it off. Just sharing that it IS possible despite what the docs say.",
+          "expected_sources": [
+            "forum"
+          ],
+          "expected_answer": "Yeah it's optional — Settings > Security > Two-factor authentication > Disable. We did the same thing last month for our team and nobody has been locked out. The docs overstate it.",
+          "expected_evidence_ids": [
+            "forum:thread-003"
+          ]
+        },
+        "reason": "The generated direct case treated an obsolete forum claim as truth; current-policy intent requires the maintained 2FA policy.",
+        "changed_category": true,
+        "changed_query": true,
+        "changed_evidence": true
+      }
+    },
+    {
+      "category": "direct",
+      "query": "Under current CloudBox 2.1 guidance, is there an official Linux desktop client?",
+      "expected_sources": [
+        "documentation"
+      ],
+      "expected_answer": "Yes. CloudBox has provided an official Linux desktop client since version 2.0 for Ubuntu 20.04+ and Fedora 36+.",
+      "expected_evidence_ids": [
+        "docs:sync:linux-desktop-client"
+      ],
+      "conflict_case": null,
+      "id": "q047",
+      "raw_evidence_groups": [
+        [
+          "docs:sync:linux-desktop-client"
+        ]
+      ],
+      "final_evidence_groups": [
+        [
+          "docs:sync:linux-desktop-client"
+        ]
+      ],
+      "alignment_audit": {
+        "original": {
+          "category": "direct",
+          "query": "I switched my laptop to Ubuntu and now I can't find a CloudBox client anywhere. Is there a Linux version or do I just use the web app?",
+          "expected_sources": [
+            "forum"
+          ],
+          "expected_answer": "No Linux client, sorry. The web app works fine in a browser and that's the official line — use it for now. There's a feature request thread with a lot of votes, so maybe someday.",
+          "expected_evidence_ids": [
+            "forum:thread-004"
+          ]
+        },
+        "reason": "The forum answer predates the official Linux client.",
+        "changed_category": false,
+        "changed_query": true,
+        "changed_evidence": true
+      }
+    },
+    {
+      "category": "direct",
+      "query": "My Windows client has shown 'Syncing…' for about six hours now. No files are moving, the icon just spins. Already rebooted the machine. Help?",
+      "expected_sources": [
+        "forum"
+      ],
+      "expected_answer": "Classic. Try in order: right-click the tray icon and Pause, then Resume sync. Then check Settings > Network — if you're on a corporate network, proxy settings can stall it. Next: Settings > Advanced > Clear local cache, then restart the client. If it's still stuck, grab the logs from the client's logs folder and open a support ticket with them attached. Usually it's the proxy or an antivirus locking files in the sync folder.",
+      "expected_evidence_ids": [
+        "forum:thread-005"
+      ],
+      "conflict_case": null,
+      "id": "q048",
+      "raw_evidence_groups": [
+        [
+          "forum:thread-005"
+        ]
+      ],
+      "final_evidence_groups": [
+        [
+          "forum:thread-005"
+        ]
+      ]
+    },
+    {
+      "category": "direct",
+      "query": "I deleted a folder with client contracts about 45 days ago and just realized I need it back. The recycle bin shows nothing from that week. Is it gone forever?",
+      "expected_sources": [
+        "forum"
+      ],
+      "expected_answer": "Depends on your plan. Free accounts keep deleted items for 30 days; paid accounts for 90 days. If you're on the free plan, 45 days is past the window and it's been purged. If you're on a paid plan, double-check the recycle bin filters — it should still be there unless someone emptied the bin.",
+      "expected_evidence_ids": [
+        "forum:thread-006"
+      ],
+      "conflict_case": null,
+      "id": "q049",
+      "raw_evidence_groups": [
+        [
+          "forum:thread-006"
+        ]
+      ],
+      "final_evidence_groups": [
+        [
+          "forum:thread-006"
+        ]
+      ]
+    },
+    {
+      "category": "direct",
+      "query": "Trying to upload a 2.4 GB video through the web app. It gets to about 2 GB and then dies every single time. Tried Chrome and Firefox. Is this a bug?",
+      "expected_sources": [
+        "forum",
+        "documentation"
+      ],
+      "expected_answer": "Not a bug — browser uploads are capped at 2 GB per file. Install the desktop client instead; it handles files up to 20 GB and resumes interrupted uploads. That's the supported way to move big files.",
+      "expected_evidence_ids": [
+        "forum:thread-007",
+        "docs:file-sharing:uploading-through-the-web-app",
+        "docs:storage-limits:maximum-upload-size"
+      ],
+      "conflict_case": null,
+      "id": "q050",
+      "raw_evidence_groups": [
+        [
+          "forum:thread-007",
+          "docs:file-sharing:uploading-through-the-web-app",
+          "docs:storage-limits:maximum-upload-size"
+        ]
+      ],
+      "final_evidence_groups": [
+        [
+          "forum:thread-007",
+          "docs:file-sharing:uploading-through-the-web-app",
+          "docs:storage-limits:maximum-upload-size"
+        ]
+      ],
+      "alignment_audit": {
+        "original": {
+          "category": "direct",
+          "query": "Trying to upload a 2.4 GB video through the web app. It gets to about 2 GB and then dies every single time. Tried Chrome and Firefox. Is this a bug?",
+          "expected_sources": [
+            "forum"
+          ],
+          "expected_answer": "Not a bug — browser uploads are capped at 2 GB per file. Install the desktop client instead; it handles files up to 20 GB and resumes interrupted uploads. That's the supported way to move big files.",
+          "expected_evidence_ids": [
+            "forum:thread-007"
+          ]
+        },
+        "reason": "The forum answer remains correct; maintained documentation is equivalent evidence.",
+        "changed_category": false,
+        "changed_query": false,
+        "changed_evidence": true
+      }
+    },
+    {
+      "category": "direct",
+      "query": "My account page says I'm using 6 of my 10 GB, but I only have about 4 GB of files. Is version history secretly filling up the rest of my quota?",
+      "expected_sources": [
+        "forum",
+        "documentation"
+      ],
+      "expected_answer": "No — file versions don't count against your quota at all. The gap is more likely shared folders that count toward your quota, or files in the recycle bin (also free, actually). Check Shared with me and team folders.",
+      "expected_evidence_ids": [
+        "forum:thread-008",
+        "docs:storage-limits:version-history-quota-rules"
+      ],
+      "conflict_case": null,
+      "id": "q051",
+      "raw_evidence_groups": [
+        [
+          "forum:thread-008",
+          "docs:storage-limits:version-history-quota-rules"
+        ]
+      ],
+      "final_evidence_groups": [
+        [
+          "forum:thread-008",
+          "docs:storage-limits:version-history-quota-rules"
+        ]
+      ],
+      "alignment_audit": {
+        "original": {
+          "category": "direct",
+          "query": "My account page says I'm using 6 of my 10 GB, but I only have about 4 GB of files. Is version history secretly filling up the rest of my quota?",
+          "expected_sources": [
+            "forum"
+          ],
+          "expected_answer": "No — file versions don't count against your quota at all. The gap is more likely shared folders that count toward your quota, or files in the recycle bin (also free, actually). Check Shared with me and team folders.",
+          "expected_evidence_ids": [
+            "forum:thread-008"
+          ]
+        },
+        "reason": "The dated forum answer and current documentation agree that versions do not consume quota.",
+        "changed_category": false,
+        "changed_query": false,
+        "changed_evidence": true
+      }
+    },
+    {
+      "category": "direct",
+      "query": "CloudBox is using 50 GB on my 256 GB SSD and I can't figure out why. My actual synced files are only 12 GB. Where is the rest going?",
+      "expected_sources": [
+        "forum",
+        "documentation"
+      ],
+      "expected_answer": "It's the local sync cache — CloudBox keeps recently changed blocks around to speed up delta syncs. Go to Settings > Advanced > Clear local cache. It's local-only and doesn't touch your cloud files or quota.",
+      "expected_evidence_ids": [
+        "forum:thread-009",
+        "docs:sync:local-cache-and-disk-usage"
+      ],
+      "conflict_case": null,
+      "id": "q052",
+      "raw_evidence_groups": [
+        [
+          "forum:thread-009",
+          "docs:sync:local-cache-and-disk-usage"
+        ]
+      ],
+      "final_evidence_groups": [
+        [
+          "forum:thread-009",
+          "docs:sync:local-cache-and-disk-usage"
+        ]
+      ],
+      "alignment_audit": {
+        "original": {
+          "category": "direct",
+          "query": "CloudBox is using 50 GB on my 256 GB SSD and I can't figure out why. My actual synced files are only 12 GB. Where is the rest going?",
+          "expected_sources": [
+            "forum"
+          ],
+          "expected_answer": "It's the local sync cache — CloudBox keeps recently changed blocks around to speed up delta syncs. Go to Settings > Advanced > Clear local cache. It's local-only and doesn't touch your cloud files or quota.",
+          "expected_evidence_ids": [
+            "forum:thread-009"
+          ]
+        },
+        "reason": "The local-cache explanation remains valid and has a maintained documentation equivalent.",
+        "changed_category": false,
+        "changed_query": false,
+        "changed_evidence": true
+      }
+    },
+    {
+      "category": "direct",
+      "query": "I uploaded a 3 GB video and the web app refuses to preview it — just shows a download button. Other, smaller videos play fine. Is something wrong with the file?",
+      "expected_sources": [
+        "forum",
+        "documentation",
+        "blog"
+      ],
+      "expected_answer": "Nothing wrong with the file — previews and streaming are capped at 500 MB. Anything bigger shows a download button. Download it or watch it locally via the desktop client.",
+      "expected_evidence_ids": [
+        "forum:thread-010",
+        "docs:file-sharing:preview-and-streaming-limits",
+        "blog:preview-and-streaming-limits:current-preview-limits"
+      ],
+      "conflict_case": null,
+      "id": "q053",
+      "raw_evidence_groups": [
+        [
+          "forum:thread-010",
+          "docs:file-sharing:preview-and-streaming-limits",
+          "blog:preview-and-streaming-limits:current-preview-limits"
+        ]
+      ],
+      "final_evidence_groups": [
+        [
+          "forum:thread-010",
+          "docs:file-sharing:preview-and-streaming-limits",
+          "blog:preview-and-streaming-limits:current-preview-limits"
+        ]
+      ],
+      "alignment_audit": {
+        "original": {
+          "category": "direct",
+          "query": "I uploaded a 3 GB video and the web app refuses to preview it — just shows a download button. Other, smaller videos play fine. Is something wrong with the file?",
+          "expected_sources": [
+            "forum"
+          ],
+          "expected_answer": "Nothing wrong with the file — previews and streaming are capped at 500 MB. Anything bigger shows a download button. Download it or watch it locally via the desktop client.",
+          "expected_evidence_ids": [
+            "forum:thread-010"
+          ]
+        },
+        "reason": "All listed sources support the same 500 MB preview limit.",
+        "changed_category": false,
+        "changed_query": false,
+        "changed_evidence": true
+      }
+    },
+    {
+      "category": "direct",
+      "query": "Building a nightly backup script that pushes files through the API. What are the upload size and rate limits? I don't want to hit a wall at 2 AM.",
+      "expected_sources": [
+        "forum",
+        "documentation"
+      ],
+      "expected_answer": "API uploads go up to 20 GB per file with resumable chunked uploads — the 2 GB cap is web-app only. Rate limit is 1000 requests per hour per token, and on 429 you should back off exponentially.",
+      "expected_evidence_ids": [
+        "forum:thread-011",
+        "docs:api:uploading-files-via-the-api",
+        "docs:storage-limits:maximum-upload-size",
+        "docs:api:rate-limits"
+      ],
+      "conflict_case": null,
+      "id": "q054",
+      "raw_evidence_groups": [
+        [
+          "forum:thread-011",
+          "docs:api:uploading-files-via-the-api",
+          "docs:storage-limits:maximum-upload-size"
+        ],
+        [
+          "forum:thread-011",
+          "docs:api:rate-limits"
+        ]
+      ],
+      "final_evidence_groups": [
+        [
+          "forum:thread-011",
+          "docs:api:uploading-files-via-the-api",
+          "docs:storage-limits:maximum-upload-size"
+        ],
+        [
+          "forum:thread-011",
+          "docs:api:rate-limits"
+        ]
+      ],
+      "alignment_audit": {
+        "original": {
+          "category": "direct",
+          "query": "Building a nightly backup script that pushes files through the API. What are the upload size and rate limits? I don't want to hit a wall at 2 AM.",
+          "expected_sources": [
+            "forum"
+          ],
+          "expected_answer": "API uploads go up to 20 GB per file with resumable chunked uploads — the 2 GB cap is web-app only. Rate limit is 1000 requests per hour per token, and on 429 you should back off exponentially.",
+          "expected_evidence_ids": [
+            "forum:thread-011"
+          ]
+        },
+        "reason": "The question requires both upload-size and rate-limit evidence; the forum or maintained API pages support them.",
+        "changed_category": false,
+        "changed_query": false,
+        "changed_evidence": true
+      }
+    },
+    {
+      "category": "direct",
+      "query": "My phone died (water damage) and my authenticator app went with it. I have 2FA enabled on my personal account. Am I locked out forever?",
+      "expected_sources": [
+        "forum"
+      ],
+      "expected_answer": "This is what recovery codes are for — the 10 codes you got when you enrolled. Use one to sign in, then set up a new authenticator. If you lost the codes too, support can verify your identity; it takes up to 48 hours. Store the codes somewhere safe this time.",
+      "expected_evidence_ids": [
+        "forum:thread-012"
+      ],
+      "conflict_case": null,
+      "id": "q055",
+      "raw_evidence_groups": [
+        [
+          "forum:thread-012"
+        ]
+      ],
+      "final_evidence_groups": [
+        [
+          "forum:thread-012"
+        ]
+      ]
+    },
+    {
+      "category": "direct",
+      "query": "I use a 20-character password from my manager and never reuse it. Do I really need to bother with 2FA on top of that?",
+      "expected_sources": [
+        "forum"
+      ],
+      "expected_answer": "For a personal account it's optional, but a password alone won't save you from phishing or session hijacking. Enable 2FA anyway — it takes five minutes.",
+      "expected_evidence_ids": [
+        "forum:thread-013"
+      ],
+      "conflict_case": null,
+      "id": "q056",
+      "raw_evidence_groups": [
+        [
+          "forum:thread-013"
+        ]
+      ],
+      "final_evidence_groups": [
+        [
+          "forum:thread-013"
+        ]
+      ]
+    },
+    {
+      "category": "direct",
+      "query": "Does current CloudBox provide a native Linux desktop client, distinct from its Chromebook web or Android access?",
+      "expected_sources": [
+        "documentation"
+      ],
+      "expected_answer": "Yes. CloudBox provides a native Linux desktop client; Chromebook web or Android access is a separate client path.",
+      "expected_evidence_ids": [
+        "docs:sync:linux-desktop-client"
+      ],
+      "conflict_case": null,
+      "id": "q057",
+      "raw_evidence_groups": [
+        [
+          "docs:sync:linux-desktop-client"
+        ]
+      ],
+      "final_evidence_groups": [
+        [
+          "docs:sync:linux-desktop-client"
+        ]
+      ],
+      "alignment_audit": {
+        "original": {
+          "category": "direct",
+          "query": "CloudBox runs on my Chromebook — doesn't that mean Linux is supported? I keep reading forum posts saying there's no Linux client.",
+          "expected_sources": [
+            "forum"
+          ],
+          "expected_answer": "No — what you're using is the web app or the Android app, both of which run on ChromeOS. There's no native Linux desktop client right now, and the Linux container on Chromebooks isn't supported either. Different thing.",
+          "expected_evidence_ids": [
+            "forum:thread-014"
+          ]
+        },
+        "reason": "The original forum conclusion that no native Linux client exists is obsolete.",
+        "changed_category": false,
+        "changed_query": true,
+        "changed_evidence": true
+      }
+    },
+    {
+      "category": "direct",
+      "query": "I have a Synology NAS running Linux. Is there any way to sync my CloudBox files directly to the NAS so I don't need a PC in the middle?",
+      "expected_sources": [
+        "forum",
+        "blog"
+      ],
+      "expected_answer": "No official NAS app. The closest option is the CloudBox CLI, which runs on Linux servers — it does manual upload/download up to 20 GB but no background sync. If you want automated sync, you'd script the CLI yourself.",
+      "expected_evidence_ids": [
+        "forum:thread-015",
+        "blog:linux-client-arrives:what-about-headless-servers"
+      ],
+      "conflict_case": null,
+      "id": "q058",
+      "raw_evidence_groups": [
+        [
+          "forum:thread-015",
+          "blog:linux-client-arrives:what-about-headless-servers"
+        ]
+      ],
+      "final_evidence_groups": [
+        [
+          "forum:thread-015",
+          "blog:linux-client-arrives:what-about-headless-servers"
+        ]
+      ],
+      "alignment_audit": {
+        "original": {
+          "category": "direct",
+          "query": "I have a Synology NAS running Linux. Is there any way to sync my CloudBox files directly to the NAS so I don't need a PC in the middle?",
+          "expected_sources": [
+            "forum"
+          ],
+          "expected_answer": "No official NAS app. The closest option is the CloudBox CLI, which runs on Linux servers — it does manual upload/download up to 20 GB but no background sync. If you want automated sync, you'd script the CLI yourself.",
+          "expected_evidence_ids": [
+            "forum:thread-015"
+          ]
+        },
+        "reason": "No newer source contradicts the NAS/CLI guidance; age alone does not invalidate it.",
+        "changed_category": false,
+        "changed_query": false,
+        "changed_evidence": true
+      }
+    },
+    {
+      "category": "direct",
+      "query": "I downgraded from Plus to Free last week because money's tight. Now my clients are saying the folders I shared with them won't accept uploads anymore. Did downgrading kill my links?",
+      "expected_sources": [
+        "forum"
+      ],
+      "expected_answer": "Partly. When you downgrade, content above your new quota becomes read-only for 90 days: people can still view and download through your links, but uploads are blocked. After 90 days the over-quota files move to the recycle bin and the links expire. Nothing is deleted instantly — you have the full 90 days to upgrade again or free up space.",
+      "expected_evidence_ids": [
+        "forum:thread-016"
+      ],
+      "conflict_case": null,
+      "id": "q059",
+      "raw_evidence_groups": [
+        [
+          "forum:thread-016"
+        ]
+      ],
+      "final_evidence_groups": [
+        [
+          "forum:thread-016"
+        ]
+      ]
+    },
+    {
+      "category": "direct",
+      "query": "I share folders with freelance clients who don't have CloudBox accounts. What exactly can they do with the link — just view, or also edit?",
+      "expected_sources": [
+        "forum",
+        "documentation"
+      ],
+      "expected_answer": "There are three levels: View (read/download only), Edit (add and modify files), and Comment (read + comments). External people don't need an account to view or download; to edit or comment they enter a name or optionally sign in. You pick the level per link when you create it.",
+      "expected_evidence_ids": [
+        "forum:thread-017",
+        "docs:file-sharing:sharing-files-and-folders",
+        "docs:file-sharing:external-users"
+      ],
+      "conflict_case": null,
+      "id": "q060",
+      "raw_evidence_groups": [
+        [
+          "forum:thread-017",
+          "docs:file-sharing:sharing-files-and-folders"
+        ],
+        [
+          "forum:thread-017",
+          "docs:file-sharing:external-users"
+        ]
+      ],
+      "final_evidence_groups": [
+        [
+          "forum:thread-017",
+          "docs:file-sharing:sharing-files-and-folders"
+        ],
+        [
+          "forum:thread-017",
+          "docs:file-sharing:external-users"
+        ]
+      ],
+      "alignment_audit": {
+        "original": {
+          "category": "direct",
+          "query": "I share folders with freelance clients who don't have CloudBox accounts. What exactly can they do with the link — just view, or also edit?",
+          "expected_sources": [
+            "forum"
+          ],
+          "expected_answer": "There are three levels: View (read/download only), Edit (add and modify files), and Comment (read + comments). External people don't need an account to view or download; to edit or comment they enter a name or optionally sign in. You pick the level per link when you create it.",
+          "expected_evidence_ids": [
+            "forum:thread-017"
+          ]
+        },
+        "reason": "Permission levels and external-account behavior are two required facts with equivalent forum/doc evidence.",
+        "changed_category": false,
+        "changed_query": false,
+        "changed_evidence": true
+      }
+    },
+    {
+      "category": "direct",
+      "query": "CloudBox's marketing says 'encrypted'. What does that actually mean for files sitting on their servers? Is it zero-knowledge or can CloudBox read my stuff?",
+      "expected_sources": [
+        "forum",
+        "documentation",
+        "blog"
+      ],
+      "expected_answer": "Files are encrypted at rest with AES-256 and in transit with TLS 1.3. But it's NOT zero-knowledge — CloudBox holds the keys, which is why server-side previews and virus scans work. For truly private stuff, encrypt it yourself before uploading.",
+      "expected_evidence_ids": [
+        "forum:thread-018",
+        "docs:security:encryption-at-rest-and-in-transit",
+        "blog:encryption-deep-dive:aes-256-at-rest",
+        "blog:encryption-deep-dive:key-management"
+      ],
+      "conflict_case": null,
+      "id": "q061",
+      "raw_evidence_groups": [
+        [
+          "forum:thread-018",
+          "docs:security:encryption-at-rest-and-in-transit",
+          "blog:encryption-deep-dive:aes-256-at-rest"
+        ],
+        [
+          "forum:thread-018",
+          "docs:security:encryption-at-rest-and-in-transit",
+          "blog:encryption-deep-dive:key-management"
+        ]
+      ],
+      "final_evidence_groups": [
+        [
+          "forum:thread-018",
+          "docs:security:encryption-at-rest-and-in-transit",
+          "blog:encryption-deep-dive:aes-256-at-rest"
+        ],
+        [
+          "forum:thread-018",
+          "docs:security:encryption-at-rest-and-in-transit",
+          "blog:encryption-deep-dive:key-management"
+        ]
+      ],
+      "alignment_audit": {
+        "original": {
+          "category": "direct",
+          "query": "CloudBox's marketing says 'encrypted'. What does that actually mean for files sitting on their servers? Is it zero-knowledge or can CloudBox read my stuff?",
+          "expected_sources": [
+            "forum"
+          ],
+          "expected_answer": "Files are encrypted at rest with AES-256 and in transit with TLS 1.3. But it's NOT zero-knowledge — CloudBox holds the keys, which is why server-side previews and virus scans work. For truly private stuff, encrypt it yourself before uploading.",
+          "expected_evidence_ids": [
+            "forum:thread-018"
+          ]
+        },
+        "reason": "Encryption and non-zero-knowledge claims remain valid across equivalent sources.",
+        "changed_category": false,
+        "changed_query": false,
+        "changed_evidence": true
+      }
+    },
+    {
+      "category": "direct",
+      "query": "Was cleaning up and hit 'Empty recycle bin' without looking. There was a whole client project in there. Please tell me support can dig it out of backups.",
+      "expected_sources": [
+        "forum"
+      ],
+      "expected_answer": "Sorry — emptying the bin is permanent by design. There's no backup that support can restore from, and no way to recover emptied items. The retention windows (30 days free / 90 paid) are the only safety net, and emptying skips them.",
+      "expected_evidence_ids": [
+        "forum:thread-019"
+      ],
+      "conflict_case": null,
+      "id": "q062",
+      "raw_evidence_groups": [
+        [
+          "forum:thread-019"
+        ]
+      ],
+      "final_evidence_groups": [
+        [
+          "forum:thread-019"
+        ]
+      ]
+    },
+    {
+      "category": "direct",
+      "query": "I share big files with my gaming group every week and I'm on the free plan. Is there a daily download/upload cap I should know about before I host the next drop?",
+      "expected_sources": [
+        "forum"
+      ],
+      "expected_answer": "Yes — the free plan allows 200 GB per day of combined upload and download traffic, and anonymous downloads of your share links count against your limit. Paid plans have no daily cap. For a big gaming drop, either spread it across days or grab a paid month.",
+      "expected_evidence_ids": [
+        "forum:thread-020"
+      ],
+      "conflict_case": null,
+      "id": "q063",
+      "raw_evidence_groups": [
+        [
+          "forum:thread-020"
+        ]
+      ],
+      "final_evidence_groups": [
+        [
+          "forum:thread-020"
+        ]
+      ]
+    },
+    {
+      "category": "direct",
+      "query": "According to the CloudBox blog, what should a user know about AES-256 at Rest?",
+      "expected_sources": [
+        "blog"
+      ],
+      "expected_answer": "Every file you store is encrypted at rest with AES-256 in Galois/Counter Mode.",
+      "expected_evidence_ids": [
+        "blog:encryption-deep-dive:aes-256-at-rest"
+      ],
+      "conflict_case": null,
+      "id": "q064",
+      "raw_evidence_groups": [
+        [
+          "blog:encryption-deep-dive:aes-256-at-rest"
+        ]
+      ],
+      "final_evidence_groups": [
+        [
+          "blog:encryption-deep-dive:aes-256-at-rest"
+        ]
+      ]
+    },
+    {
+      "category": "direct",
+      "query": "According to the CloudBox blog, what should a user know about TLS 1.3 Everywhere?",
+      "expected_sources": [
+        "blog"
+      ],
+      "expected_answer": "Traffic between your clients and CloudBox runs over TLS 1.3 exclusively; older protocol versions were disabled in 2023.",
+      "expected_evidence_ids": [
+        "blog:encryption-deep-dive:tls-1-3-everywhere"
+      ],
+      "conflict_case": null,
+      "id": "q065",
+      "raw_evidence_groups": [
+        [
+          "blog:encryption-deep-dive:tls-1-3-everywhere"
+        ]
+      ],
+      "final_evidence_groups": [
+        [
+          "blog:encryption-deep-dive:tls-1-3-everywhere"
+        ]
+      ]
+    },
+    {
+      "category": "direct",
+      "query": "According to the CloudBox blog, what should a user know about Key Management?",
+      "expected_sources": [
+        "blog"
+      ],
+      "expected_answer": "Encryption keys live in CloudBox's key management service, are rotated automatically, and are never written to logs or backups.",
+      "expected_evidence_ids": [
+        "blog:encryption-deep-dive:key-management"
+      ],
+      "conflict_case": null,
+      "id": "q066",
+      "raw_evidence_groups": [
+        [
+          "blog:encryption-deep-dive:key-management"
+        ]
+      ],
+      "final_evidence_groups": [
+        [
+          "blog:encryption-deep-dive:key-management"
+        ]
+      ]
+    },
+    {
+      "category": "direct",
+      "query": "According to the CloudBox blog, what should a user know about What Encryption Does Not Protect?",
+      "expected_sources": [
+        "blog"
+      ],
+      "expected_answer": "Encryption protects data in CloudBox's custody.",
+      "expected_evidence_ids": [
+        "blog:encryption-deep-dive:what-encryption-does-not-protect"
+      ],
+      "conflict_case": null,
+      "id": "q067",
+      "raw_evidence_groups": [
+        [
+          "blog:encryption-deep-dive:what-encryption-does-not-protect"
+        ]
+      ],
+      "final_evidence_groups": [
+        [
+          "blog:encryption-deep-dive:what-encryption-does-not-protect"
+        ]
+      ]
+    },
+    {
+      "category": "direct",
+      "query": "According to the historical CloudBox 1.0 blog, what should a user know about What the Free Plan Includes?",
+      "expected_sources": [
+        "blog"
+      ],
+      "expected_answer": "The CloudBox free plan includes 5 GB of storage — enough for documents and photos, but it disappears fast once videos and archives enter the picture.",
+      "expected_evidence_ids": [
+        "blog:free-storage-explained:what-the-free-plan-includes"
+      ],
+      "conflict_case": null,
+      "id": "q068",
+      "raw_evidence_groups": [
+        [
+          "blog:free-storage-explained:what-the-free-plan-includes"
+        ]
+      ],
+      "final_evidence_groups": [
+        [
+          "blog:free-storage-explained:what-the-free-plan-includes"
+        ]
+      ],
+      "alignment_audit": {
+        "original": {
+          "category": "direct",
+          "query": "According to the CloudBox blog, what should a user know about What the Free Plan Includes?",
+          "expected_sources": [
+            "blog"
+          ],
+          "expected_answer": "The CloudBox free plan includes 5 GB of storage — enough for documents and photos, but it disappears fast once videos and archives enter the picture.",
+          "expected_evidence_ids": [
+            "blog:free-storage-explained:what-the-free-plan-includes"
+          ]
+        },
+        "reason": "The question explicitly requests a historical version; that version's source is valid historical evidence.",
+        "changed_category": false,
+        "changed_query": true,
+        "changed_evidence": false
+      }
+    },
+    {
+      "category": "direct",
+      "query": "According to the historical CloudBox 1.0 blog, what should a user know about Watching Your Quota?",
+      "expected_sources": [
+        "blog"
+      ],
+      "expected_answer": "The account page shows a quota bar with a breakdown of what's using space.",
+      "expected_evidence_ids": [
+        "blog:free-storage-explained:watching-your-quota"
+      ],
+      "conflict_case": null,
+      "id": "q069",
+      "raw_evidence_groups": [
+        [
+          "blog:free-storage-explained:watching-your-quota"
+        ]
+      ],
+      "final_evidence_groups": [
+        [
+          "blog:free-storage-explained:watching-your-quota"
+        ]
+      ],
+      "alignment_audit": {
+        "original": {
+          "category": "direct",
+          "query": "According to the CloudBox blog, what should a user know about Watching Your Quota?",
+          "expected_sources": [
+            "blog"
+          ],
+          "expected_answer": "The account page shows a quota bar with a breakdown of what's using space.",
+          "expected_evidence_ids": [
+            "blog:free-storage-explained:watching-your-quota"
+          ]
+        },
+        "reason": "The question explicitly requests a historical version; that version's source is valid historical evidence.",
+        "changed_category": false,
+        "changed_query": true,
+        "changed_evidence": false
+      }
+    },
+    {
+      "category": "direct",
+      "query": "According to the historical CloudBox 1.0 blog, what should a user know about When to Upgrade?",
+      "expected_sources": [
+        "blog"
+      ],
+      "expected_answer": "If you're bumping against 5 GB every month, upgrading to a paid plan adds terabytes of storage and longer version history.",
+      "expected_evidence_ids": [
+        "blog:free-storage-explained:when-to-upgrade"
+      ],
+      "conflict_case": null,
+      "id": "q070",
+      "raw_evidence_groups": [
+        [
+          "blog:free-storage-explained:when-to-upgrade"
+        ]
+      ],
+      "final_evidence_groups": [
+        [
+          "blog:free-storage-explained:when-to-upgrade"
+        ]
+      ],
+      "alignment_audit": {
+        "original": {
+          "category": "direct",
+          "query": "According to the CloudBox blog, what should a user know about When to Upgrade?",
+          "expected_sources": [
+            "blog"
+          ],
+          "expected_answer": "If you're bumping against 5 GB every month, upgrading to a paid plan adds terabytes of storage and longer version history.",
+          "expected_evidence_ids": [
+            "blog:free-storage-explained:when-to-upgrade"
+          ]
+        },
+        "reason": "The question explicitly requests a historical version; that version's source is valid historical evidence.",
+        "changed_category": false,
+        "changed_query": true,
+        "changed_evidence": false
+      }
+    },
+    {
+      "category": "direct",
+      "query": "According to the historical CloudBox 2.0 blog, what should a user know about The Long Wait Is Over?",
+      "expected_sources": [
+        "blog"
+      ],
+      "expected_answer": "After two years of feature-request votes, CloudBox 2.0 ships with an official Linux desktop client.",
+      "expected_evidence_ids": [
+        "blog:linux-client-arrives:the-long-wait-is-over"
+      ],
+      "conflict_case": null,
+      "id": "q071",
+      "raw_evidence_groups": [
+        [
+          "blog:linux-client-arrives:the-long-wait-is-over"
+        ]
+      ],
+      "final_evidence_groups": [
+        [
+          "blog:linux-client-arrives:the-long-wait-is-over"
+        ]
+      ],
+      "alignment_audit": {
+        "original": {
+          "category": "direct",
+          "query": "According to the CloudBox blog, what should a user know about The Long Wait Is Over?",
+          "expected_sources": [
+            "blog"
+          ],
+          "expected_answer": "After two years of feature-request votes, CloudBox 2.0 ships with an official Linux desktop client.",
+          "expected_evidence_ids": [
+            "blog:linux-client-arrives:the-long-wait-is-over"
+          ]
+        },
+        "reason": "The question explicitly requests a historical version; that version's source is valid historical evidence.",
+        "changed_category": false,
+        "changed_query": true,
+        "changed_evidence": false
+      }
+    },
+    {
+      "category": "direct",
+      "query": "According to the historical CloudBox 2.0 blog, what should a user know about Supported Distributions?",
+      "expected_sources": [
+        "blog"
+      ],
+      "expected_answer": "The client officially supports Ubuntu 20.04 LTS and newer, and Fedora 36 and newer.",
+      "expected_evidence_ids": [
+        "blog:linux-client-arrives:supported-distributions"
+      ],
+      "conflict_case": null,
+      "id": "q072",
+      "raw_evidence_groups": [
+        [
+          "blog:linux-client-arrives:supported-distributions"
+        ]
+      ],
+      "final_evidence_groups": [
+        [
+          "blog:linux-client-arrives:supported-distributions"
+        ]
+      ],
+      "alignment_audit": {
+        "original": {
+          "category": "direct",
+          "query": "According to the CloudBox blog, what should a user know about Supported Distributions?",
+          "expected_sources": [
+            "blog"
+          ],
+          "expected_answer": "The client officially supports Ubuntu 20.04 LTS and newer, and Fedora 36 and newer.",
+          "expected_evidence_ids": [
+            "blog:linux-client-arrives:supported-distributions"
+          ]
+        },
+        "reason": "The question explicitly requests a historical version; that version's source is valid historical evidence.",
+        "changed_category": false,
+        "changed_query": true,
+        "changed_evidence": false
+      }
+    },
+    {
+      "category": "direct",
+      "query": "According to the historical CloudBox 2.0 blog, what should a user know about What About Headless Servers??",
+      "expected_sources": [
+        "blog"
+      ],
+      "expected_answer": "A full desktop client needs a desktop, so for servers we're shipping the CloudBox CLI: a small command-line tool that handles uploads and downloads (up to the standard 20 GB file limit) with resumable transfers.",
+      "expected_evidence_ids": [
+        "blog:linux-client-arrives:what-about-headless-servers"
+      ],
+      "conflict_case": null,
+      "id": "q073",
+      "raw_evidence_groups": [
+        [
+          "blog:linux-client-arrives:what-about-headless-servers"
+        ]
+      ],
+      "final_evidence_groups": [
+        [
+          "blog:linux-client-arrives:what-about-headless-servers"
+        ]
+      ],
+      "alignment_audit": {
+        "original": {
+          "category": "direct",
+          "query": "According to the CloudBox blog, what should a user know about What About Headless Servers??",
+          "expected_sources": [
+            "blog"
+          ],
+          "expected_answer": "A full desktop client needs a desktop, so for servers we're shipping the CloudBox CLI: a small command-line tool that handles uploads and downloads (up to the standard 20 GB file limit) with resumable transfers.",
+          "expected_evidence_ids": [
+            "blog:linux-client-arrives:what-about-headless-servers"
+          ]
+        },
+        "reason": "The question explicitly requests a historical version; that version's source is valid historical evidence.",
+        "changed_category": false,
+        "changed_query": true,
+        "changed_evidence": false
+      }
+    },
+    {
+      "category": "direct",
+      "query": "According to the historical CloudBox 2.0 blog, what should a user know about Why Previews Are Capped?",
+      "expected_sources": [
+        "blog"
+      ],
+      "expected_answer": "When you preview a video in the browser, CloudBox transcodes it on the fly.",
+      "expected_evidence_ids": [
+        "blog:preview-and-streaming-limits:why-previews-are-capped"
+      ],
+      "conflict_case": null,
+      "id": "q074",
+      "raw_evidence_groups": [
+        [
+          "blog:preview-and-streaming-limits:why-previews-are-capped"
+        ]
+      ],
+      "final_evidence_groups": [
+        [
+          "blog:preview-and-streaming-limits:why-previews-are-capped"
+        ]
+      ],
+      "alignment_audit": {
+        "original": {
+          "category": "direct",
+          "query": "According to the CloudBox blog, what should a user know about Why Previews Are Capped?",
+          "expected_sources": [
+            "blog"
+          ],
+          "expected_answer": "When you preview a video in the browser, CloudBox transcodes it on the fly.",
+          "expected_evidence_ids": [
+            "blog:preview-and-streaming-limits:why-previews-are-capped"
+          ]
+        },
+        "reason": "The question explicitly requests a historical version; that version's source is valid historical evidence.",
+        "changed_category": false,
+        "changed_query": true,
+        "changed_evidence": false
+      }
+    },
+    {
+      "category": "direct",
+      "query": "According to the historical CloudBox 2.0 blog, what should a user know about Current Preview Limits?",
+      "expected_sources": [
+        "blog"
+      ],
+      "expected_answer": "In CloudBox 2.0, files up to 500 MB can be previewed or streamed in the browser: documents, PDFs, images, and video/audio.",
+      "expected_evidence_ids": [
+        "blog:preview-and-streaming-limits:current-preview-limits"
+      ],
+      "conflict_case": null,
+      "id": "q075",
+      "raw_evidence_groups": [
+        [
+          "blog:preview-and-streaming-limits:current-preview-limits"
+        ]
+      ],
+      "final_evidence_groups": [
+        [
+          "blog:preview-and-streaming-limits:current-preview-limits"
+        ]
+      ],
+      "alignment_audit": {
+        "original": {
+          "category": "direct",
+          "query": "According to the CloudBox blog, what should a user know about Current Preview Limits?",
+          "expected_sources": [
+            "blog"
+          ],
+          "expected_answer": "In CloudBox 2.0, files up to 500 MB can be previewed or streamed in the browser: documents, PDFs, images, and video/audio.",
+          "expected_evidence_ids": [
+            "blog:preview-and-streaming-limits:current-preview-limits"
+          ]
+        },
+        "reason": "The question explicitly requests a historical version; that version's source is valid historical evidence.",
+        "changed_category": false,
+        "changed_query": true,
+        "changed_evidence": false
+      }
+    },
+    {
+      "category": "direct",
+      "query": "According to the historical CloudBox 2.0 blog, what should a user know about Streaming vs Downloading?",
+      "expected_sources": [
+        "blog"
+      ],
+      "expected_answer": "If you need to watch a 3 GB video, download it.",
+      "expected_evidence_ids": [
+        "blog:preview-and-streaming-limits:streaming-vs-downloading"
+      ],
+      "conflict_case": null,
+      "id": "q076",
+      "raw_evidence_groups": [
+        [
+          "blog:preview-and-streaming-limits:streaming-vs-downloading"
+        ]
+      ],
+      "final_evidence_groups": [
+        [
+          "blog:preview-and-streaming-limits:streaming-vs-downloading"
+        ]
+      ],
+      "alignment_audit": {
+        "original": {
+          "category": "direct",
+          "query": "According to the CloudBox blog, what should a user know about Streaming vs Downloading?",
+          "expected_sources": [
+            "blog"
+          ],
+          "expected_answer": "If you need to watch a 3 GB video, download it.",
+          "expected_evidence_ids": [
+            "blog:preview-and-streaming-limits:streaming-vs-downloading"
+          ]
+        },
+        "reason": "The question explicitly requests a historical version; that version's source is valid historical evidence.",
+        "changed_category": false,
+        "changed_query": true,
+        "changed_evidence": false
+      }
+    },
+    {
+      "category": "direct",
+      "query": "According to the CloudBox blog, what should a user know about Why Selective Sync Matters?",
+      "expected_sources": [
+        "blog"
+      ],
+      "expected_answer": "If your team laptop has a 256 GB SSD, syncing the entire company CloudBox is simply not an option.",
+      "expected_evidence_ids": [
+        "blog:selective-sync-tutorial:why-selective-sync-matters"
+      ],
+      "conflict_case": null,
+      "id": "q077",
+      "raw_evidence_groups": [
+        [
+          "blog:selective-sync-tutorial:why-selective-sync-matters"
+        ]
+      ],
+      "final_evidence_groups": [
+        [
+          "blog:selective-sync-tutorial:why-selective-sync-matters"
+        ]
+      ]
+    },
+    {
+      "category": "direct",
+      "query": "According to the CloudBox blog, what should a user know about Step-by-Step Setup?",
+      "expected_sources": [
+        "blog"
+      ],
+      "expected_answer": "Open the desktop client's Preferences, go to the Sync tab, and pick Selective Sync.",
+      "expected_evidence_ids": [
+        "blog:selective-sync-tutorial:step-by-step-setup"
+      ],
+      "conflict_case": null,
+      "id": "q078",
+      "raw_evidence_groups": [
+        [
+          "blog:selective-sync-tutorial:step-by-step-setup"
+        ]
+      ],
+      "final_evidence_groups": [
+        [
+          "blog:selective-sync-tutorial:step-by-step-setup"
+        ]
+      ]
+    },
+    {
+      "category": "direct",
+      "query": "According to the CloudBox blog, what should a user know about Tips for Small SSDs?",
+      "expected_sources": [
+        "blog"
+      ],
+      "expected_answer": "Start with the obvious space hogs: raw video, old project archives, and anything you only open once a quarter.",
+      "expected_evidence_ids": [
+        "blog:selective-sync-tutorial:tips-for-small-ssds"
+      ],
+      "conflict_case": null,
+      "id": "q079",
+      "raw_evidence_groups": [
+        [
+          "blog:selective-sync-tutorial:tips-for-small-ssds"
+        ]
+      ],
+      "final_evidence_groups": [
+        [
+          "blog:selective-sync-tutorial:tips-for-small-ssds"
+        ]
+      ]
+    },
+    {
+      "category": "direct",
+      "query": "According to the CloudBox blog, what should a user know about The Case Against One Giant Folder?",
+      "expected_sources": [
+        "blog"
+      ],
+      "expected_answer": "Every growing company starts with a single shared folder named something like \"Company Files\".",
+      "expected_evidence_ids": [
+        "blog:team-folder-structure:the-case-against-one-giant-folder"
+      ],
+      "conflict_case": null,
+      "id": "q080",
+      "raw_evidence_groups": [
+        [
+          "blog:team-folder-structure:the-case-against-one-giant-folder"
+        ]
+      ],
+      "final_evidence_groups": [
+        [
+          "blog:team-folder-structure:the-case-against-one-giant-folder"
+        ]
+      ]
+    },
+    {
+      "category": "direct",
+      "query": "According to the CloudBox blog, what should a user know about A Structure That Scales?",
+      "expected_sources": [
+        "blog"
+      ],
+      "expected_answer": "Use CloudBox team folders as your top level, one per department — Sales, Engineering, Design, Operations.",
+      "expected_evidence_ids": [
+        "blog:team-folder-structure:a-structure-that-scales"
+      ],
+      "conflict_case": null,
+      "id": "q081",
+      "raw_evidence_groups": [
+        [
+          "blog:team-folder-structure:a-structure-that-scales"
+        ]
+      ],
+      "final_evidence_groups": [
+        [
+          "blog:team-folder-structure:a-structure-that-scales"
+        ]
+      ]
+    },
+    {
+      "category": "direct",
+      "query": "According to the CloudBox blog, what should a user know about Naming Conventions?",
+      "expected_sources": [
+        "blog"
+      ],
+      "expected_answer": "Names sort lexicographically, so let the sort do the work.",
+      "expected_evidence_ids": [
+        "blog:team-folder-structure:naming-conventions"
+      ],
+      "conflict_case": null,
+      "id": "q082",
+      "raw_evidence_groups": [
+        [
+          "blog:team-folder-structure:naming-conventions"
+        ]
+      ],
+      "final_evidence_groups": [
+        [
+          "blog:team-folder-structure:naming-conventions"
+        ]
+      ]
+    },
+    {
+      "category": "direct",
+      "query": "According to the CloudBox blog, what should a user know about When to Reorganize?",
+      "expected_sources": [
+        "blog"
+      ],
+      "expected_answer": "Signs it's time: people ask \"where do we keep X?\" weekly, links to files break because someone moved a parent folder, or the top folder has more than thirty direct children.",
+      "expected_evidence_ids": [
+        "blog:team-folder-structure:when-to-reorganize"
+      ],
+      "conflict_case": null,
+      "id": "q083",
+      "raw_evidence_groups": [
+        [
+          "blog:team-folder-structure:when-to-reorganize"
+        ]
+      ],
+      "final_evidence_groups": [
+        [
+          "blog:team-folder-structure:when-to-reorganize"
+        ]
+      ]
+    },
+    {
+      "category": "direct",
+      "query": "According to the historical CloudBox 1.x blog, what should a user know about The 5 GB Ceiling?",
+      "expected_sources": [
+        "blog"
+      ],
+      "expected_answer": "If you've tried to move a large video project into CloudBox, you've met the current single-file upload ceiling: 5 GB.",
+      "expected_evidence_ids": [
+        "blog:upload-limits-explained:the-5-gb-ceiling"
+      ],
+      "conflict_case": null,
+      "id": "q084",
+      "raw_evidence_groups": [
+        [
+          "blog:upload-limits-explained:the-5-gb-ceiling"
+        ]
+      ],
+      "final_evidence_groups": [
+        [
+          "blog:upload-limits-explained:the-5-gb-ceiling"
+        ]
+      ],
+      "alignment_audit": {
+        "original": {
+          "category": "direct",
+          "query": "According to the CloudBox blog, what should a user know about The 5 GB Ceiling?",
+          "expected_sources": [
+            "blog"
+          ],
+          "expected_answer": "If you've tried to move a large video project into CloudBox, you've met the current single-file upload ceiling: 5 GB.",
+          "expected_evidence_ids": [
+            "blog:upload-limits-explained:the-5-gb-ceiling"
+          ]
+        },
+        "reason": "The question explicitly requests a historical version; that version's source is valid historical evidence.",
+        "changed_category": false,
+        "changed_query": true,
+        "changed_evidence": false
+      }
+    },
+    {
+      "category": "direct",
+      "query": "According to the historical CloudBox 1.x blog, what should a user know about Workarounds for Big Files?",
+      "expected_sources": [
+        "blog"
+      ],
+      "expected_answer": "Until the limit moves, the practical options are: split large files into multi-part archives (under 5 GB each, obviously), keep raw footage on external drives and sync only deliverables, or use a different transfer method for the one-time big moves.",
+      "expected_evidence_ids": [
+        "blog:upload-limits-explained:workarounds-for-big-files"
+      ],
+      "conflict_case": null,
+      "id": "q085",
+      "raw_evidence_groups": [
+        [
+          "blog:upload-limits-explained:workarounds-for-big-files"
+        ]
+      ],
+      "final_evidence_groups": [
+        [
+          "blog:upload-limits-explained:workarounds-for-big-files"
+        ]
+      ],
+      "alignment_audit": {
+        "original": {
+          "category": "direct",
+          "query": "According to the CloudBox blog, what should a user know about Workarounds for Big Files?",
+          "expected_sources": [
+            "blog"
+          ],
+          "expected_answer": "Until the limit moves, the practical options are: split large files into multi-part archives (under 5 GB each, obviously), keep raw footage on external drives and sync only deliverables, or use a different transfer method for the one-time big moves.",
+          "expected_evidence_ids": [
+            "blog:upload-limits-explained:workarounds-for-big-files"
+          ]
+        },
+        "reason": "The question explicitly requests a historical version; that version's source is valid historical evidence.",
+        "changed_category": false,
+        "changed_query": true,
+        "changed_evidence": false
+      }
+    },
+    {
+      "category": "direct",
+      "query": "According to the historical CloudBox 1.x blog, what should a user know about Looking Ahead?",
+      "expected_sources": [
+        "blog"
+      ],
+      "expected_answer": "The good news: this is the most-requested change on the feature tracker, and we've heard loud and clear that video people need bigger single-file uploads.",
+      "expected_evidence_ids": [
+        "blog:upload-limits-explained:looking-ahead"
+      ],
+      "conflict_case": null,
+      "id": "q086",
+      "raw_evidence_groups": [
+        [
+          "blog:upload-limits-explained:looking-ahead"
+        ]
+      ],
+      "final_evidence_groups": [
+        [
+          "blog:upload-limits-explained:looking-ahead"
+        ]
+      ],
+      "alignment_audit": {
+        "original": {
+          "category": "direct",
+          "query": "According to the CloudBox blog, what should a user know about Looking Ahead?",
+          "expected_sources": [
+            "blog"
+          ],
+          "expected_answer": "The good news: this is the most-requested change on the feature tracker, and we've heard loud and clear that video people need bigger single-file uploads.",
+          "expected_evidence_ids": [
+            "blog:upload-limits-explained:looking-ahead"
+          ]
+        },
+        "reason": "The question explicitly requests a historical version; that version's source is valid historical evidence.",
+        "changed_category": false,
+        "changed_query": true,
+        "changed_evidence": false
+      }
+    },
+    {
+      "category": "direct",
+      "query": "According to the CloudBox blog, what should a user know about Mandatory 2FA for Organizations?",
+      "expected_sources": [
+        "blog"
+      ],
+      "expected_answer": "Starting with 2.1, two-factor authentication is required for every organization account — admins no longer get to choose.",
+      "expected_evidence_ids": [
+        "blog:whats-new-21:mandatory-2fa-for-organizations"
+      ],
+      "conflict_case": null,
+      "id": "q087",
+      "raw_evidence_groups": [
+        [
+          "blog:whats-new-21:mandatory-2fa-for-organizations"
+        ]
+      ],
+      "final_evidence_groups": [
+        [
+          "blog:whats-new-21:mandatory-2fa-for-organizations"
+        ]
+      ]
+    },
+    {
+      "category": "direct",
+      "query": "According to the CloudBox blog, what should a user know about New Team Folder Controls?",
+      "expected_sources": [
+        "blog"
+      ],
+      "expected_answer": "Team folders now support granular roles with per-folder overrides: an admin can grant a contractor edit access to exactly one project folder instead of the whole org.",
+      "expected_evidence_ids": [
+        "blog:whats-new-21:new-team-folder-controls"
+      ],
+      "conflict_case": null,
+      "id": "q088",
+      "raw_evidence_groups": [
+        [
+          "blog:whats-new-21:new-team-folder-controls"
+        ]
+      ],
+      "final_evidence_groups": [
+        [
+          "blog:whats-new-21:new-team-folder-controls"
+        ]
+      ]
+    },
+    {
+      "category": "direct",
+      "query": "According to the CloudBox blog, what should a user know about Faster Sync Engine?",
+      "expected_sources": [
+        "blog"
+      ],
+      "expected_answer": "The delta sync engine got a 40% throughput improvement for folders with many small files, which is exactly the pattern teams hit every day.",
+      "expected_evidence_ids": [
+        "blog:whats-new-21:faster-sync-engine"
+      ],
+      "conflict_case": null,
+      "id": "q089",
+      "raw_evidence_groups": [
+        [
+          "blog:whats-new-21:faster-sync-engine"
+        ]
+      ],
+      "final_evidence_groups": [
+        [
+          "blog:whats-new-21:faster-sync-engine"
+        ]
+      ]
+    },
+    {
+      "category": "direct",
+      "query": "According to the CloudBox blog, what should a user know about Upgrade Notes?",
+      "expected_sources": [
+        "blog"
+      ],
+      "expected_answer": "The 2.1 rollout is automatic and staged; if your org hasn't been upgraded yet, you'll see a notice in the admin console with your scheduled date.",
+      "expected_evidence_ids": [
+        "blog:whats-new-21:upgrade-notes"
+      ],
+      "conflict_case": null,
+      "id": "q090",
+      "raw_evidence_groups": [
+        [
+          "blog:whats-new-21:upgrade-notes"
+        ]
+      ],
+      "final_evidence_groups": [
+        [
+          "blog:whats-new-21:upgrade-notes"
+        ]
+      ]
+    },
+    {
+      "category": "conflict",
+      "query": "Is CloudBox Free storage 5 GB, 10 GB, or 15 GB today?",
+      "expected_sources": [
+        "documentation",
+        "forum",
+        "blog"
+      ],
+      "expected_answer": "The current Free plan includes 10 GB; 5 GB was the pre-2.0 limit and 15 GB was a limited promotion.",
+      "expected_evidence_ids": [
+        "docs:storage-limits:free-plan-storage"
+      ],
+      "conflict_case": "storage",
+      "id": "q091",
+      "raw_evidence_groups": [
+        [
+          "docs:storage-limits:free-plan-storage"
+        ]
+      ],
+      "final_evidence_groups": [
+        [
+          "docs:storage-limits:free-plan-storage"
+        ]
+      ]
+    },
+    {
+      "category": "conflict",
+      "query": "An old blog says the free plan has 5 GB. What is the maintained limit?",
+      "expected_sources": [
+        "documentation",
+        "blog"
+      ],
+      "expected_answer": "The maintained CloudBox documentation says the current free-plan limit is 10 GB.",
+      "expected_evidence_ids": [
+        "docs:storage-limits:free-plan-storage"
+      ],
+      "conflict_case": "storage",
+      "id": "q092",
+      "raw_evidence_groups": [
+        [
+          "docs:storage-limits:free-plan-storage"
+        ]
+      ],
+      "final_evidence_groups": [
+        [
+          "docs:storage-limits:free-plan-storage"
+        ]
+      ]
+    },
+    {
+      "category": "conflict",
+      "query": "A forum user claims everyone receives 15 GB free. Is that current policy?",
+      "expected_sources": [
+        "documentation",
+        "forum"
+      ],
+      "expected_answer": "No. The standard current free-plan quota is 10 GB; 15 GB applied only to an old promotion.",
+      "expected_evidence_ids": [
+        "docs:storage-limits:free-plan-storage"
+      ],
+      "conflict_case": "storage",
+      "id": "q093",
+      "raw_evidence_groups": [
+        [
+          "docs:storage-limits:free-plan-storage"
+        ]
+      ],
+      "final_evidence_groups": [
+        [
+          "docs:storage-limits:free-plan-storage"
+        ]
+      ]
+    },
+    {
+      "category": "conflict",
+      "query": "When did CloudBox raise its standard free quota, and what is it now?",
+      "expected_sources": [
+        "documentation",
+        "blog"
+      ],
+      "expected_answer": "CloudBox raised the standard free quota from 5 GB to 10 GB in version 2.0 in September 2023.",
+      "expected_evidence_ids": [
+        "docs:storage-limits:free-plan-storage"
+      ],
+      "conflict_case": "storage",
+      "id": "q094",
+      "raw_evidence_groups": [
+        [
+          "docs:storage-limits:free-plan-storage"
+        ]
+      ],
+      "final_evidence_groups": [
+        [
+          "docs:storage-limits:free-plan-storage"
+        ]
+      ]
+    },
+    {
+      "category": "conflict",
+      "query": "Is CloudBox's single-file upload limit still 5 GB?",
+      "expected_sources": [
+        "documentation",
+        "forum",
+        "blog"
+      ],
+      "expected_answer": "No. Desktop, mobile, and API uploads support up to 20 GB; browser uploads are capped at 2 GB.",
+      "expected_evidence_ids": [
+        "docs:storage-limits:maximum-upload-size",
+        "docs:file-sharing:uploading-through-the-web-app"
+      ],
+      "conflict_case": "upload-size",
+      "id": "q095",
+      "raw_evidence_groups": [
+        [
+          "docs:storage-limits:maximum-upload-size"
+        ],
+        [
+          "docs:file-sharing:uploading-through-the-web-app"
+        ]
+      ],
+      "final_evidence_groups": [
+        [
+          "docs:storage-limits:maximum-upload-size"
+        ],
+        [
+          "docs:file-sharing:uploading-through-the-web-app"
+        ]
+      ]
+    },
+    {
+      "category": "conflict",
+      "query": "Which current upload limit replaces the old 5 GB guidance?",
+      "expected_sources": [
+        "documentation",
+        "blog"
+      ],
+      "expected_answer": "The current limit is 20 GB through desktop, mobile, and API, with a separate 2 GB web-app cap.",
+      "expected_evidence_ids": [
+        "docs:storage-limits:maximum-upload-size"
+      ],
+      "conflict_case": "upload-size",
+      "id": "q096",
+      "raw_evidence_groups": [
+        [
+          "docs:storage-limits:maximum-upload-size"
+        ]
+      ],
+      "final_evidence_groups": [
+        [
+          "docs:storage-limits:maximum-upload-size"
+        ]
+      ]
+    },
+    {
+      "category": "conflict",
+      "query": "Why does a 2.4 GB browser upload fail when a forum says 5 GB is allowed?",
+      "expected_sources": [
+        "documentation",
+        "forum",
+        "blog"
+      ],
+      "expected_answer": "Browser uploads are limited to 2 GB. Use desktop, mobile, or API for files up to 20 GB; the 5 GB claim is outdated.",
+      "expected_evidence_ids": [
+        "docs:file-sharing:uploading-through-the-web-app",
+        "docs:storage-limits:maximum-upload-size"
+      ],
+      "conflict_case": "upload-size",
+      "id": "q097",
+      "raw_evidence_groups": [
+        [
+          "docs:file-sharing:uploading-through-the-web-app"
+        ],
+        [
+          "docs:storage-limits:maximum-upload-size"
+        ]
+      ],
+      "final_evidence_groups": [
+        [
+          "docs:file-sharing:uploading-through-the-web-app"
+        ],
+        [
+          "docs:storage-limits:maximum-upload-size"
+        ]
+      ]
+    },
+    {
+      "category": "conflict",
+      "query": "Can I upload an 8 GB file through the API under current CloudBox limits?",
+      "expected_sources": [
+        "documentation",
+        "forum"
+      ],
+      "expected_answer": "Yes. The API supports resumable uploads up to 20 GB; the 2 GB cap applies only to the web app.",
+      "expected_evidence_ids": [
+        "docs:api:uploading-files-via-the-api",
+        "docs:storage-limits:maximum-upload-size"
+      ],
+      "conflict_case": "upload-size",
+      "id": "q098",
+      "raw_evidence_groups": [
+        [
+          "docs:api:uploading-files-via-the-api"
+        ],
+        [
+          "docs:storage-limits:maximum-upload-size"
+        ]
+      ],
+      "final_evidence_groups": [
+        [
+          "docs:api:uploading-files-via-the-api"
+        ],
+        [
+          "docs:storage-limits:maximum-upload-size"
+        ]
+      ]
+    },
+    {
+      "category": "conflict",
+      "query": "Can an organization administrator disable 2FA in CloudBox 2.1?",
+      "expected_sources": [
+        "documentation",
+        "forum",
+        "blog"
+      ],
+      "expected_answer": "No. 2FA is mandatory for all organization accounts in CloudBox 2.1, and administrators cannot disable it.",
+      "expected_evidence_ids": [
+        "docs:security:two-factor-authentication-policy"
+      ],
+      "conflict_case": "2fa",
+      "id": "q099",
+      "raw_evidence_groups": [
+        [
+          "docs:security:two-factor-authentication-policy"
+        ]
+      ],
+      "final_evidence_groups": [
+        [
+          "docs:security:two-factor-authentication-policy"
+        ]
+      ]
+    },
+    {
+      "category": "conflict",
+      "query": "A forum post says team 2FA is optional. Which policy is current?",
+      "expected_sources": [
+        "documentation",
+        "forum"
+      ],
+      "expected_answer": "The current policy requires 2FA for every organization account; personal accounts may keep it optional.",
+      "expected_evidence_ids": [
+        "docs:security:two-factor-authentication-policy"
+      ],
+      "conflict_case": "2fa",
+      "id": "q100",
+      "raw_evidence_groups": [
+        [
+          "docs:security:two-factor-authentication-policy"
+        ]
+      ],
+      "final_evidence_groups": [
+        [
+          "docs:security:two-factor-authentication-policy"
+        ]
+      ]
+    },
+    {
+      "category": "conflict",
+      "query": "What happens if an organization member does not enroll in 2FA after CloudBox 2.1?",
+      "expected_sources": [
+        "documentation",
+        "blog"
+      ],
+      "expected_answer": "They have 14 days to enroll a TOTP app, after which the account is locked until enrollment.",
+      "expected_evidence_ids": [
+        "docs:security:two-factor-authentication-policy"
+      ],
+      "conflict_case": "2fa",
+      "id": "q101",
+      "raw_evidence_groups": [
+        [
+          "docs:security:two-factor-authentication-policy"
+        ]
+      ],
+      "final_evidence_groups": [
+        [
+          "docs:security:two-factor-authentication-policy"
+        ]
+      ]
+    },
+    {
+      "category": "conflict",
+      "query": "Does SSO replace the 2FA requirement for Business and Enterprise teams?",
+      "expected_sources": [
+        "documentation",
+        "forum",
+        "blog"
+      ],
+      "expected_answer": "No. SAML or OIDC SSO can be enabled, but it does not replace mandatory 2FA.",
+      "expected_evidence_ids": [
+        "docs:teams:organization-security-requirements"
+      ],
+      "conflict_case": "2fa",
+      "id": "q102",
+      "raw_evidence_groups": [
+        [
+          "docs:teams:organization-security-requirements"
+        ]
+      ],
+      "final_evidence_groups": [
+        [
+          "docs:teams:organization-security-requirements"
+        ]
+      ]
+    },
+    {
+      "category": "conflict",
+      "query": "Does CloudBox currently provide an official Linux desktop client?",
+      "expected_sources": [
+        "documentation",
+        "forum",
+        "blog"
+      ],
+      "expected_answer": "Yes. It has been available since version 2.0 for Ubuntu 20.04+ and Fedora 36+.",
+      "expected_evidence_ids": [
+        "docs:sync:linux-desktop-client"
+      ],
+      "conflict_case": "linux",
+      "id": "q103",
+      "raw_evidence_groups": [
+        [
+          "docs:sync:linux-desktop-client"
+        ]
+      ],
+      "final_evidence_groups": [
+        [
+          "docs:sync:linux-desktop-client"
+        ]
+      ]
+    },
+    {
+      "category": "conflict",
+      "query": "An older forum says Linux users must use the web app. Is that still true?",
+      "expected_sources": [
+        "documentation",
+        "forum"
+      ],
+      "expected_answer": "No. CloudBox 2.0 introduced an official Linux desktop client with feature parity.",
+      "expected_evidence_ids": [
+        "docs:sync:linux-desktop-client"
+      ],
+      "conflict_case": "linux",
+      "id": "q104",
+      "raw_evidence_groups": [
+        [
+          "docs:sync:linux-desktop-client"
+        ]
+      ],
+      "final_evidence_groups": [
+        [
+          "docs:sync:linux-desktop-client"
+        ]
+      ]
+    },
+    {
+      "category": "conflict",
+      "query": "Which Linux distributions and package formats does CloudBox support?",
+      "expected_sources": [
+        "documentation",
+        "blog"
+      ],
+      "expected_answer": "Ubuntu 20.04 LTS or newer and Fedora 36 or newer are supported, with .deb packages and AppImages.",
+      "expected_evidence_ids": [
+        "docs:sync:linux-desktop-client",
+        "blog:linux-client-arrives:supported-distributions"
+      ],
+      "conflict_case": "linux",
+      "id": "q105",
+      "raw_evidence_groups": [
+        [
+          "docs:sync:linux-desktop-client"
+        ],
+        [
+          "blog:linux-client-arrives:supported-distributions"
+        ]
+      ],
+      "final_evidence_groups": [
+        [
+          "docs:sync:linux-desktop-client"
+        ],
+        [
+          "blog:linux-client-arrives:supported-distributions"
+        ]
+      ]
+    },
+    {
+      "category": "conflict",
+      "query": "Does the Linux desktop client support selective sync and bandwidth throttling?",
+      "expected_sources": [
+        "documentation",
+        "blog",
+        "forum"
+      ],
+      "expected_answer": "Yes. The current Linux client includes selective sync and bandwidth throttling like Windows and macOS.",
+      "expected_evidence_ids": [
+        "docs:sync:linux-desktop-client",
+        "blog:linux-client-arrives:the-long-wait-is-over"
+      ],
+      "conflict_case": "linux",
+      "id": "q106",
+      "raw_evidence_groups": [
+        [
+          "docs:sync:linux-desktop-client"
+        ],
+        [
+          "blog:linux-client-arrives:the-long-wait-is-over"
+        ]
+      ],
+      "final_evidence_groups": [
+        [
+          "docs:sync:linux-desktop-client"
+        ],
+        [
+          "blog:linux-client-arrives:the-long-wait-is-over"
+        ]
+      ]
+    },
+    {
+      "category": "multi_source",
+      "query": "What limits should a free-plan nightly API backup handle?",
+      "expected_sources": [
+        "documentation",
+        "forum"
+      ],
+      "expected_answer": "API uploads can be resumable up to 20 GB, requests are limited to 1000 per hour per token with 429/Retry-After handling, and free plans have 200 GB daily transfer.",
+      "expected_evidence_ids": [
+        "docs:api:uploading-files-via-the-api",
+        "docs:api:rate-limits",
+        "docs:storage-limits:transfer-and-bandwidth-limits",
+        "forum:thread-011"
+      ],
+      "conflict_case": null,
+      "id": "q107",
+      "raw_evidence_groups": [
+        [
+          "docs:api:uploading-files-via-the-api"
+        ],
+        [
+          "docs:api:rate-limits"
+        ],
+        [
+          "docs:storage-limits:transfer-and-bandwidth-limits"
+        ],
+        [
+          "forum:thread-011"
+        ]
+      ],
+      "final_evidence_groups": [
+        [
+          "docs:api:uploading-files-via-the-api"
+        ],
+        [
+          "docs:api:rate-limits"
+        ],
+        [
+          "docs:storage-limits:transfer-and-bandwidth-limits"
+        ],
+        [
+          "forum:thread-011"
+        ]
+      ]
+    },
+    {
+      "category": "multi_source",
+      "query": "After downgrading while over quota, what can clients do through existing shared links?",
+      "expected_sources": [
+        "documentation",
+        "forum"
+      ],
+      "expected_answer": "For 90 days they can view and download but cannot upload; after 90 days the over-quota files enter the recycle bin and the links expire.",
+      "expected_evidence_ids": [
+        "docs:billing:downgrading-your-plan",
+        "forum:thread-016"
+      ],
+      "conflict_case": null,
+      "id": "q108",
+      "raw_evidence_groups": [
+        [
+          "docs:billing:downgrading-your-plan"
+        ],
+        [
+          "forum:thread-016"
+        ]
+      ],
+      "final_evidence_groups": [
+        [
+          "docs:billing:downgrading-your-plan"
+        ],
+        [
+          "forum:thread-016"
+        ]
+      ]
+    },
+    {
+      "category": "multi_source",
+      "query": "How can I share a folder with an external editor and protect the link?",
+      "expected_sources": [
+        "documentation",
+        "forum"
+      ],
+      "expected_answer": "Create an Edit link for the external user, who need not have an account, and optionally set a password and expiration date; their uploads count against the owner's quota.",
+      "expected_evidence_ids": [
+        "docs:file-sharing:sharing-files-and-folders",
+        "docs:file-sharing:link-permissions-and-expiry",
+        "docs:file-sharing:external-users",
+        "forum:thread-017"
+      ],
+      "conflict_case": null,
+      "id": "q109",
+      "raw_evidence_groups": [
+        [
+          "docs:file-sharing:sharing-files-and-folders"
+        ],
+        [
+          "docs:file-sharing:link-permissions-and-expiry"
+        ],
+        [
+          "docs:file-sharing:external-users"
+        ],
+        [
+          "forum:thread-017"
+        ]
+      ],
+      "final_evidence_groups": [
+        [
+          "docs:file-sharing:sharing-files-and-folders"
+        ],
+        [
+          "docs:file-sharing:link-permissions-and-expiry"
+        ],
+        [
+          "docs:file-sharing:external-users"
+        ],
+        [
+          "forum:thread-017"
+        ]
+      ]
+    },
+    {
+      "category": "multi_source",
+      "query": "Can a deleted file from 45 days ago be recovered, and when is recovery impossible?",
+      "expected_sources": [
+        "documentation",
+        "forum"
+      ],
+      "expected_answer": "It is outside the 30-day Free window but inside the 90-day paid window unless the bin was emptied; purged or emptied items cannot be recovered even by support.",
+      "expected_evidence_ids": [
+        "docs:recycle-bin:retention-periods-by-plan",
+        "docs:recycle-bin:permanent-deletion",
+        "forum:thread-006",
+        "forum:thread-019"
+      ],
+      "conflict_case": null,
+      "id": "q110",
+      "raw_evidence_groups": [
+        [
+          "docs:recycle-bin:retention-periods-by-plan"
+        ],
+        [
+          "docs:recycle-bin:permanent-deletion"
+        ],
+        [
+          "forum:thread-006"
+        ],
+        [
+          "forum:thread-019"
+        ]
+      ],
+      "final_evidence_groups": [
+        [
+          "docs:recycle-bin:retention-periods-by-plan"
+        ],
+        [
+          "docs:recycle-bin:permanent-deletion"
+        ],
+        [
+          "forum:thread-006"
+        ],
+        [
+          "forum:thread-019"
+        ]
+      ]
+    },
+    {
+      "category": "multi_source",
+      "query": "How do I save laptop disk space with selective sync, and what limitations remain?",
+      "expected_sources": [
+        "documentation",
+        "blog"
+      ],
+      "expected_answer": "Use Preferences > Sync > Selective Sync and uncheck folders. They stay cloud-only, still count toward storage quota, settings are per device, and mobile does not support selective sync.",
+      "expected_evidence_ids": [
+        "docs:selective-sync:setting-up-selective-sync",
+        "docs:selective-sync:limitations-and-best-practices",
+        "blog:selective-sync-tutorial:step-by-step-setup"
+      ],
+      "conflict_case": null,
+      "id": "q111",
+      "raw_evidence_groups": [
+        [
+          "docs:selective-sync:setting-up-selective-sync"
+        ],
+        [
+          "docs:selective-sync:limitations-and-best-practices"
+        ],
+        [
+          "blog:selective-sync-tutorial:step-by-step-setup"
+        ]
+      ],
+      "final_evidence_groups": [
+        [
+          "docs:selective-sync:setting-up-selective-sync"
+        ],
+        [
+          "docs:selective-sync:limitations-and-best-practices"
+        ],
+        [
+          "blog:selective-sync-tutorial:step-by-step-setup"
+        ]
+      ]
+    },
+    {
+      "category": "multi_source",
+      "query": "How are CloudBox files encrypted, and is the service zero-knowledge?",
+      "expected_sources": [
+        "documentation",
+        "blog"
+      ],
+      "expected_answer": "Files use AES-256 at rest and TLS 1.3 in transit. CloudBox manages the keys, so the service is not zero-knowledge.",
+      "expected_evidence_ids": [
+        "docs:security:encryption-at-rest-and-in-transit",
+        "blog:encryption-deep-dive:aes-256-at-rest",
+        "blog:encryption-deep-dive:key-management"
+      ],
+      "conflict_case": null,
+      "id": "q112",
+      "raw_evidence_groups": [
+        [
+          "docs:security:encryption-at-rest-and-in-transit"
+        ],
+        [
+          "blog:encryption-deep-dive:aes-256-at-rest"
+        ],
+        [
+          "blog:encryption-deep-dive:key-management"
+        ]
+      ],
+      "final_evidence_groups": [
+        [
+          "docs:security:encryption-at-rest-and-in-transit"
+        ],
+        [
+          "blog:encryption-deep-dive:aes-256-at-rest"
+        ],
+        [
+          "blog:encryption-deep-dive:key-management"
+        ]
+      ]
+    },
+    {
+      "category": "multi_source",
+      "query": "Why can I upload a 3 GB video but not preview it in the browser?",
+      "expected_sources": [
+        "documentation",
+        "forum",
+        "blog"
+      ],
+      "expected_answer": "Upload and preview limits differ: non-web clients can upload the file, but browser preview/streaming is capped at 500 MB, so a 3 GB file must be downloaded.",
+      "expected_evidence_ids": [
+        "docs:file-sharing:preview-and-streaming-limits",
+        "forum:thread-010",
+        "blog:preview-and-streaming-limits:current-preview-limits"
+      ],
+      "conflict_case": null,
+      "id": "q113",
+      "raw_evidence_groups": [
+        [
+          "docs:file-sharing:preview-and-streaming-limits"
+        ],
+        [
+          "forum:thread-010"
+        ],
+        [
+          "blog:preview-and-streaming-limits:current-preview-limits"
+        ]
+      ],
+      "final_evidence_groups": [
+        [
+          "docs:file-sharing:preview-and-streaming-limits"
+        ],
+        [
+          "forum:thread-010"
+        ],
+        [
+          "blog:preview-and-streaming-limits:current-preview-limits"
+        ]
+      ]
+    },
+    {
+      "category": "multi_source",
+      "query": "Summarize the current organization 2FA rollout and personal-account exception.",
+      "expected_sources": [
+        "documentation",
+        "blog"
+      ],
+      "expected_answer": "Organization accounts must use 2FA in version 2.1 and receive a 14-day TOTP enrollment window; personal accounts may leave 2FA optional.",
+      "expected_evidence_ids": [
+        "docs:security:two-factor-authentication-policy",
+        "blog:whats-new-21:mandatory-2fa-for-organizations"
+      ],
+      "conflict_case": null,
+      "id": "q114",
+      "raw_evidence_groups": [
+        [
+          "docs:security:two-factor-authentication-policy"
+        ],
+        [
+          "blog:whats-new-21:mandatory-2fa-for-organizations"
+        ]
+      ],
+      "final_evidence_groups": [
+        [
+          "docs:security:two-factor-authentication-policy"
+        ],
+        [
+          "blog:whats-new-21:mandatory-2fa-for-organizations"
+        ]
+      ]
+    },
+    {
+      "category": "multi_source",
+      "query": "What Linux options exist for desktops and headless servers?",
+      "expected_sources": [
+        "documentation",
+        "blog"
+      ],
+      "expected_answer": "Desktops have an official Linux client for Ubuntu 20.04+ and Fedora 36+; headless servers can use the CLI for resumable manual transfers up to 20 GB, but it has no background sync.",
+      "expected_evidence_ids": [
+        "docs:sync:linux-desktop-client",
+        "blog:linux-client-arrives:what-about-headless-servers"
+      ],
+      "conflict_case": null,
+      "id": "q115",
+      "raw_evidence_groups": [
+        [
+          "docs:sync:linux-desktop-client"
+        ],
+        [
+          "blog:linux-client-arrives:what-about-headless-servers"
+        ]
+      ],
+      "final_evidence_groups": [
+        [
+          "docs:sync:linux-desktop-client"
+        ],
+        [
+          "blog:linux-client-arrives:what-about-headless-servers"
+        ]
+      ]
+    },
+    {
+      "category": "multi_source",
+      "query": "Do version history and deleted items count against quota, and how long are they retained?",
+      "expected_sources": [
+        "documentation",
+        "forum"
+      ],
+      "expected_answer": "Neither file versions nor recycle-bin contents count toward quota. Version history lasts 30 days on Free and 180 days on paid plans; deleted items last 30 days on Free and 90 days on paid plans.",
+      "expected_evidence_ids": [
+        "docs:storage-limits:version-history-quota-rules",
+        "docs:recycle-bin:retention-periods-by-plan",
+        "forum:thread-008"
+      ],
+      "conflict_case": null,
+      "id": "q116",
+      "raw_evidence_groups": [
+        [
+          "docs:storage-limits:version-history-quota-rules"
+        ],
+        [
+          "docs:recycle-bin:retention-periods-by-plan"
+        ],
+        [
+          "forum:thread-008"
+        ]
+      ],
+      "final_evidence_groups": [
+        [
+          "docs:storage-limits:version-history-quota-rules"
+        ],
+        [
+          "docs:recycle-bin:retention-periods-by-plan"
+        ],
+        [
+          "forum:thread-008"
+        ]
+      ]
+    },
+    {
+      "category": "multi_source",
+      "query": "Give the full troubleshooting sequence for a client stuck on Syncing on a corporate network.",
+      "expected_sources": [
+        "documentation",
+        "forum"
+      ],
+      "expected_answer": "Pause and resume, check proxy/firewall and port 443, clear the local cache, restart, then collect logs and open a support ticket; TLS inspection may require an exception.",
+      "expected_evidence_ids": [
+        "docs:sync:troubleshooting-sync-issues",
+        "docs:desktop-client:proxy-and-firewall-support",
+        "forum:thread-005"
+      ],
+      "conflict_case": null,
+      "id": "q117",
+      "raw_evidence_groups": [
+        [
+          "docs:sync:troubleshooting-sync-issues"
+        ],
+        [
+          "docs:desktop-client:proxy-and-firewall-support"
+        ],
+        [
+          "forum:thread-005"
+        ]
+      ],
+      "final_evidence_groups": [
+        [
+          "docs:sync:troubleshooting-sync-issues"
+        ],
+        [
+          "docs:desktop-client:proxy-and-firewall-support"
+        ],
+        [
+          "forum:thread-005"
+        ]
+      ]
+    },
+    {
+      "category": "multi_source",
+      "query": "What must a new organization user do to create and secure a CloudBox account?",
+      "expected_sources": [
+        "documentation"
+      ],
+      "expected_answer": "Use a password of at least 12 characters, verify the email address, and enroll in mandatory organization 2FA; the TOTP enrollment window is 14 days.",
+      "expected_evidence_ids": [
+        "docs:getting-started:creating-an-account",
+        "docs:security:password-and-account-rules",
+        "docs:security:two-factor-authentication-policy"
+      ],
+      "conflict_case": null,
+      "id": "q118",
+      "raw_evidence_groups": [
+        [
+          "docs:getting-started:creating-an-account"
+        ],
+        [
+          "docs:security:password-and-account-rules"
+        ],
+        [
+          "docs:security:two-factor-authentication-policy"
+        ]
+      ],
+      "final_evidence_groups": [
+        [
+          "docs:getting-started:creating-an-account"
+        ],
+        [
+          "docs:security:password-and-account-rules"
+        ],
+        [
+          "docs:security:two-factor-authentication-policy"
+        ]
+      ]
+    },
+    {
+      "category": "multi_source",
+      "query": "How do offline mobile files and camera uploads affect device space and CloudBox quota?",
+      "expected_sources": [
+        "documentation"
+      ],
+      "expected_answer": "Available-offline items keep a device copy and sync over Wi-Fi by default; camera uploads preserve original quality and count against CloudBox storage, while uploads require enough device free space.",
+      "expected_evidence_ids": [
+        "docs:mobile:offline-access-and-camera-upload",
+        "docs:mobile:mobile-limitations"
+      ],
+      "conflict_case": null,
+      "id": "q119",
+      "raw_evidence_groups": [
+        [
+          "docs:mobile:offline-access-and-camera-upload"
+        ],
+        [
+          "docs:mobile:mobile-limitations"
+        ]
+      ],
+      "final_evidence_groups": [
+        [
+          "docs:mobile:offline-access-and-camera-upload"
+        ],
+        [
+          "docs:mobile:mobile-limitations"
+        ]
+      ]
+    },
+    {
+      "category": "multi_source",
+      "query": "How should an organization structure team-folder ownership, roles, and access?",
+      "expected_sources": [
+        "documentation",
+        "blog"
+      ],
+      "expected_answer": "Team folders are organization-owned; admins manage membership, billing, and security, members receive permission-based access, guests are limited to specific folders, and access should be granted to members or groups per folder.",
+      "expected_evidence_ids": [
+        "docs:teams:team-accounts-and-roles",
+        "docs:teams:shared-team-folders",
+        "blog:team-folder-structure:a-structure-that-scales"
+      ],
+      "conflict_case": null,
+      "id": "q120",
+      "raw_evidence_groups": [
+        [
+          "docs:teams:team-accounts-and-roles"
+        ],
+        [
+          "docs:teams:shared-team-folders"
+        ],
+        [
+          "blog:team-folder-structure:a-structure-that-scales"
+        ]
+      ],
+      "final_evidence_groups": [
+        [
+          "docs:teams:team-accounts-and-roles"
+        ],
+        [
+          "docs:teams:shared-team-folders"
+        ],
+        [
+          "blog:team-folder-structure:a-structure-that-scales"
+        ]
+      ]
     }
   ]
 }

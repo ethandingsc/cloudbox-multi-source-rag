@@ -2,9 +2,9 @@
 Step 4.2 (grounded prompt builder, pure function) and Step 4.3 (answer
 generation + verified citations, fake client).
 
-The real-network smoke test is `test_smoke_say_hello` — it runs only when
-DEEPSEEK_API_KEY or OPENROUTER_API_KEY is set in the environment (skipped
-otherwise) and calls whichever provider LLMClient auto-detects.
+The real-network smoke test is `test_smoke_say_hello`; it requires the
+separate CLOUDBOX_RUN_LIVE_LLM_TESTS=1 opt-in so configured keys alone can
+never trigger a request.
 
 Run from the project root in the cloudbox-rag env:
     python -m unittest discover -s tests -v
@@ -12,6 +12,7 @@ Run from the project root in the cloudbox-rag env:
 
 import os
 import unittest
+from pathlib import Path
 from unittest import mock
 
 from src import answer, config
@@ -40,18 +41,25 @@ class TestLLMClient(unittest.TestCase):
         self.addCleanup(self.patcher.stop)
 
     def _make_client(self, env=None, provider=None):
-        env = env or {}
-        with mock.patch.dict(os.environ, env, clear=False):
+        safe_env = {
+            config.LLM_PROVIDER_ENV: "",
+            config.ALLOW_PAID_LLM_ENV: "",
+            config.LLM_MODEL_ENV: "",
+            config.DEEPSEEK_MODEL_ENV: "",
+        }
+        safe_env.update(env or {})
+        with mock.patch.dict(os.environ, safe_env, clear=False):
             return answer.LLMClient(provider=provider)
 
     def test_missing_api_key_raises_clear_error(self):
-        # no key for either provider — the error must name both
+        # The safe default is OpenRouter, so only its selected key is needed.
         env = {config.LLM_API_KEY_ENV: "", config.DEEPSEEK_API_KEY_ENV: ""}
+        env[config.LLM_PROVIDER_ENV] = ""
         with mock.patch.dict(os.environ, env, clear=False):
             with self.assertRaises(answer.OpenRouterError) as ctx:
                 answer.LLMClient()
         self.assertIn(config.LLM_API_KEY_ENV, str(ctx.exception))
-        self.assertIn(config.DEEPSEEK_API_KEY_ENV, str(ctx.exception))
+        self.fake_openai_cls.assert_not_called()
 
     def test_model_resolution_default_then_env_then_param(self):
         provider = config.LLM_PROVIDER_OPENROUTER
@@ -67,9 +75,9 @@ class TestLLMClient(unittest.TestCase):
         env = {config.LLM_API_KEY_ENV: "test-key",
                config.LLM_MODEL_ENV: "some/other-model:free"}
         client = self._make_client(env, provider)
-        client2 = answer.LLMClient(model="explicit/model", api_key="test-key",
+        client2 = answer.LLMClient(model="explicit/model:free", api_key="test-key",
                                    provider=provider)
-        self.assertEqual(client2.model, "explicit/model")
+        self.assertEqual(client2.model, "explicit/model:free")
 
     def test_complete_calls_openrouter_and_returns_text(self):
         fake_client = self.fake_openai_cls.return_value
@@ -125,16 +133,16 @@ class TestLLMClient(unittest.TestCase):
         with self.assertRaises(answer.OpenRouterError):
             client.complete("hello")
 
-    # --- DeepSeek provider (default since 2026-09-27) ------------------------
+    # --- Explicit provider and paid-use safety -------------------------------
 
-    def test_deepseek_auto_detected_and_wins_when_both_keys_present(self):
+    def test_openrouter_default_wins_when_both_keys_present(self):
         env = {config.DEEPSEEK_API_KEY_ENV: "ds-key",
                config.LLM_API_KEY_ENV: "or-key"}
         client = self._make_client(env)
-        self.assertEqual(client.provider, config.LLM_PROVIDER_DEEPSEEK)
-        self.assertEqual(client.model, config.DEEPSEEK_MODEL_DEFAULT)
+        self.assertEqual(client.provider, config.LLM_PROVIDER_OPENROUTER)
+        self.assertEqual(client.model, config.LLM_MODEL_DEFAULT)
         self.fake_openai_cls.assert_called_once_with(
-            base_url=config.DEEPSEEK_BASE_URL, api_key="ds-key")
+            base_url=config.OPENROUTER_BASE_URL, api_key="or-key")
 
     def test_openrouter_used_when_no_deepseek_key(self):
         env = {config.DEEPSEEK_API_KEY_ENV: "",
@@ -145,15 +153,16 @@ class TestLLMClient(unittest.TestCase):
 
     def test_deepseek_model_env_override(self):
         env = {config.DEEPSEEK_API_KEY_ENV: "ds-key",
-               config.DEEPSEEK_MODEL_ENV: "deepseek-flash"}
+               config.DEEPSEEK_MODEL_ENV: "deepseek-flash",
+               config.LLM_PROVIDER_ENV: config.LLM_PROVIDER_DEEPSEEK,
+               config.ALLOW_PAID_LLM_ENV: "1"}
         client = self._make_client(env)
         self.assertEqual(client.model, "deepseek-flash")
 
-    def test_explicit_provider_overrides_auto_detection(self):
-        # only the OpenRouter key is set, but the caller forces DeepSeek
-        # and supplies an explicit key for it
+    def test_explicit_provider_and_paid_opt_in_select_deepseek(self):
         env = {config.DEEPSEEK_API_KEY_ENV: "",
-               config.LLM_API_KEY_ENV: "or-key"}
+               config.LLM_API_KEY_ENV: "or-key",
+               config.ALLOW_PAID_LLM_ENV: "1"}
         with mock.patch.dict(os.environ, env, clear=False):
             client = answer.LLMClient(
                 api_key="explicit-key",
@@ -166,7 +175,11 @@ class TestLLMClient(unittest.TestCase):
         fake_client = self.fake_openai_cls.return_value
         fake_client.chat.completions.create.return_value = _FakeResponse(
             "Hello! Nice to meet you.")
-        client = self._make_client({config.DEEPSEEK_API_KEY_ENV: "ds-key"})
+        client = self._make_client({
+            config.DEEPSEEK_API_KEY_ENV: "ds-key",
+            config.LLM_PROVIDER_ENV: config.LLM_PROVIDER_DEEPSEEK,
+            config.ALLOW_PAID_LLM_ENV: "1",
+        })
 
         text = client.complete("Say hello in one sentence.")
 
@@ -184,25 +197,89 @@ class TestLLMClient(unittest.TestCase):
     def test_deepseek_failure_message_names_provider(self):
         fake_client = self.fake_openai_cls.return_value
         fake_client.chat.completions.create.side_effect = Exception("boom")
-        client = self._make_client({config.DEEPSEEK_API_KEY_ENV: "ds-key"})
+        client = self._make_client({
+            config.DEEPSEEK_API_KEY_ENV: "ds-key",
+            config.LLM_PROVIDER_ENV: config.LLM_PROVIDER_DEEPSEEK,
+            config.ALLOW_PAID_LLM_ENV: "1",
+        })
 
         with self.assertRaises(answer.OpenRouterError) as ctx:
             client.complete("hello")
         self.assertIn("deepseek call failed", str(ctx.exception))
 
-    @unittest.skipUnless(
-        os.environ.get(config.DEEPSEEK_API_KEY_ENV)
-        or os.environ.get(config.LLM_API_KEY_ENV),
-        "neither DEEPSEEK_API_KEY nor OPENROUTER_API_KEY set — real smoke "
-        "skipped")
+    def test_deepseek_is_blocked_without_explicit_paid_opt_in(self):
+        env = {
+            config.DEEPSEEK_API_KEY_ENV: "ds-key",
+            config.LLM_PROVIDER_ENV: config.LLM_PROVIDER_DEEPSEEK,
+            config.ALLOW_PAID_LLM_ENV: "0",
+        }
+        with self.assertRaises(answer.OpenRouterError) as ctx:
+            self._make_client(env)
+        self.assertIn("Paid LLM use is disabled", str(ctx.exception))
+        self.assertIn(config.ALLOW_PAID_LLM_ENV, str(ctx.exception))
+        self.fake_openai_cls.assert_not_called()
+
+    def test_non_free_openrouter_model_is_blocked_without_paid_opt_in(self):
+        env = {
+            config.LLM_API_KEY_ENV: "or-key",
+            config.LLM_MODEL_ENV: "vendor/paid-model",
+            config.ALLOW_PAID_LLM_ENV: "0",
+        }
+        with self.assertRaises(answer.OpenRouterError):
+            self._make_client(env, config.LLM_PROVIDER_OPENROUTER)
+        self.fake_openai_cls.assert_not_called()
+
+    def test_invalid_provider_is_rejected_before_client_creation(self):
+        with self.assertRaises(answer.OpenRouterError) as ctx:
+            self._make_client({config.LLM_PROVIDER_ENV: "unknown"})
+        self.assertIn("Unsupported LLM provider", str(ctx.exception))
+        self.fake_openai_cls.assert_not_called()
+
+    def test_failed_free_request_never_falls_back_to_deepseek(self):
+        fake_client = self.fake_openai_cls.return_value
+        fake_client.chat.completions.create.side_effect = Exception(
+            "free model preflight failed")
+        env = {
+            config.LLM_API_KEY_ENV: "or-key",
+            config.DEEPSEEK_API_KEY_ENV: "ds-key",
+        }
+        client = self._make_client(env)
+
+        with self.assertRaises(answer.OpenRouterError) as ctx:
+            client.complete("hello")
+
+        self.assertEqual(client.provider, config.LLM_PROVIDER_OPENROUTER)
+        self.assertIn("free model preflight failed", str(ctx.exception))
+        self.fake_openai_cls.assert_called_once_with(
+            base_url=config.OPENROUTER_BASE_URL, api_key="or-key")
+        fake_client.chat.completions.create.assert_called_once()
+
+    @unittest.skipUnless(os.environ.get("CLOUDBOX_RUN_LIVE_LLM_TESTS") == "1",
+                         "live LLM test not explicitly enabled")
     def test_smoke_say_hello(self):
         # this is the ONE test meant to hit the network — undo the class-wide
         # OpenAI mock first, otherwise the reply is just a MagicMock
         self.patcher.stop()
-        client = answer.LLMClient()  # auto-detect: DeepSeek wins when key set
+        client = answer.LLMClient()
         text = client.complete("Say hello in one sentence.")
         self.assertTrue(text.strip())
         print(f"\n[smoke] {client.provider} ({client.model}) reply: {text!r}")
+
+
+class TestComposeLLMConfig(unittest.TestCase):
+    def test_api_and_worker_share_safe_explicit_llm_defaults(self):
+        text = (Path(__file__).resolve().parent.parent / "compose.yaml").read_text(
+            encoding="utf-8")
+        api_block = text.split("  api:", 1)[1].split("  worker:", 1)[0]
+        worker_block = text.split("  worker:", 1)[1].split("  redis:", 1)[0]
+        expected = (
+            "LLM_PROVIDER: ${LLM_PROVIDER:-openrouter}",
+            "LLM_MODEL: ${LLM_MODEL:-openrouter/free}",
+            "CLOUDBOX_ALLOW_PAID_LLM: ${CLOUDBOX_ALLOW_PAID_LLM:-0}",
+        )
+        for block in (api_block, worker_block):
+            for setting in expected:
+                self.assertIn(setting, block)
 
 
 def _hit(chunk_id, source_type="documentation", text="Evidence text.",

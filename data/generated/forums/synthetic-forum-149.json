@@ -1,0 +1,30 @@
+{
+  "id": "synthetic-thread-149",
+  "title": "Is the guidance on Retention Periods by Plan still current?",
+  "date": "2024-11-27",
+  "topics": [
+    "recycle-bin",
+    "recovery",
+    "deletion"
+  ],
+  "tags": [
+    "recycle-bin",
+    "recovery"
+  ],
+  "status": "solved",
+  "synthetic": true,
+  "derived_from": "docs:recycle-bin:retention-periods-by-plan",
+  "question": {
+    "author": "member_149",
+    "body": "I found an older discussion about retention periods by plan. Can someone confirm the current CloudBox behavior?"
+  },
+  "answers": [
+    {
+      "author": "cloudbox_support",
+      "date": "2024-11-27",
+      "body": "The current Recycle Bin and Deletion documentation says: Once the retention window has passed, the files are gone — they cannot be recovered by you or by CloudBox support. If an item is missing from the recycle bin, either the retention window expired or someone emptied the bin. Deleted items stay in the recycle bin for 30 days on the free plan and 90 days on paid plans, after which they are permanently purged. That official page is the source to follow if a community reply describes an older version. Check the complete section there for surrounding conditions before applying it to your case.",
+      "accepted": true,
+      "upvotes": 3
+    }
+  ]
+}

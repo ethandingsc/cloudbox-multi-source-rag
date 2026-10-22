@@ -1,0 +1,31 @@
+{
+  "id": "synthetic-thread-020",
+  "title": "A customer question about Uploading Files via the API",
+  "date": "2024-07-21",
+  "topics": [
+    "api",
+    "developers",
+    "rate-limits",
+    "upload"
+  ],
+  "tags": [
+    "api",
+    "developers"
+  ],
+  "status": "solved",
+  "synthetic": true,
+  "derived_from": "docs:api:uploading-files-via-the-api",
+  "question": {
+    "author": "member_020",
+    "body": "I need a short answer about uploading files via the api. What should I expect according to the official documentation?"
+  },
+  "answers": [
+    {
+      "author": "cloudbox_support",
+      "date": "2024-07-21",
+      "body": "The current API Reference documentation says: Start an upload session, PUT the chunks, then finalize. Failed chunks can be retried individually. Files uploaded via the API appear in the designated folder immediately and inherit its sharing settings. The API supports resumable chunked uploads of files up to 20 GB, the same ceiling as the desktop clients — the 2 GB web-app cap does not apply to the API. That official page is the source to follow if a community reply describes an older version. Check the complete section there for surrounding conditions before applying it to your case.",
+      "accepted": true,
+      "upvotes": 3
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "id": "synthetic-thread-176",
+  "title": "Getting started with Password and Account Rules",
+  "date": "2024-12-24",
+  "topics": [
+    "security",
+    "encryption",
+    "2fa",
+    "passwords"
+  ],
+  "tags": [
+    "security",
+    "encryption"
+  ],
+  "status": "solved",
+  "synthetic": true,
+  "derived_from": "docs:security:password-and-account-rules",
+  "question": {
+    "author": "member_176",
+    "body": "I am setting up CloudBox and want to understand password and account rules. What does the current documentation say?"
+  },
+  "answers": [
+    {
+      "author": "cloudbox_support",
+      "date": "2024-12-24",
+      "body": "The current Security documentation says: Account passwords must be at least 12 characters and cannot appear in known breach lists. Password resets are handled by verified email. The Security panel of the web app lists all active sessions and lets you sign out individual devices. Repeated failed login attempts trigger a temporary lockout and an email notification. That official page is the source to follow if a community reply describes an older version. Check the complete section there for surrounding conditions before applying it to your case.",
+      "accepted": true,
+      "upvotes": 3
+    }
+  ]
+}

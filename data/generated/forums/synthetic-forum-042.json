@@ -1,0 +1,31 @@
+{
+  "id": "synthetic-thread-042",
+  "title": "Which guidance applies to Invoices and Receipts?",
+  "date": "2024-08-12",
+  "topics": [
+    "billing",
+    "plans",
+    "downgrade",
+    "invoices"
+  ],
+  "tags": [
+    "billing",
+    "plans"
+  ],
+  "status": "solved",
+  "synthetic": true,
+  "derived_from": "docs:billing:invoices-and-receipts",
+  "question": {
+    "author": "member_042",
+    "body": "There seem to be different descriptions of invoices and receipts. What is the maintained CloudBox guidance?"
+  },
+  "answers": [
+    {
+      "author": "cloudbox_support",
+      "date": "2024-08-12",
+      "body": "The current Billing and Plans documentation says: Invoices are issued monthly from the billing portal at the start of each cycle. You can download PDF receipts for the last 24 months, change the billing email, and switch between credit card and bank transfer (Business and Enterprise). Failed payments trigger a 14-day grace period before access is limited to view/download-only mode. That official page is the source to follow if a community reply describes an older version. Check the complete section there for surrounding conditions before applying it to your case.",
+      "accepted": true,
+      "upvotes": 3
+    }
+  ]
+}

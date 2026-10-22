@@ -1,122 +1,105 @@
-"""Deterministic contradiction handling (Step 3.3) — no LLM involved.
+"""Deterministic contradiction handling for final evidence.
 
-Input: the Step 3.2 reranked final evidence (hits whose metadata carries
-topics, version, date, source_type). Detection groups evidence by shared
-`topics` tags; resolution applies fixed, pre-declared rules in priority
-order (PLAN.md §3.3):
-
-  1. Blogs with `version < CURRENT_VERSION` -> suppressed
-     (reason `superseded_version`).
-  2. Forums with `date < CURRENT_VERSION_RELEASE_DATE` -> suppressed
-     (reason `superseded_by_current_docs`).
-  3. Documentation is never suppressed — it is the maintained source
-     of truth.
-  4. Kept community chunks that share a topic group with a documentation
-     chunk are flagged `conflict_candidate` with `authority: community`;
-     the Step 4 prompt pre-declares that official documentation wins.
-
-Every suppressed/flagged chunk is also recorded in the returned
-`conflicts` list (rule + affected id + winner id). The LLM never decides
-which conflicting source is correct — the rule is applied before any
-prompting.
-
-Pure function: returns NEW hit dicts (input evidence untouched), keeps
-the rerank order of kept chunks, and is deterministic by construction
-(constant metadata + constant rules).
+Step 1.6 narrowed the previous blanket age rule. Only community chunks whose
+claims were actually audited as obsolete are suppressed. Older but still valid
+material remains usable, and an explicit historical-version query may retrieve
+the corresponding obsolete source as historical evidence.
 """
 
-from . import config
+import re
+
+
+OBSOLETE_COMMUNITY_IDS = {
+    "forum:thread-001",  # promotional 15 GB vs current standard 10 GB
+    "forum:thread-002",  # old 5 GB upload ceiling
+    "forum:thread-003",  # organization 2FA described as optional
+    "forum:thread-004",  # says no Linux desktop client
+    "forum:thread-014",  # says no native Linux desktop client
+    "blog:free-storage-explained:what-the-free-plan-includes",
+    "blog:free-storage-explained:watching-your-quota",
+    "blog:free-storage-explained:when-to-upgrade",
+    "blog:upload-limits-explained:the-5-gb-ceiling",
+    "blog:upload-limits-explained:workarounds-for-big-files",
+    "blog:upload-limits-explained:looking-ahead",
+}
+
+VERSION_RE = re.compile(r"(?:cloudbox\s+|version\s+|v)?(\d+)\.(\d+|x)", re.I)
 
 
 def _topics_of(hit: dict) -> set:
     topics = hit["metadata"].get("topics")
-    if isinstance(topics, str):  # tolerate stringified topics from raw Chroma reads
-        return {t.strip() for t in topics.split(",") if t.strip()}
+    if isinstance(topics, str):
+        return {topic.strip() for topic in topics.split(",") if topic.strip()}
     return set(topics or [])
 
 
 def _docs_authority(hit: dict, evidence: list[dict]):
-    """Documentation chunk in the evidence sharing >=1 topic with `hit`."""
     topics = _topics_of(hit)
     if not topics:
         return None
     for other in evidence:
-        if other["source_type"] == "documentation" and (topics & _topics_of(other)):
+        if (other["source_type"] == "documentation" and
+                topics & _topics_of(other)):
             return other["chunk_id"]
     return None
 
 
-def handle_contradictions(evidence: list[dict]) -> dict:
-    """Apply the deterministic conflict rules to reranked evidence.
+def _canonical_id(hit: dict) -> str:
+    return hit["metadata"].get("derived_from") or hit["chunk_id"]
 
-    Returns {"evidence": [...], "conflicts": [...]}. Each evidence entry
-    is a new dict carrying the unchanged scores/metadata plus a
-    `conflict_status` ("kept" | "suppressed" | "conflict_candidate") and,
-    when applicable, `suppressed_reason` or `authority`. Suppressed chunks
-    stay in the list (marked) so logging can explain the decision; the
-    answer stage consumes only non-suppressed entries.
-    """
-    out = []
+
+def _explicitly_requests_version(question: str | None,
+                                 version: str | None) -> bool:
+    if not question or not version:
+        return False
+    actual_major, actual_minor = version.split(".", 1)
+    return any(major == actual_major and (minor == "x" or minor == actual_minor)
+               for major, minor in VERSION_RE.findall(question))
+
+
+def handle_contradictions(evidence: list[dict],
+                          question: str | None = None) -> dict:
+    """Mark obsolete claims and authority conflicts without mutating input."""
+    output = []
     conflicts = []
     for hit in evidence:
-        h = dict(hit)
-        if h["source_type"] == "documentation":
-            # Rule 3: documentation is never suppressed.
-            h["conflict_status"] = "kept"
-            out.append(h)
+        item = dict(hit)
+        if item["source_type"] == "documentation":
+            item["conflict_status"] = "kept"
+            output.append(item)
             continue
 
-        winner = _docs_authority(hit, evidence)
+        winner = _docs_authority(item, evidence)
+        canonical = _canonical_id(item)
+        version = item["metadata"].get("version")
+        historical_request = _explicitly_requests_version(question, version)
 
-        # Rule 1: blogs covering a version older than the current release
-        # are superseded — their numbers/features may have changed.
-        if h["source_type"] == "blog":
-            version = h["metadata"].get("version")
-            if version and version < config.CURRENT_VERSION:
-                h["conflict_status"] = "suppressed"
-                h["suppressed_reason"] = "superseded_version"
-                conflicts.append({
-                    "rule": "superseded_version",
-                    "chunk_id": h["chunk_id"],
-                    "winner_id": winner,
-                    "note": (f"blog covers v{version}; current docs are "
-                             f"v{config.CURRENT_VERSION}"),
-                })
-                out.append(h)
-                continue
+        if canonical in OBSOLETE_COMMUNITY_IDS and not historical_request:
+            reason = ("superseded_version" if item["source_type"] == "blog"
+                      else "superseded_by_current_docs")
+            item["conflict_status"] = "suppressed"
+            item["suppressed_reason"] = reason
+            conflicts.append({
+                "rule": reason,
+                "chunk_id": item["chunk_id"],
+                "winner_id": winner,
+                "note": "audited obsolete community claim; maintained docs win",
+            })
+            output.append(item)
+            continue
 
-        # Rule 2: forums predating the current docs release may describe
-        # behavior that has since changed — the docs supersede them.
-        if h["source_type"] == "forum":
-            date = h["metadata"].get("date", "")
-            if date < config.CURRENT_VERSION_RELEASE_DATE:
-                h["conflict_status"] = "suppressed"
-                h["suppressed_reason"] = "superseded_by_current_docs"
-                conflicts.append({
-                    "rule": "superseded_by_current_docs",
-                    "chunk_id": h["chunk_id"],
-                    "winner_id": winner,
-                    "note": (f"forum dated {date}, before the current docs "
-                             f"release {config.CURRENT_VERSION_RELEASE_DATE}"),
-                })
-                out.append(h)
-                continue
-
-        # Rule 4: a kept community chunk sharing topics with current
-        # documentation is flagged, not suppressed — the answer prompt
-        # pre-declares docs win over it.
         if winner:
-            h["conflict_status"] = "conflict_candidate"
-            h["authority"] = "community"
+            item["conflict_status"] = "conflict_candidate"
+            item["authority"] = "community"
             conflicts.append({
                 "rule": "conflict_candidate",
-                "chunk_id": h["chunk_id"],
+                "chunk_id": item["chunk_id"],
                 "winner_id": winner,
-                "note": "community chunk shares topics with current "
-                        "documentation; docs win by pre-declared rule",
+                "note": ("community chunk shares topics with current "
+                         "documentation; docs win if claims conflict"),
             })
         else:
-            h["conflict_status"] = "kept"
-        out.append(h)
+            item["conflict_status"] = "kept"
+        output.append(item)
 
-    return {"evidence": out, "conflicts": conflicts}
+    return {"evidence": output, "conflicts": conflicts}

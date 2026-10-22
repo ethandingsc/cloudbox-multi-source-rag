@@ -1,0 +1,31 @@
+{
+  "id": "synthetic-thread-026",
+  "title": "Conditions to check for Plans and Pricing",
+  "date": "2024-07-27",
+  "topics": [
+    "billing",
+    "plans",
+    "downgrade",
+    "invoices"
+  ],
+  "tags": [
+    "billing",
+    "plans"
+  ],
+  "status": "solved",
+  "synthetic": true,
+  "derived_from": "docs:billing:plans-and-pricing",
+  "question": {
+    "author": "member_026",
+    "body": "Could support clarify plans and pricing in the current CloudBox version? I want to avoid relying on an outdated post."
+  },
+  "answers": [
+    {
+      "author": "cloudbox_support",
+      "date": "2024-07-27",
+      "body": "The current Billing and Plans documentation says: Enterprise: custom storage and contract terms. Plan changes take effect at the start of the next billing cycle; upgrades apply immediately with prorated charges. CloudBox offers four plans. Free: 10 GB for individuals. That official page is the source to follow if a community reply describes an older version. Check the complete section there for surrounding conditions before applying it to your case.",
+      "accepted": true,
+      "upvotes": 3
+    }
+  ]
+}

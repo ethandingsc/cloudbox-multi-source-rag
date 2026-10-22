@@ -22,15 +22,23 @@ class TestChunking(unittest.TestCase):
         cls.all_chunks = cls.doc_chunks + cls.forum_chunks + cls.blog_chunks
 
     def test_item_counts(self):
-        self.assertEqual(len(self.docs), 12)
-        self.assertEqual(len(self.forums), 20)
-        self.assertEqual(len(self.blogs), 8)
+        self.assertEqual(len(self.docs), 112)
+        self.assertEqual(len(self.forums), 320)
+        self.assertEqual(len(self.blogs), 108)
 
     def test_chunk_counts(self):
         # docs: one chunk per ## section; forums: one per thread; blogs: per section
-        self.assertEqual(len(self.doc_chunks), 43)
-        self.assertEqual(len(self.forum_chunks), 20)
-        self.assertEqual(len(self.blog_chunks), 27)
+        self.assertEqual(len(self.doc_chunks), 143)
+        self.assertEqual(len(self.forum_chunks), 320)
+        self.assertEqual(len(self.blog_chunks), 127)
+
+    def test_generated_items_have_source_provenance(self):
+        original_ids = {c["chunk_id"] for c in
+                        chunkers.chunk_documentation(
+                            loaders.load_documentation(False))}
+        generated = [c for c in self.all_chunks if c.get("synthetic")]
+        self.assertEqual(len(generated), 500)
+        self.assertTrue(all(c["derived_from"] in original_ids for c in generated))
 
     def test_total_chunks_within_target_range(self):
         lo, hi = config.TARGET_TOTAL_CHUNKS
@@ -69,7 +77,8 @@ class TestChunking(unittest.TestCase):
     def test_chunk_ids_match_eval_ground_truth(self):
         queries = json.loads(
             config.EVAL_QUERIES_FILE.read_text(encoding="utf-8"))["queries"]
-        expected = {cid for q in queries for cid in q["expected_doc_ids"]}
+        expected = {cid for q in queries
+                    for cid in q["expected_evidence_ids"]}
         have = {c["chunk_id"] for c in self.all_chunks}
         self.assertTrue(expected <= have, f"missing ids: {expected - have}")
 

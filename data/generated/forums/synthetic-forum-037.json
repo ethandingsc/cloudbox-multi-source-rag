@@ -1,0 +1,31 @@
+{
+  "id": "synthetic-thread-037",
+  "title": "Is the guidance on Invoices and Receipts still current?",
+  "date": "2024-08-07",
+  "topics": [
+    "billing",
+    "plans",
+    "downgrade",
+    "invoices"
+  ],
+  "tags": [
+    "billing",
+    "plans"
+  ],
+  "status": "solved",
+  "synthetic": true,
+  "derived_from": "docs:billing:invoices-and-receipts",
+  "question": {
+    "author": "member_037",
+    "body": "I found an older discussion about invoices and receipts. Can someone confirm the current CloudBox behavior?"
+  },
+  "answers": [
+    {
+      "author": "cloudbox_support",
+      "date": "2024-08-07",
+      "body": "The current Billing and Plans documentation says: You can download PDF receipts for the last 24 months, change the billing email, and switch between credit card and bank transfer (Business and Enterprise). Failed payments trigger a 14-day grace period before access is limited to view/download-only mode. Invoices are issued monthly from the billing portal at the start of each cycle. That official page is the source to follow if a community reply describes an older version. Check the complete section there for surrounding conditions before applying it to your case.",
+      "accepted": true,
+      "upvotes": 3
+    }
+  ]
+}

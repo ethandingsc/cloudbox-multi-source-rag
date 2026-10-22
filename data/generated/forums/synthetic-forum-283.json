@@ -1,0 +1,31 @@
+{
+  "id": "synthetic-thread-283",
+  "title": "Clarifying Team Accounts and Roles for a team",
+  "date": "2025-04-10",
+  "topics": [
+    "teams",
+    "org",
+    "folders",
+    "roles"
+  ],
+  "tags": [
+    "teams",
+    "org"
+  ],
+  "status": "solved",
+  "synthetic": true,
+  "derived_from": "docs:teams:team-accounts-and-roles",
+  "question": {
+    "author": "member_283",
+    "body": "Before I explain team accounts and roles to my team, what should I verify in the official guide?"
+  },
+  "answers": [
+    {
+      "author": "cloudbox_support",
+      "date": "2025-04-10",
+      "body": "The current Team Accounts documentation says: Members have full access to team folders according to their permissions. Guests are external people with limited access to specific folders only. Every role is tied to a named user account; shared accounts are not supported. Business and Enterprise plans include team accounts with three roles. That official page is the source to follow if a community reply describes an older version. Check the complete section there for surrounding conditions before applying it to your case.",
+      "accepted": true,
+      "upvotes": 3
+    }
+  ]
+}

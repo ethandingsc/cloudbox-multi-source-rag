@@ -1,0 +1,31 @@
+{
+  "id": "synthetic-thread-184",
+  "title": "Is the guidance on Recovery Codes and Account Lockout still current?",
+  "date": "2025-01-01",
+  "topics": [
+    "security",
+    "encryption",
+    "2fa",
+    "passwords"
+  ],
+  "tags": [
+    "security",
+    "encryption"
+  ],
+  "status": "solved",
+  "synthetic": true,
+  "derived_from": "docs:security:recovery-codes-and-account-lockout",
+  "question": {
+    "author": "member_184",
+    "body": "I found an older discussion about recovery codes and account lockout. Can someone confirm the current CloudBox behavior?"
+  },
+  "answers": [
+    {
+      "author": "cloudbox_support",
+      "date": "2025-01-01",
+      "body": "The current Security documentation says: If you lose both your authenticator and your codes, you must complete an identity verification with support, which takes up to 48 hours. Organization accounts additionally allow an administrator to reset a member's 2FA from the admin console. When you enroll in 2FA you receive 10 one-time recovery codes; store them somewhere safe, because they are the only way back in if you lose your authenticator. That official page is the source to follow if a community reply describes an older version. Check the complete section there for surrounding conditions before applying it to your case.",
+      "accepted": true,
+      "upvotes": 3
+    }
+  ]
+}

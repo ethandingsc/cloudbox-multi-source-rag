@@ -11,7 +11,7 @@ Run from the project root in the cloudbox-rag env:
 
 import unittest
 
-from src import conflict, config, embed_store, rerank, retrieve
+from src import chunkers, conflict, config, embed_store, loaders, rerank, retrieve
 
 Q01 = "How much free storage do I get with CloudBox?"
 Q02 = "What is the largest file I can upload to CloudBox?"
@@ -35,12 +35,12 @@ CASES = [
     ]),
     (Q03, DOCS_2FA, [
         # post-v2.1 thread (Nov 2024): NOT suppressed by date — flagged
-        ("forum:thread-003", "conflict_candidate"),
+        ("forum:thread-003", "superseded_by_current_docs"),
         ("blog:whats-new-21:mandatory-2fa-for-organizations",
          "conflict_candidate"),
     ]),
     (Q04, DOCS_LINUX, [
-        ("blog:linux-client-arrives:the-long-wait-is-over", "superseded_version"),
+        ("blog:linux-client-arrives:the-long-wait-is-over", "conflict_candidate"),
         ("forum:thread-004", "superseded_by_current_docs"),
     ]),
 ]
@@ -71,14 +71,47 @@ NON_CONFLICT_EXPECTED = {
 class TestConflictHandling(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        store = embed_store.EmbedStore()
+        # These exact-rank assertions describe the original 90-chunk
+        # benchmark. Keep it separate from the expanded demo index.
+        store = embed_store.EmbedStore(
+            chroma_dir=config.OUTPUTS_DIR / "baseline_chroma")
+        if store.count() == 0:
+            store.upsert_chunks(
+                chunkers.chunk_documentation(loaders.load_documentation(False))
+                + chunkers.chunk_forums(loaders.load_forums(False))
+                + chunkers.chunk_blogs(loaders.load_blogs(False)))
+        if store.count() != 90:
+            raise AssertionError("baseline index must contain 90 chunks")
         cls.retriever = retrieve.Retriever(store)
         cls.reranker = rerank.Reranker()
 
     def _resolve(self, query):
         evidence = self.retriever.retrieve_reranked(
             query, reranker=self.reranker)
-        return evidence, conflict.handle_contradictions(evidence)
+        return evidence, conflict.handle_contradictions(evidence, question=query)
+
+    def test_explicit_historical_version_keeps_matching_old_blog(self):
+        hit = {
+            "chunk_id": "blog:free-storage-explained:what-the-free-plan-includes",
+            "source_type": "blog", "text": "CloudBox 1.0 had 5 GB.",
+            "metadata": {"version": "1.0", "topics": ["storage"]},
+        }
+        current = conflict.handle_contradictions(
+            [hit], question="What is the current limit?")
+        historical = conflict.handle_contradictions(
+            [hit], question="What did the CloudBox 1.0 blog say?")
+        self.assertEqual(current["evidence"][0]["conflict_status"], "suppressed")
+        self.assertEqual(historical["evidence"][0]["conflict_status"], "kept")
+
+    def test_age_alone_does_not_suppress_valid_forum(self):
+        hit = {
+            "chunk_id": "forum:thread-009", "source_type": "forum",
+            "text": "Clear the local cache.",
+            "metadata": {"date": "2023-01-01", "topics": ["cache"]},
+        }
+        result = conflict.handle_contradictions(
+            [hit], question="Why is disk usage high?")
+        self.assertEqual(result["evidence"][0]["conflict_status"], "kept")
 
     def test_four_contradiction_cases_resolved_by_rules(self):
         for query, docs_id, expected_records in CASES:

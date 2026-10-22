@@ -1,0 +1,31 @@
+{
+  "id": "synthetic-thread-022",
+  "title": "Getting started with Plans and Pricing",
+  "date": "2024-07-23",
+  "topics": [
+    "billing",
+    "plans",
+    "downgrade",
+    "invoices"
+  ],
+  "tags": [
+    "billing",
+    "plans"
+  ],
+  "status": "solved",
+  "synthetic": true,
+  "derived_from": "docs:billing:plans-and-pricing",
+  "question": {
+    "author": "member_022",
+    "body": "I am setting up CloudBox and want to understand plans and pricing. What does the current documentation say?"
+  },
+  "answers": [
+    {
+      "author": "cloudbox_support",
+      "date": "2024-07-23",
+      "body": "The current Billing and Plans documentation says: CloudBox offers four plans. Free: 10 GB for individuals. Plus: 2 TB for $9.99 per month. Business: 10 TB shared across the organization with team folders, roles, and SSO, at $14.99 per user per month. That official page is the source to follow if a community reply describes an older version. Check the complete section there for surrounding conditions before applying it to your case.",
+      "accepted": true,
+      "upvotes": 3
+    }
+  ]
+}

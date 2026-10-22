@@ -1,0 +1,31 @@
+{
+  "id": "synthetic-thread-268",
+  "title": "Is the guidance on Troubleshooting Sync Issues still current?",
+  "date": "2025-03-26",
+  "topics": [
+    "sync",
+    "linux",
+    "desktop",
+    "conflicts"
+  ],
+  "tags": [
+    "sync",
+    "linux"
+  ],
+  "status": "solved",
+  "synthetic": true,
+  "derived_from": "docs:sync:troubleshooting-sync-issues",
+  "question": {
+    "author": "member_268",
+    "body": "I found an older discussion about troubleshooting sync issues. Can someone confirm the current CloudBox behavior?"
+  },
+  "answers": [
+    {
+      "author": "cloudbox_support",
+      "date": "2025-03-26",
+      "body": "The current Sync Engine documentation says: If the problem persists, collect the logs from the client's logs folder and open a support ticket. The most common causes are corporate proxies, antivirus scanning of the sync folder, and file locks from other applications. If the client is stuck on \"Syncing…\" for more than a few minutes: pause and resume sync; check your proxy or firewall settings (CloudBox uses port 443); clear the local cache under Settings > Advanced; then restart the client. That official page is the source to follow if a community reply describes an older version. Check the complete section there for surrounding conditions before applying it to your case.",
+      "accepted": true,
+      "upvotes": 3
+    }
+  ]
+}

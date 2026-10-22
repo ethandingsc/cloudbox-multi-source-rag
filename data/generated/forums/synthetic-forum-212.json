@@ -1,0 +1,31 @@
+{
+  "id": "synthetic-thread-212",
+  "title": "Is the guidance on Free Plan Storage still current?",
+  "date": "2025-01-29",
+  "topics": [
+    "storage",
+    "quota",
+    "plans",
+    "upload"
+  ],
+  "tags": [
+    "storage",
+    "quota"
+  ],
+  "status": "solved",
+  "synthetic": true,
+  "derived_from": "docs:storage-limits:free-plan-storage",
+  "question": {
+    "author": "member_212",
+    "body": "I found an older discussion about free plan storage. Can someone confirm the current CloudBox behavior?"
+  },
+  "answers": [
+    {
+      "author": "cloudbox_support",
+      "date": "2025-01-29",
+      "body": "The current Storage Limits documentation says: This limit applies to the total size of your synced files plus anything you upload through the web app or mobile clients. File versions and recycle bin contents do not count toward your quota. When you approach the limit, CloudBox warns you by email and with an in-app banner; once the quota is reached, syncing pauses until you free space or upgrade. The free plan was raised from 5 GB to 10 GB with CloudBox 2.0 (September 2023). That official page is the source to follow if a community reply describes an older version. Check the complete section there for surrounding conditions before applying it to your case.",
+      "accepted": true,
+      "upvotes": 3
+    }
+  ]
+}

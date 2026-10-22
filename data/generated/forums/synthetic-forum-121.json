@@ -1,0 +1,31 @@
+{
+  "id": "synthetic-thread-121",
+  "title": "Is the guidance on Mobile App Overview still current?",
+  "date": "2024-10-30",
+  "topics": [
+    "mobile",
+    "ios",
+    "android",
+    "offline"
+  ],
+  "tags": [
+    "mobile",
+    "ios"
+  ],
+  "status": "solved",
+  "synthetic": true,
+  "derived_from": "docs:mobile:mobile-app-overview",
+  "question": {
+    "author": "member_121",
+    "body": "I found an older discussion about mobile app overview. Can someone confirm the current CloudBox behavior?"
+  },
+  "answers": [
+    {
+      "author": "cloudbox_support",
+      "date": "2024-10-30",
+      "body": "The current Mobile Apps documentation says: It can browse, search, upload, and share your files, and it streams previews of documents, photos, and videos up to 500 MB directly in the app. Sign in with your CloudBox account; organization accounts follow the same 2FA requirement as the desktop clients. The CloudBox mobile app is available for iOS 15+ and Android 10+. That official page is the source to follow if a community reply describes an older version. Check the complete section there for surrounding conditions before applying it to your case.",
+      "accepted": true,
+      "upvotes": 3
+    }
+  ]
+}

@@ -1,247 +1,107 @@
-# CloudBox Multi-Source RAG for Technical Support
+# CloudBox Multi-Source RAG
 
-![CloudBox Multi-Source RAG architecture](assets/cloudbox-rag-architecture.png)
+CloudBox is a portfolio-scale retrieval-augmented generation system for a fictional cloud-storage support product. It answers questions from three source types—official documentation, customer forums, and technical blogs—while handling differences in source authority, product version, and publication date.
 
-CloudBox is a fictional cloud storage product similar to Dropbox. This project builds a multi-source support RAG agent that answers user questions using three knowledge sources: **official product documentation**, **customer forums**, and **technical blogs**.
+The project demonstrates practical SWE/MLE work: reproducible retrieval evaluation, grounded answer generation, a FastAPI service, Docker, Kafka-backed asynchronous jobs, Redis caching, and offline CI.
 
-The sources have different levels of authority and may contain outdated or conflicting information. The system is designed to retrieve relevant evidence, rank it carefully, resolve conflicts, and generate answers with traceable citations.
-
----
-
-## Knowledge Sources & Chunking
-
-The knowledge base contains **40 source items → 90 searchable chunks**.
-
-Different sources use different chunking strategies based on their structure.
-
-| Source | Content | Chunking Strategy |
-|---|---|---|
-| **Documentation** | Official product information | Split by `##` section; long sections split by paragraph |
-| **Forums** | Customer questions and discussions | Keep each Q&A thread together |
-| **Blogs** | Tutorials and technical posts | Smaller section-based chunks |
-
-Documentation sections usually represent one complete product topic, while forum questions and answers are kept together to preserve their context.
-
----
-
-## How the RAG Pipeline Works
-
-> **User Question → Source-Specific Retrieval → Source Weighting → CrossEncoder Reranking → Deterministic Conflict Handling → Final Evidence → Grounded LLM Generation → Answer + Citations**
-
-### 1. Multi-Source Retrieval
-
-Instead of searching all sources together, the system retrieves from **documentation, forums, and blogs separately**.
-
-By default, it retrieves the **top-5 results from each source** before merging them into a shared candidate pool.
-
-### 2. Source-Aware Weighting
-
-Different sources have different levels of authority:
-
-| Source | Weight |
-|---|---:|
-| Documentation | **1.0** |
-| Blog | **0.9** |
-| Forum | **0.7** |
+## Architecture
 
 ```text
-weighted_score = similarity × source_weight
+Documentation / Forums / Blogs
+              |
+       source-aware chunking
+              |
+ Chroma dense retrieval (per source)
+              |
+ source weighting -> CrossEncoder reranking
+              |
+ version-aware conflict resolution
+              |
+ grounded LLM answer -> verified chunk citations
+
+Client -> FastAPI -> Kafka -> Worker -> RAG pipeline
+                  Redis <- job state / cache / session history
 ```
 
-Embedding similarity measures how relevant a chunk is to the question, while source weighting also considers how much that type of source should be trusted.
+The default production path remains **dense retrieval with source weighting, CrossEncoder reranking, and deterministic conflict resolution**. BM25 and hybrid retrieval are implemented only for the recorded ablation study; they are not the default retrieval strategy.
 
-### 3. CrossEncoder Reranking
+## Core Features
 
-The candidate pool is reranked using:
+- Three source-specific loaders and chunking strategies.
+- ChromaDB retrieval with `all-MiniLM-L6-v2` embeddings.
+- Source-authority weighting and `cross-encoder/ms-marco-MiniLM-L-6-v2` reranking.
+- Version- and date-aware conflict handling before generation.
+- Grounded answers whose `[n]` markers are mapped back to real chunk IDs.
+- Synchronous (`POST /query`) and Kafka-backed asynchronous (`POST /jobs`) FastAPI endpoints.
+- Redis job state, one-hour answer cache, and bounded session history.
+- Fail-closed LLM configuration: OpenRouter's free router is the default; paid models require explicit opt-in and are never automatic fallbacks.
 
-`cross-encoder/ms-marco-MiniLM-L-6-v2`
+## Dataset and Evaluation
 
-The initial embedding search provides fast candidate retrieval. The CrossEncoder then scores each **(question, chunk)** pair directly for more precise relevance ranking.
+The knowledge base is an **internally constructed, synthetic technical-support scenario**, not real customer data or a public benchmark. It contains 540 source items and 590 chunks. The fixed retrieval evaluation set contains 120 queries with traceable reference answers and evidence IDs.
 
-### 4. Deterministic Conflict Handling
+| Evaluation stage | Hit@5 | Recall@5 | MRR@5 |
+|---|---:|---:|---:|
+| Raw dense retrieval | 90.83% | 86.74% | 0.7979 |
+| Final evidence selection | **95.00%** | **93.54%** | **0.9069** |
 
-> **The most relevant result is not always the most trustworthy result.**
+`Final evidence selection` includes the existing downstream reranking and version-aware conflict rules. The two rows describe different pipeline stages; they are not presented as a controlled algorithm-to-algorithm improvement.
 
-Conflicts are resolved using explicit **source authority, version, and date rules** before generation.
+The full 120-query **Answer Accuracy** and **Citation Correctness** evaluation has not yet been validated with live LLM generation, so no claim is made for those metrics.
 
-- outdated blogs can be suppressed
-- old forum information can be suppressed
-- current documentation is preserved
-- conflicting community evidence can be flagged
-- the LLM does **not** decide which source wins
+## Docker Quick Start
 
-Only the final kept evidence is sent to the LLM.
-
-This separates **semantic relevance** from **source trust and conflict resolution**.
-
-### 5. Grounded Generation
-
-DeepSeek generates the final answer using only the kept evidence.
-
-Answers contain `[n]` citations, which are mapped locally back to the actual retrieved chunks.
-
----
-
-## Does the Retrieval Strategy Actually Help?
-
-The system is evaluated on a fixed set of **12 hand-written technical-support questions**.
-
-Each query contains expected chunk IDs grounded in the original CloudBox knowledge sources.
-
-- **Hit@5** — Did the correct evidence appear in the top 5?
-- **MRR@5** — How close to the top was the first correct result?
-
-### Retrieval Stage Improvement
-
-| Pipeline Stage | Hit@5 | MRR@5 |
-|---|---:|---:|
-| Raw Retrieval | 11/12 | 0.556 |
-| + Source Weighting | 11/12 | 0.792 |
-| + CrossEncoder Reranking | 12/12 | 0.764 |
-| + Conflict Handling (Final) | **12/12 (100%)** | **0.917** |
-
-The stage-by-stage comparison shows how source weighting, reranking, and conflict handling change the final evidence ranking.
-
-### Final Answer Quality
-
-| Metric | Result |
-|---|---:|
-| Hit@5 | **12/12 (100%)** |
-| MRR@5 | **0.917** |
-| Fully Correct | **9/12** |
-| Partially Correct | **3/12** |
-| Incorrect | **0/12** |
-| Strict Answer Accuracy | **75%** |
-| Citation Validity | **32/32 (100%)** |
-
-Final answer correctness was manually reviewed against predefined answer facts verified from the original source data.
-
-The main remaining gap is **generation completeness**: in the partially correct cases, the relevant evidence was retrieved, but the generated answer omitted some required details.
-
-> This is a small internal evaluation set for regression testing, not a large-scale benchmark.
-
----
-
-## Top-K Tradeoff
-
-Different retrieval depths were tested to check whether performance improved simply by retrieving more candidates.
-
-| K | Final Hit@K | Final MRR@K | Final Precision@K |
-|---:|---:|---:|---:|
-| 1 | 4/12 | 0.333 | 0.333 |
-| 3 | **12/12** | **0.917** | **0.389** |
-| **5 (default)** | **12/12** | **0.917** | 0.233 |
-| 10 | **12/12** | **0.917** | 0.125 |
-
-**K=1** is too restrictive and misses useful evidence.
-
-**K=3 and K=5** both achieve full retrieval coverage on this evaluation set.
-
-Increasing to **K=10** does not improve the final Hit rate or MRR, while introducing more irrelevant results.
-
-The default **K=5** is a conservative engineering choice that provides a small recall safety margin without making the candidate set unnecessarily large.
-
----
-
-## Demo
-
-The Streamlit interface exposes the final answer, citations, source cards, and an optional full RAG trace.
-
-### 1. Simple Fact Retrieval
-
-> **How long are deleted files kept?**
-
-A basic factual retrieval case: find the correct retention policy and answer with traceable evidence.
-
-### 2. Multi-Part Retrieval
-
-> **Can I share files with someone who doesn't have a CloudBox account, and what controls do I have over the shared link?**
-
-The system needs to retrieve multiple pieces of information, including external-user access, permissions, expiration, and password protection.
-
-### 3. Conflicting Sources
-
-> **How much free storage do I get with CloudBox?**
-
-The knowledge base intentionally contains conflicting information:
-
-| Source | Information | Status |
-|---|---:|---|
-| Old Blog | **5 GB** | Suppressed |
-| Old Forum | **15 GB** | Suppressed |
-| Current Documentation | **10 GB** | Kept |
-
-In an actual retrieval run, the CrossEncoder ranked the incorrect **15 GB forum result above the correct documentation result**.
-
-This demonstrates why semantic relevance alone is not enough.
-
-The conflict-handling layer detects outdated evidence before generation, and the final answer uses the current **10 GB** documentation.
-
----
-
-## Limitations & Future Work
-
-- **Larger evaluation** — move beyond 90 chunks and 12 evaluation queries to larger, more realistic datasets.
-- **Hybrid retrieval** — combine dense embeddings with BM25 for exact technical terms, error codes, and product names.
-- **Scalable conflict detection** — replace some manually defined rules with richer metadata and structured conflict detection as the knowledge base grows.
-
----
-
-## Why This Matters Beyond CloudBox
-
-The same source-authority problem becomes more important in high-stakes domains such as healthcare.
-
-Older information may conflict with newer guidelines, and an LLM should not be solely responsible for deciding which source to trust.
-
-A production system in such a domain could add:
-
-- stronger source and version control
-- better evidence verification
-- human review for high-risk questions
-- stronger traceability and auditing
-
-> **Retrieve the right information, resolve important conflicts before generation, and keep every answer traceable to its evidence.**
-
----
-
-## Quick Start
-
-### Environment
+Requirements: Docker Desktop (or Docker Engine with Compose) and an OpenRouter API key.
 
 ```bash
-conda activate cloudbox-rag
+cp .env.example .env
+# Set OPENROUTER_API_KEY in .env. Do not commit this file.
+
+docker compose up --build -d
+docker compose ps
+curl http://localhost:8000/ready
 ```
 
-Python 3.11; dependencies are listed in `requirements.txt`.
+Readiness should report `index_records: 590`. The default model is `openrouter/free`, and `CLOUDBOX_ALLOW_PAID_LLM=0` prevents accidental paid calls.
 
-### API Key
-
-Create `.env` from `.env.example`:
-
-```text
-DEEPSEEK_API_KEY=your_key_here
-```
-
-`.env` is gitignored.
-
-### Build the Index
+Synchronous request:
 
 ```bash
-python scripts/ingest.py
+curl -X POST http://localhost:8000/query \
+  -H "Content-Type: application/json" \
+  -d '{"question":"How much free storage does CloudBox provide?"}'
 ```
 
-This loads, chunks, and embeds the **90 knowledge chunks** into the local ChromaDB collection.
-
-### Run the Demo
+Asynchronous request:
 
 ```bash
-python -m streamlit run app.py
+curl -X POST http://localhost:8000/jobs \
+  -H "Content-Type: application/json" \
+  -d '{"question":"How much free storage does CloudBox provide?","session_id":"demo"}'
+
+curl http://localhost:8000/jobs/JOB_ID
+curl http://localhost:8000/sessions/demo
 ```
 
-Or on Windows:
+In one validated Windows Docker run, the first asynchronous request completed in 21,306 ms and the identical Redis cache hit returned in 48 ms. These are single-run observations, not average latency or load-test results.
+
+## Testing
+
+Run the non-live regression suite after the local models and index are available:
 
 ```bash
-run_demo.bat
+CLOUDBOX_SKIP_UI_TESTS=1 \
+CLOUDBOX_RUN_LIVE_LLM_TESTS=0 \
+python -m unittest discover -s tests -p 'test_*.py' -v
 ```
 
-The Streamlit demo supports source filtering, grounded answers with citations, source cards, and an optional full RAG trace.
+The latest local run passed 120 tests; 8 configuration-gated tests were skipped. The suite covers retrieval, reranking, conflict handling, citation mapping, API contracts, queue/cache behavior, and error states without making live LLM calls.
+
+GitHub Actions builds the Docker image (including the static 590-chunk index and local retrieval models), checks Python syntax, and runs the same offline tests inside that image. CI requires no API secrets and performs no deployment.
+
+## Scope and Limitations
+
+- The corpus and evaluation questions are synthetic and product-specific.
+- Free model availability is controlled by OpenRouter and may vary.
+- Kafka and Redis are single-instance, ephemeral services for a portfolio demonstration rather than a production distributed deployment.
+- Retrieval metrics are validated; full live answer/citation evaluation across all 120 questions remains future work.

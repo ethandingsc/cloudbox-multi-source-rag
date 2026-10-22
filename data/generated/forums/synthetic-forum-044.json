@@ -1,0 +1,31 @@
+{
+  "id": "synthetic-thread-044",
+  "title": "Is the guidance on Installing the Desktop Client still current?",
+  "date": "2024-08-14",
+  "topics": [
+    "desktop",
+    "install",
+    "bandwidth",
+    "proxy"
+  ],
+  "tags": [
+    "desktop",
+    "install"
+  ],
+  "status": "solved",
+  "synthetic": true,
+  "derived_from": "docs:desktop-client:installing-the-desktop-client",
+  "question": {
+    "author": "member_044",
+    "body": "I found an older discussion about installing the desktop client. Can someone confirm the current CloudBox behavior?"
+  },
+  "answers": [
+    {
+      "author": "cloudbox_support",
+      "date": "2024-08-14",
+      "body": "The current Desktop Client documentation says: Supported platforms: Windows 10 or newer, macOS 11 or newer, and Linux (Ubuntu 20.04+ / Fedora 36+, via .deb package or AppImage — available since CloudBox 2.0). After installation, sign in and choose which folders to sync; the default is your entire CloudBox folder with selective sync available for fine control. Download the desktop client from the CloudBox download page. That official page is the source to follow if a community reply describes an older version. Check the complete section there for surrounding conditions before applying it to your case.",
+      "accepted": true,
+      "upvotes": 3
+    }
+  ]
+}

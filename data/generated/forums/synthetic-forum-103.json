@@ -1,0 +1,30 @@
+{
+  "id": "synthetic-thread-103",
+  "title": "Conditions to check for Creating an Account",
+  "date": "2024-10-12",
+  "topics": [
+    "getting-started",
+    "install",
+    "account"
+  ],
+  "tags": [
+    "getting-started",
+    "install"
+  ],
+  "status": "solved",
+  "synthetic": true,
+  "derived_from": "docs:getting-started:creating-an-account",
+  "question": {
+    "author": "member_103",
+    "body": "Could support clarify creating an account in the current CloudBox version? I want to avoid relying on an outdated post."
+  },
+  "answers": [
+    {
+      "author": "cloudbox_support",
+      "date": "2024-10-12",
+      "body": "The current Getting Started documentation says: Personal accounts can optionally enable two-factor authentication in the Security panel; organization accounts are required to enroll in 2FA by their administrator's policy (mandatory for all orgs since CloudBox 2.1). You can upgrade or downgrade your plan at any time from the billing portal. Create a CloudBox account with your email address and a password of at least 12 characters, then verify your email address to activate it. That official page is the source to follow if a community reply describes an older version. Check the complete section there for surrounding conditions before applying it to your case.",
+      "accepted": true,
+      "upvotes": 3
+    }
+  ]
+}

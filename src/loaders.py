@@ -36,7 +36,7 @@ def _load_markdown_source(path: Path, source_type: str) -> dict:
     body = FRONT_MATTER_RE.match(text).group(2).strip()
     # Drop the leading "# Title" line — the title already lives in metadata.
     body = re.sub(r"^#[^\n]*\n+", "", body, count=1)
-    return {
+    item = {
         "source_type": source_type,
         "source_id": meta["slug"],
         "title": meta["title"],
@@ -47,36 +47,53 @@ def _load_markdown_source(path: Path, source_type: str) -> dict:
         "path": str(path.relative_to(config.ROOT_DIR)),
         "body": body,
     }
+    if meta.get("synthetic") == "true":
+        item["synthetic"] = True
+        item["derived_from"] = meta["derived_from"]
+    return item
 
 
-def load_documentation() -> list:
+def load_documentation(include_generated: bool = True) -> list:
     """Load all official documentation items (Markdown + front matter)."""
-    return [_load_markdown_source(p, "documentation")
-            for p in sorted(config.DOCS_DIR.glob("*.md"))]
+    paths = sorted(config.DOCS_DIR.glob("*.md"))
+    if include_generated:
+        paths += sorted((config.GENERATED_DATA_DIR / "docs").glob("*.md"))
+    return [_load_markdown_source(p, "documentation") for p in paths]
 
 
-def load_blogs() -> list:
+def load_blogs(include_generated: bool = True) -> list:
     """Load all blog post items (Markdown + front matter)."""
-    return [_load_markdown_source(p, "blog")
-            for p in sorted(config.BLOGS_DIR.glob("*.md"))]
+    paths = sorted(config.BLOGS_DIR.glob("*.md"))
+    if include_generated:
+        paths += sorted((config.GENERATED_DATA_DIR / "blogs").glob("*.md"))
+    return [_load_markdown_source(p, "blog") for p in paths]
 
 
-def load_forums() -> list:
+def load_forums(include_generated: bool = True) -> list:
     """Load all forum threads from the single JSON file."""
     data = json.loads(config.FORUMS_FILE.read_text(encoding="utf-8"))
     items = []
-    for thread in data["threads"]:
-        items.append({
+    thread_paths = [(thread, config.FORUMS_FILE)
+                    for thread in data["threads"]]
+    if include_generated:
+        for path in sorted((config.GENERATED_DATA_DIR / "forums").glob("*.json")):
+            thread_paths.append((json.loads(path.read_text(encoding="utf-8")), path))
+    for thread, path in thread_paths:
+        item = {
             "source_type": "forum",
             "source_id": thread["id"],
             "title": thread["title"],
             "date": thread["date"],
             "version": None,
             "topics": thread.get("topics", []),
-            "path": str(config.FORUMS_FILE.relative_to(config.ROOT_DIR)),
+            "path": str(path.relative_to(config.ROOT_DIR)),
             "question": thread["question"],
             "answers": thread["answers"],
-        })
+        }
+        if thread.get("synthetic"):
+            item["synthetic"] = True
+            item["derived_from"] = thread["derived_from"]
+        items.append(item)
     return items
 
 

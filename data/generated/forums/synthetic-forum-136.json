@@ -1,0 +1,31 @@
+{
+  "id": "synthetic-thread-136",
+  "title": "Clarifying Mobile Limitations for a team",
+  "date": "2024-11-14",
+  "topics": [
+    "mobile",
+    "ios",
+    "android",
+    "offline"
+  ],
+  "tags": [
+    "mobile",
+    "ios"
+  ],
+  "status": "solved",
+  "synthetic": true,
+  "derived_from": "docs:mobile:mobile-limitations",
+  "question": {
+    "author": "member_136",
+    "body": "Before I explain mobile limitations to my team, what should I verify in the official guide?"
+  },
+  "answers": [
+    {
+      "author": "cloudbox_support",
+      "date": "2024-11-14",
+      "body": "The current Mobile Apps documentation says: Files stored offline are encrypted with the device's own disk encryption; the app adds no additional encryption layer. The mobile app does not support selective sync, bandwidth throttling, or LAN sync. Uploads from mobile clients support files up to 20 GB, subject to free-space checks on the device. That official page is the source to follow if a community reply describes an older version. Check the complete section there for surrounding conditions before applying it to your case.",
+      "accepted": true,
+      "upvotes": 3
+    }
+  ]
+}

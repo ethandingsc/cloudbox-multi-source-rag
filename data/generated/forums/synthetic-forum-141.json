@@ -1,0 +1,30 @@
+{
+  "id": "synthetic-thread-141",
+  "title": "Getting started with How the Recycle Bin Works",
+  "date": "2024-11-19",
+  "topics": [
+    "recycle-bin",
+    "recovery",
+    "deletion"
+  ],
+  "tags": [
+    "recycle-bin",
+    "recovery"
+  ],
+  "status": "solved",
+  "synthetic": true,
+  "derived_from": "docs:recycle-bin:how-the-recycle-bin-works",
+  "question": {
+    "author": "member_141",
+    "body": "I am setting up CloudBox and want to understand how the recycle bin works. What does the current documentation say?"
+  },
+  "answers": [
+    {
+      "author": "cloudbox_support",
+      "date": "2024-11-19",
+      "body": "The current Recycle Bin and Deletion documentation says: When you delete a file or folder in any CloudBox client, it moves to the recycle bin instead of being destroyed. Restoring an item returns it to its original location with its sharing settings intact. Items in the recycle bin do not count against your storage quota, but they remain visible to anyone who had access to the original item's folder. That official page is the source to follow if a community reply describes an older version. Check the complete section there for surrounding conditions before applying it to your case.",
+      "accepted": true,
+      "upvotes": 3
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "id": "synthetic-thread-127",
+  "title": "Getting started with Offline Access and Camera Upload",
+  "date": "2024-11-05",
+  "topics": [
+    "mobile",
+    "ios",
+    "android",
+    "offline"
+  ],
+  "tags": [
+    "mobile",
+    "ios"
+  ],
+  "status": "solved",
+  "synthetic": true,
+  "derived_from": "docs:mobile:offline-access-and-camera-upload",
+  "question": {
+    "author": "member_127",
+    "body": "I am setting up CloudBox and want to understand offline access and camera upload. What does the current documentation say?"
+  },
+  "answers": [
+    {
+      "author": "cloudbox_support",
+      "date": "2024-11-05",
+      "body": "The current Mobile Apps documentation says: Mark any file or folder as \"Available offline\" to pin a copy on the device; pinned items stay in sync over Wi-Fi by default. Camera upload sends new photos and videos from your device to the Camera Uploads folder automatically, in original quality. Camera uploads count against your storage quota and can be paused per network. That official page is the source to follow if a community reply describes an older version. Check the complete section there for surrounding conditions before applying it to your case.",
+      "accepted": true,
+      "upvotes": 3
+    }
+  ]
+}

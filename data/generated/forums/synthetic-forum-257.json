@@ -1,0 +1,31 @@
+{
+  "id": "synthetic-thread-257",
+  "title": "Conditions to check for Linux Desktop Client",
+  "date": "2025-03-15",
+  "topics": [
+    "sync",
+    "linux",
+    "desktop",
+    "conflicts"
+  ],
+  "tags": [
+    "sync",
+    "linux"
+  ],
+  "status": "solved",
+  "synthetic": true,
+  "derived_from": "docs:sync:linux-desktop-client",
+  "question": {
+    "author": "member_257",
+    "body": "Could support clarify linux desktop client in the current CloudBox version? I want to avoid relying on an outdated post."
+  },
+  "answers": [
+    {
+      "author": "cloudbox_support",
+      "date": "2025-03-15",
+      "body": "The current Sync Engine documentation says: CloudBox has shipped an official Linux desktop client since version 2.0 (September 2023). Supported distributions are Ubuntu 20.04 LTS or newer and Fedora 36 or newer; both .deb packages and AppImages are provided. The Linux client has feature parity with the Windows and macOS clients, including selective sync and bandwidth throttling. Older forum posts stating that Linux is unsupported refer to versions before 2.0. That official page is the source to follow if a community reply describes an older version. Check the complete section there for surrounding conditions before applying it to your case.",
+      "accepted": true,
+      "upvotes": 3
+    }
+  ]
+}

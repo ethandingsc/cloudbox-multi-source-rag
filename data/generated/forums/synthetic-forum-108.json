@@ -1,0 +1,30 @@
+{
+  "id": "synthetic-thread-108",
+  "title": "Clarifying Installing CloudBox Clients for a team",
+  "date": "2024-10-17",
+  "topics": [
+    "getting-started",
+    "install",
+    "account"
+  ],
+  "tags": [
+    "getting-started",
+    "install"
+  ],
+  "status": "solved",
+  "synthetic": true,
+  "derived_from": "docs:getting-started:installing-cloudbox-clients",
+  "question": {
+    "author": "member_108",
+    "body": "Before I explain installing cloudbox clients to my team, what should I verify in the official guide?"
+  },
+  "answers": [
+    {
+      "author": "cloudbox_support",
+      "date": "2024-10-17",
+      "body": "The current Getting Started documentation says: All clients sign in with the same account, and files appear everywhere automatically. CloudBox runs on the web, on Windows 10+, macOS 11+, Linux (since version 2.0), iOS 15+, and Android 10+. Install the desktop client for background sync, or simply use the web app in any modern browser — no installation required. That official page is the source to follow if a community reply describes an older version. Check the complete section there for surrounding conditions before applying it to your case.",
+      "accepted": true,
+      "upvotes": 3
+    }
+  ]
+}

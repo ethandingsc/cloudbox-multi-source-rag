@@ -1,0 +1,31 @@
+{
+  "id": "synthetic-thread-024",
+  "title": "Clarifying Plans and Pricing for a team",
+  "date": "2024-07-25",
+  "topics": [
+    "billing",
+    "plans",
+    "downgrade",
+    "invoices"
+  ],
+  "tags": [
+    "billing",
+    "plans"
+  ],
+  "status": "solved",
+  "synthetic": true,
+  "derived_from": "docs:billing:plans-and-pricing",
+  "question": {
+    "author": "member_024",
+    "body": "Before I explain plans and pricing to my team, what should I verify in the official guide?"
+  },
+  "answers": [
+    {
+      "author": "cloudbox_support",
+      "date": "2024-07-25",
+      "body": "The current Billing and Plans documentation says: Plus: 2 TB for $9.99 per month. Business: 10 TB shared across the organization with team folders, roles, and SSO, at $14.99 per user per month. Enterprise: custom storage and contract terms. Plan changes take effect at the start of the next billing cycle; upgrades apply immediately with prorated charges. That official page is the source to follow if a community reply describes an older version. Check the complete section there for surrounding conditions before applying it to your case.",
+      "accepted": true,
+      "upvotes": 3
+    }
+  ]
+}

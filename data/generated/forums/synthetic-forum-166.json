@@ -1,0 +1,31 @@
+{
+  "id": "synthetic-thread-166",
+  "title": "Conditions to check for Encryption at Rest and in Transit",
+  "date": "2024-12-14",
+  "topics": [
+    "security",
+    "encryption",
+    "2fa",
+    "passwords"
+  ],
+  "tags": [
+    "security",
+    "encryption"
+  ],
+  "status": "solved",
+  "synthetic": true,
+  "derived_from": "docs:security:encryption-at-rest-and-in-transit",
+  "question": {
+    "author": "member_166",
+    "body": "Could support clarify encryption at rest and in transit in the current CloudBox version? I want to avoid relying on an outdated post."
+  },
+  "answers": [
+    {
+      "author": "cloudbox_support",
+      "date": "2024-12-14",
+      "body": "The current Security documentation says: Encryption keys are managed by CloudBox's key management service, with automatic rotation. Note that CloudBox does not currently offer a client-side (zero-knowledge) encryption option; files are encrypted with keys held by CloudBox, which is what allows server-side features such as previews and virus scanning. CloudBox encrypts all files at rest with AES-256 and all traffic in transit with TLS 1.3. That official page is the source to follow if a community reply describes an older version. Check the complete section there for surrounding conditions before applying it to your case.",
+      "accepted": true,
+      "upvotes": 3
+    }
+  ]
+}

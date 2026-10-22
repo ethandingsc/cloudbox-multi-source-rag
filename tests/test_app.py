@@ -42,6 +42,8 @@ def _run_question(at: AppTest, question: str,
     at.run()
 
 
+@unittest.skipIf(os.environ.get("CLOUDBOX_SKIP_UI_TESTS") == "1",
+                 "UI integration tests are run separately from offline CI")
 class TestAppUi(unittest.TestCase):
     def _check_sources(self, at: AppTest, result: dict) -> None:
         """Sources block must mirror the pipeline's real citations: [n]

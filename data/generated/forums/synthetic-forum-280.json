@@ -1,0 +1,31 @@
+{
+  "id": "synthetic-thread-280",
+  "title": "Which guidance applies to Local Cache and Disk Usage?",
+  "date": "2025-04-07",
+  "topics": [
+    "sync",
+    "linux",
+    "desktop",
+    "conflicts"
+  ],
+  "tags": [
+    "sync",
+    "linux"
+  ],
+  "status": "solved",
+  "synthetic": true,
+  "derived_from": "docs:sync:local-cache-and-disk-usage",
+  "question": {
+    "author": "member_280",
+    "body": "There seem to be different descriptions of local cache and disk usage. What is the maintained CloudBox guidance?"
+  },
+  "answers": [
+    {
+      "author": "cloudbox_support",
+      "date": "2025-04-07",
+      "body": "The current Sync Engine documentation says: The client keeps a local cache of recently changed blocks to make syncs faster; this cache can grow large on busy folders. You can clear it at any time under Settings > Advanced without affecting your files. The cache never counts against your CloudBox storage quota — it is a local, per-device artifact only. That official page is the source to follow if a community reply describes an older version. Check the complete section there for surrounding conditions before applying it to your case.",
+      "accepted": true,
+      "upvotes": 3
+    }
+  ]
+}

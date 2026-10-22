@@ -1,0 +1,33 @@
+{
+  "id": "synthetic-thread-068",
+  "title": "Conditions to check for Sharing Files and Folders",
+  "date": "2024-09-07",
+  "topics": [
+    "sharing",
+    "links",
+    "permissions",
+    "external-users",
+    "preview",
+    "upload"
+  ],
+  "tags": [
+    "sharing",
+    "links"
+  ],
+  "status": "solved",
+  "synthetic": true,
+  "derived_from": "docs:file-sharing:sharing-files-and-folders",
+  "question": {
+    "author": "member_068",
+    "body": "Could support clarify sharing files and folders in the current CloudBox version? I want to avoid relying on an outdated post."
+  },
+  "answers": [
+    {
+      "author": "cloudbox_support",
+      "date": "2024-09-07",
+      "body": "The current Sharing Files and Folders documentation says: Pick a permission level — View (read-only), Edit (add and modify files), or Comment (read and leave comments) — then copy the generated link. By default the link works for anyone who has it; switch to \"Specific people\" to restrict access to named individuals or groups. To share a file or folder, right-click it in any CloudBox client and choose Share, or use the Share button in the web app. That official page is the source to follow if a community reply describes an older version. Check the complete section there for surrounding conditions before applying it to your case.",
+      "accepted": true,
+      "upvotes": 3
+    }
+  ]
+}

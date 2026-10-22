@@ -1,0 +1,33 @@
+{
+  "id": "synthetic-thread-078",
+  "title": "Getting started with External Users",
+  "date": "2024-09-17",
+  "topics": [
+    "sharing",
+    "links",
+    "permissions",
+    "external-users",
+    "preview",
+    "upload"
+  ],
+  "tags": [
+    "sharing",
+    "links"
+  ],
+  "status": "solved",
+  "synthetic": true,
+  "derived_from": "docs:file-sharing:external-users",
+  "question": {
+    "author": "member_078",
+    "body": "I am setting up CloudBox and want to understand external users. What does the current documentation say?"
+  },
+  "answers": [
+    {
+      "author": "cloudbox_support",
+      "date": "2024-09-17",
+      "body": "The current Sharing Files and Folders documentation says: People outside your organization do not need a CloudBox account to access a share link. Anonymous visitors can view and download; to edit or comment they must enter a name (and optionally sign in). External users with Edit permission on a folder can upload files to it — their uploads count against the folder owner's quota. You can convert an external user into a guest account from the Sharing settings of the folder. That official page is the source to follow if a community reply describes an older version. Check the complete section there for surrounding conditions before applying it to your case.",
+      "accepted": true,
+      "upvotes": 3
+    }
+  ]
+}

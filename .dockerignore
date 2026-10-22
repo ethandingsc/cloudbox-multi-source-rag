@@ -1,0 +1,14 @@
+.git
+.github
+.idea
+k8s
+.env
+.env.*
+!.env.example
+.venv
+venv
+chroma_db
+outputs
+__pycache__
+*.pyc
+RAG_MODERNIZATION_PLAN.md

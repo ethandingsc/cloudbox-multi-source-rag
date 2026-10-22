@@ -1,5 +1,7 @@
-# Secrets — never commit
+# Secrets - never commit
 .env
+.env.*
+!.env.example
 
 # Generated artifacts
 chroma_db/
@@ -11,3 +13,8 @@ venv/
 
 # IDE
 .idea/
+
+# Local planning / unvalidated deployment artifacts
+RAG_MODERNIZATION_PLAN.md
+k8s/
+.github/workflows/deploy-eks.yml

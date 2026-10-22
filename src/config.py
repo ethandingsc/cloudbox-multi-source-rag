@@ -20,6 +20,7 @@ DATA_DIR = ROOT_DIR / "data"
 DOCS_DIR = DATA_DIR / "docs"
 FORUMS_FILE = DATA_DIR / "forums" / "threads.json"
 BLOGS_DIR = DATA_DIR / "blogs"
+GENERATED_DATA_DIR = DATA_DIR / "generated"
 EVAL_QUERIES_FILE = DATA_DIR / "eval_queries.json"
 
 CHROMA_DIR = ROOT_DIR / "chroma_db"
@@ -53,18 +54,18 @@ FINAL_EVIDENCE_SIZE = 6
 EMBED_MODEL = "all-MiniLM-L6-v2"                      # sentence-transformers (Step 2)
 RERANK_MODEL = "cross-encoder/ms-marco-MiniLM-L-6-v2"  # CrossEncoder (Step 3)
 
-# --- LLM (DeepSeek official API is the default; OpenRouter kept as fallback) --
+# --- LLM ---------------------------------------------------------------------
 # Both providers expose an OpenAI-compatible API; one thin client
-# (src/answer.py LLMClient), no abstraction. Provider auto-detection:
-# DEEPSEEK_API_KEY present -> DeepSeek (default), else OPENROUTER_API_KEY ->
-# OpenRouter; an explicit `provider` argument overrides the detection.
+# (src/answer.py LLMClient), no abstraction. Provider selection is explicit:
+# constructor argument > LLM_PROVIDER > safe OpenRouter default. A configured
+# DeepSeek key alone never selects DeepSeek.
 # Keys come from the shell environment or the project-root .env (auto-loaded
 # at the top of this module; see .env.example). Never hardcoded, never
 # committed.
 #
-# DeepSeek (default provider since 2026-09-27 — replaced the OpenRouter free
-# model for the Step 5.1 evaluation re-run).
-# Model resolution: DEEPSEEK_MODEL env var > DEEPSEEK_MODEL_DEFAULT. The
+# DeepSeek configuration retained for explicitly authorized paid runs.
+# DeepSeek is an optional paid provider. Model resolution:
+# DEEPSEEK_MODEL env var > DEEPSEEK_MODEL_DEFAULT. The
 # legacy "deepseek-chat" id was retired (2026-07); current official ids are
 # deepseek-flash and deepseek-v4-pro. v4-pro is the flagship general chat
 # model (the deepseek-chat successor); flash is the lower-cost tier.
@@ -74,8 +75,11 @@ DEEPSEEK_API_KEY_ENV = "DEEPSEEK_API_KEY"
 DEEPSEEK_MODEL_DEFAULT = "deepseek-v4-pro"
 LLM_PROVIDER_DEEPSEEK = "deepseek"
 LLM_PROVIDER_OPENROUTER = "openrouter"
+LLM_PROVIDER_ENV = "LLM_PROVIDER"
+LLM_PROVIDER_DEFAULT = LLM_PROVIDER_OPENROUTER
+ALLOW_PAID_LLM_ENV = "CLOUDBOX_ALLOW_PAID_LLM"
 
-# OpenRouter (optional fallback — the original Step 4.1 client, unchanged).
+# OpenRouter is the safe default provider.
 # Model resolution: LLM_MODEL env var > LLM_MODEL_DEFAULT. The default is a
 # free model on OpenRouter (the free list rotates — check
 # openrouter.ai/models?q=free and override via env when it changes).
@@ -85,11 +89,11 @@ LLM_PROVIDER_OPENROUTER = "openrouter"
 OPENROUTER_BASE_URL = "https://openrouter.ai/api/v1"
 LLM_MODEL_ENV = "LLM_MODEL"
 LLM_API_KEY_ENV = "OPENROUTER_API_KEY"
-LLM_MODEL_DEFAULT = "nvidia/nemotron-3-super-120b-a12b:free"
+LLM_MODEL_DEFAULT = "openrouter/free"
 LLM_MAX_TOKENS = 512
 LLM_TEMPERATURE = 0.2
 
 # --- Chunking targets (Step 2) -------------------------------------------------
-TARGET_TOTAL_CHUNKS = (80, 120)
+TARGET_TOTAL_CHUNKS = (580, 620)
 DOC_SECTION_MAX_WORDS = 800
 BLOG_PARAGRAPH_WORDS = 200

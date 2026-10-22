@@ -1,0 +1,33 @@
+{
+  "id": "synthetic-thread-089",
+  "title": "Conditions to check for Preview and Streaming Limits",
+  "date": "2024-09-28",
+  "topics": [
+    "sharing",
+    "links",
+    "permissions",
+    "external-users",
+    "preview",
+    "upload"
+  ],
+  "tags": [
+    "sharing",
+    "links"
+  ],
+  "status": "solved",
+  "synthetic": true,
+  "derived_from": "docs:file-sharing:preview-and-streaming-limits",
+  "question": {
+    "author": "member_089",
+    "body": "Could support clarify preview and streaming limits in the current CloudBox version? I want to avoid relying on an outdated post."
+  },
+  "answers": [
+    {
+      "author": "cloudbox_support",
+      "date": "2024-09-28",
+      "body": "The current Sharing Files and Folders documentation says: The web app can preview and stream files up to 500 MB, including documents, PDFs, images, and video/audio. Files larger than 500 MB must be downloaded before viewing. Previews are generated on demand and are not stored. The desktop and mobile clients play video locally, so the 500 MB preview cap does not apply to them. That official page is the source to follow if a community reply describes an older version. Check the complete section there for surrounding conditions before applying it to your case.",
+      "accepted": true,
+      "upvotes": 3
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "id": "synthetic-thread-004",
+  "title": "What to expect from API Overview",
+  "date": "2024-07-05",
+  "topics": [
+    "api",
+    "developers",
+    "rate-limits",
+    "upload"
+  ],
+  "tags": [
+    "api",
+    "developers"
+  ],
+  "status": "solved",
+  "synthetic": true,
+  "derived_from": "docs:api:api-overview",
+  "question": {
+    "author": "member_004",
+    "body": "I am checking my CloudBox setup. Which documented details matter for api overview?"
+  },
+  "answers": [
+    {
+      "author": "cloudbox_support",
+      "date": "2024-07-05",
+      "body": "The current API Reference documentation says: The API is available on all plans; Business and Enterprise plans receive higher rate limits on request. The CloudBox REST API provides programmatic access to files, folders, share links, and account metadata. Authentication uses OAuth2 bearer tokens created in the developer console. Responses are JSON, and all endpoints are versioned under /v1. That official page is the source to follow if a community reply describes an older version. Check the complete section there for surrounding conditions before applying it to your case.",
+      "accepted": true,
+      "upvotes": 3
+    }
+  ]
+}

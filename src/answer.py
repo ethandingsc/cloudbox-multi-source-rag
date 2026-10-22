@@ -1,20 +1,22 @@
 """LLM answer module — thin chat client (Step 4.1) + grounded prompt
 builder (Step 4.2).
 
-DeepSeek (official API, default) and OpenRouter (optional fallback) both
+DeepSeek and OpenRouter both
 expose an OpenAI-compatible REST API, so the `openai` SDK is simply
 pointed at the provider's base_url. One thin client, two providers — no
 multi-provider abstraction.
 
-- Provider: DEEPSEEK_API_KEY present -> DeepSeek (default), else
-  OPENROUTER_API_KEY -> OpenRouter. Pass `provider` explicitly to force
-  one. Keys come from the shell environment or the project-root .env
+- Provider: explicit argument > LLM_PROVIDER > OpenRouter. A configured
+  DeepSeek key never changes provider selection. Keys come from the shell
+  environment or the project-root .env
   (auto-loaded by config.py; see .env.example); never hardcoded.
 - Model: provider model env var > provider default (centralized in
   config.py — no model names anywhere else): DEEPSEEK_MODEL /
   DEEPSEEK_MODEL_DEFAULT for DeepSeek, LLM_MODEL / LLM_MODEL_DEFAULT
   for OpenRouter.
-- Missing key / API failures raise OpenRouterError with a clear message.
+- DeepSeek and non-free OpenRouter models require the explicit
+  CLOUDBOX_ALLOW_PAID_LLM=1 opt-in. Configuration and API failures raise
+  OpenRouterError with a clear message.
 
 Step 4.2 adds build_grounded_prompt() below — the LLM prompt built from
 question + Step 3.3 final evidence. Step 4.3 adds generate_answer(), which
@@ -40,23 +42,27 @@ class OpenRouterError(RuntimeError):
 
 
 class LLMClient:
-    """Minimal chat client: DeepSeek (default) or OpenRouter (optional).
+    """Minimal chat client with fail-closed paid-provider selection.
 
-    complete(prompt) -> answer text. Provider auto-detection:
-    DEEPSEEK_API_KEY present -> DeepSeek, else OPENROUTER_API_KEY ->
-    OpenRouter. Pass `provider` (config.LLM_PROVIDER_DEEPSEEK /
-    config.LLM_PROVIDER_OPENROUTER) explicitly to force one regardless of
-    the environment.
+    Provider priority is constructor argument, LLM_PROVIDER environment
+    variable, then OpenRouter. Paid models are rejected before OpenAI client
+    construction unless explicitly allowed.
     """
 
     def __init__(self, model: str | None = None, api_key: str | None = None,
                  base_url: str | None = None,
                  provider: str | None = None):
-        provider_explicit = provider
-        provider = provider or (
-            config.LLM_PROVIDER_DEEPSEEK
-            if os.environ.get(config.DEEPSEEK_API_KEY_ENV)
-            else config.LLM_PROVIDER_OPENROUTER)
+        provider = (provider or os.environ.get(config.LLM_PROVIDER_ENV)
+                    or config.LLM_PROVIDER_DEFAULT).strip().lower()
+        valid_providers = {
+            config.LLM_PROVIDER_DEEPSEEK,
+            config.LLM_PROVIDER_OPENROUTER,
+        }
+        if provider not in valid_providers:
+            raise OpenRouterError(
+                f"Unsupported LLM provider '{provider}'. Set "
+                f"{config.LLM_PROVIDER_ENV} to one of: "
+                f"{', '.join(sorted(valid_providers))}.")
         self.provider = provider
         if provider == config.LLM_PROVIDER_DEEPSEEK:
             model_env, model_default = (config.DEEPSEEK_MODEL_ENV,
@@ -71,17 +77,24 @@ class LLMClient:
         self.model = model or os.environ.get(model_env) or model_default
         api_key = api_key or os.environ.get(key_env, "")
         if not api_key:
-            if provider_explicit is None:  # auto-detect found no key at all
-                raise OpenRouterError(
-                    "No LLM API key found. Set "
-                    f"{config.DEEPSEEK_API_KEY_ENV} (DeepSeek — default) or "
-                    f"{config.LLM_API_KEY_ENV} (OpenRouter — fallback): copy "
-                    ".env.example to .env and fill it in, or export it in "
-                    "your shell.")
             raise OpenRouterError(
                 f"LLM API key not found for provider '{provider}'. Set the "
                 f"{key_env} environment variable (copy .env.example to .env "
                 f"and fill it in, or export it in your shell).")
+        paid_allowed = os.environ.get(
+            config.ALLOW_PAID_LLM_ENV, "").strip().lower() in {
+                "1", "true", "yes", "on"
+            }
+        model_name = self.model.lower()
+        is_free = (provider == config.LLM_PROVIDER_OPENROUTER and
+                   (model_name.endswith(":free") or
+                    model_name == "openrouter/free"))
+        if not is_free and not paid_allowed:
+            raise OpenRouterError(
+                f"Paid LLM use is disabled: provider '{provider}', model "
+                f"'{self.model}'. Use 'openrouter/free', an OpenRouter "
+                f"':free' model, or set "
+                f"{config.ALLOW_PAID_LLM_ENV}=1 to opt in explicitly.")
         self.client = OpenAI(
             base_url=base_url or base_default,
             api_key=api_key,

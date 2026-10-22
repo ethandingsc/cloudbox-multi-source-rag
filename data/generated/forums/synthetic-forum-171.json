@@ -1,0 +1,31 @@
+{
+  "id": "synthetic-thread-171",
+  "title": "Clarifying Two-Factor Authentication Policy for a team",
+  "date": "2024-12-19",
+  "topics": [
+    "security",
+    "encryption",
+    "2fa",
+    "passwords"
+  ],
+  "tags": [
+    "security",
+    "encryption"
+  ],
+  "status": "solved",
+  "synthetic": true,
+  "derived_from": "docs:security:two-factor-authentication-policy",
+  "question": {
+    "author": "member_171",
+    "body": "Before I explain two-factor authentication policy to my team, what should I verify in the official guide?"
+  },
+  "answers": [
+    {
+      "author": "cloudbox_support",
+      "date": "2024-12-19",
+      "body": "The current Security documentation says: Organization administrators cannot disable this requirement. For personal accounts, 2FA remains optional but strongly recommended. Two-factor authentication (2FA) is required for all organization accounts — this policy applies to every member of a team or business account and took effect with CloudBox 2.1 (May 2024). Organization members must enroll a TOTP authenticator app within 14 days of the policy applying; after that, un-enrolled accounts are locked out until enrollment. That official page is the source to follow if a community reply describes an older version. Check the complete section there for surrounding conditions before applying it to your case.",
+      "accepted": true,
+      "upvotes": 3
+    }
+  ]
+}
