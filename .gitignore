@@ -18,3 +18,4 @@ venv/
 RAG_MODERNIZATION_PLAN.md
 k8s/
 .github/workflows/deploy-eks.yml
+PLAN.md
