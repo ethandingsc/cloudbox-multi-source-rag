@@ -1,3 +1,5 @@
+![CloudBox Multi-Source RAG overview](CloudBox.png)
+
 # CloudBox Multi-Source RAG
 
 CloudBox is a portfolio-scale retrieval-augmented generation system for a fictional cloud-storage support product. It answers questions from three source types—official documentation, customer forums, and technical blogs—while handling differences in source authority, product version, and publication date.
